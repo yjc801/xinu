@@ -23,5 +23,6 @@ pri16	resume(
 	prio = prptr->prprio;		/* record priority to return	*/
 	ready(pid, RESCHED_YES);
 	restore(mask);
+	//kprintf("End resuming\r\n");
 	return prio;
 }

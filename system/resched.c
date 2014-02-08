@@ -37,46 +37,46 @@ void	resched(void)		/* assumes interrupts are disabled	*/
 
 	// group A is set to the initial priority if the firstent process belongs to group A
 	
-	//if(ptold->prgroup == PROPORTIONALSHARE){
-	//	propprio = INITGPPRIO;
-	//}
-	//else{
-	//	tsprio = INITGPPRIO;
-	//}
+	if(ptold->prgroup == PROPORTIONALSHARE){
+		propprio = INITGPPRIO;
+	}
+	else{
+		tsprio = INITGPPRIO;
+	}
 
 	// Traverse the queue table and update the priories of each group
-	//if (isempty(readylist)) {
-	//	return;
-	//}
+	if (isempty(readylist)) {
+		return;
+	}
 
 
 	if (ptold->prstate == PR_CURR) { /* process remains running */
 		if (ptold->prprio > firstkey(readylist)) {
-		return;
+			return;
 		}
 
 		/* Old process will no longer remain current */
 
-		propcounter = 0;
-		tscounter = 0;
-		first = firstid(readylist);	
-		kprintf("Key %d",queuetab[first].qkey);
-		while (queuetab[first].qkey != MINKEY) {
-			kprintf("In while\r\n");
-			prptr = &proctab[first];
-			if(prptr->prgroup == PROPORTIONALSHARE){
-				propcounter++;
-			}
-			else{
-				tscounter++;
-			}
-			first = queuetab[first].qnext;
-		}
+	//	propcounter = 0;
+	//	tscounter = 0;
+	//	first = firstid(readylist);	
+	//	kprintf("Key %d",queuetab[first].qkey);
+		//while (queuetab[first].qkey != MINKEY) {
+		//	kprintf("In while\r\n");
+		//	prptr = &proctab[first];
+		//	if(prptr->prgroup == PROPORTIONALSHARE){
+		//		propcounter++;
+		//	}
+		//	else{
+		//		tscounter++;
+		//	}
+		//	first = queuetab[first].qnext;
+		//}
 
-		propprio += propcounter;
-		tsprio += tscounter;
+		//propprio += propcounter;
+		//tsprio += tscounter;
 
-		kprintf("Hello %d",propprio);
+		//kprintf("Hello %d",propprio);
 
 		ptold->prstate = PR_READY;
 		insert(currpid, readylist, ptold->prprio);

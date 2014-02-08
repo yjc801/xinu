@@ -111,7 +111,6 @@ pid32	create(
 		*savargs++ = *ap++;
 	}
 	restore(mask);
-	kprintf("End creating...\r\n");
 	return pid;
 }
 
