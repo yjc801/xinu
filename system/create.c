@@ -12,7 +12,7 @@ static	pid32	newpid(void);
 pid32	create(
 	  void		*funcaddr,	/* address of function to run	*/
 	  uint32	ssize,		/* stack size in bytes		*/
-	  int	        group,          /* group, either PROPORTIONALSHARE or TSSCHED */
+	  int	    group,          /* group, either PROPORTIONALSHARE or TSSCHED */
 	  pri16		priority,	/* process priority		*/
 	  char		*name,		/* process name (for debugging)	*/
 	  uint32	nargs,		/* number of args that follow	*/

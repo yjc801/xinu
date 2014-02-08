@@ -11,6 +11,8 @@ void	resched(void)		/* assumes interrupts are disabled	*/
 {
 	struct procent *ptold;	/* ptr to table entry for old process	*/
 	struct procent *ptnew;	/* ptr to table entry for new process	*/
+	int32 propcounter; //counter for propotional group
+	int32 tscounter; //counter for ts group
 	//uint16 Ri; //process rate
 	//uint16 Pi; 
 	//struct	procent *prptr; //pointer 
