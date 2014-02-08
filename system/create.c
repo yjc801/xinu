@@ -44,8 +44,8 @@ pid32	create(
 
 	/* Initialize process table entry for new process */
 	prptr->prstate = PR_SUSP;	/* initial state is suspended	*/
-	prptr->prrate = priority; // rate 
-	prptr->prprio = MAXINT;   // initial priority
+	//prptr->prrate = priority; // rate 
+	prptr->prprio = priority;   // initial priority
 	prptr->prgroup = group;
 	prptr->prstkptr = (char *)saddr;
 	prptr->prstkbase = (char *)saddr;
@@ -111,6 +111,7 @@ pid32	create(
 		*savargs++ = *ap++;
 	}
 	restore(mask);
+	kprintf("End creating...\r\n");
 	return pid;
 }
 
