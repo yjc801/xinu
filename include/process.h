@@ -47,7 +47,7 @@
 
 struct procent {		/* entry in the process table		*/
 	uint16	prstate;	/* process state: PR_CURR, etc.		*/
-	uint16  prgroup;        // group of the process
+	int     prgroup;        // group of the process
 	uint16  prrate;         //process rate, Ri
 	pri16	prprio;		/* process priority			*/
 	char	*prstkptr;	/* saved stack pointer			*/

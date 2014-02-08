@@ -49,6 +49,27 @@ void	resched(void)		/* assumes interrupts are disabled	*/
 		return;
 	}
 
+	propcounter = 0;
+	tscounter = 0;
+	first = firstid(readylist);	
+	kprintf("Key %d",queuetab[first].qkey);
+	while (queuetab[first].qkey != MINKEY) {
+		kprintf("In while\r\n");
+		prptr = &proctab[first];
+		if(prptr->prgroup == PROPORTIONALSHARE){
+			propcounter++;
+		}
+		else{
+			tscounter++;
+		}
+		first = queuetab[first].qnext;
+	}
+
+	propprio += propcounter;
+	tsprio += tscounter;
+
+	kprintf("Hello %d",propprio);
+
 
 	if (ptold->prstate == PR_CURR) { /* process remains running */
 		if (ptold->prprio > firstkey(readylist)) {
@@ -56,27 +77,6 @@ void	resched(void)		/* assumes interrupts are disabled	*/
 		}
 
 		/* Old process will no longer remain current */
-
-	//	propcounter = 0;
-	//	tscounter = 0;
-	//	first = firstid(readylist);	
-	//	kprintf("Key %d",queuetab[first].qkey);
-		//while (queuetab[first].qkey != MINKEY) {
-		//	kprintf("In while\r\n");
-		//	prptr = &proctab[first];
-		//	if(prptr->prgroup == PROPORTIONALSHARE){
-		//		propcounter++;
-		//	}
-		//	else{
-		//		tscounter++;
-		//	}
-		//	first = queuetab[first].qnext;
-		//}
-
-		//propprio += propcounter;
-		//tsprio += tscounter;
-
-		//kprintf("Hello %d",propprio);
 
 		ptold->prstate = PR_READY;
 		insert(currpid, readylist, ptold->prprio);
