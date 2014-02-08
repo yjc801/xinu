@@ -15,7 +15,7 @@ void	resched(void)		/* assumes interrupts are disabled	*/
 	int32 tscounter; //counter for ts group
 	//uint16 Ri; //process rate
 	//uint16 Pi; 
-	//struct	procent *prptr; //pointer 
+	struct	procent *prptr; //pointer 
 	int16 first; //id of first process in ready queue
 
 	/* If rescheduling is deferred, record attempt and return */

@@ -81,7 +81,7 @@ void	nulluser(void)
 	enable();
 
 	/* Create a process to execute function main() */
-	
+	kprintf("Creating main...\n");
 	resume(create
           ((void *)main, INITSTK, PROPORTIONALSHARE, INITPRIO, "Main process", 0, NULL));
 
