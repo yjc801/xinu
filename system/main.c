@@ -1,20 +1,12 @@
-/*  main.c  - main */
-
 #include <xinu.h>
-#include <stdio.h>
-
-/************************************************************************/
-/*									*/
-/* main - main program for testing Xinu					*/
-/*									*/
-/************************************************************************/
-
-int32 propcounter; //counter for propotional group
-int32 tscounter; //counter for ts group
+/* test1.c
+ * This test program creates three processes, prA, prB, and prC, at
+ * priority 20.  The main process also has priority 20.
+ */
 
 int prch(), prA, prB, prC;
 
-int main(int argc, char **argv)
+main()
 {
 	int i;
 
@@ -27,10 +19,6 @@ int main(int argc, char **argv)
 		kprintf("%c", 'D');
 		for (i=0; i< 10000; i++);
 	}
-
-	kprintf("The priority of Prop gourp is %d.\n",propcounter);
-	kprintf("The priority of TS gourp is %d.\n",tscounter);
-	return OK;
 }
 
 prch(c)
