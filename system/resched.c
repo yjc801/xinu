@@ -54,6 +54,7 @@ void	resched(void)		/* assumes interrupts are disabled	*/
 	first = firstid(readylist);	
 	while (queuetab[first].qkey != MINKEY) {
 		prptr = &proctab[first];
+		kprintf("Proc name in ready queue %s\r\n",prptr->prname);
 		if(prptr->prgroup == PROPORTIONALSHARE){
 			propcounter++;
 		}
@@ -65,7 +66,10 @@ void	resched(void)		/* assumes interrupts are disabled	*/
 
 	propprio += propcounter;
 	tsprio += tscounter;
-
+	
+	kprintf("\nProp is %d \r\n Ts is %d \r\n",propprio,tsprio);
+//	kprintf("Prop name is %s\r\n",ptold->prname);
+	
 	if (ptold->prstate == PR_CURR) { /* process remains running */
 		if (ptold->prprio > firstkey(readylist)) {
 			return;
