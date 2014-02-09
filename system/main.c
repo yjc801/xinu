@@ -9,6 +9,7 @@ int main(void){
 	for(i=0;i<4;i++){
 		kprintf("D\r\n");
 	}
+	kprintf("Number of process %d\r\n",prcount);
 	kprintf("Prop %d\r\n",propprio);
 	kprintf("Ts %d\r\n",tsprio);
 	return OK;
