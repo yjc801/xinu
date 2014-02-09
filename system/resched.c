@@ -76,7 +76,7 @@ void	resched(void)		/* assumes interrupts are disabled	*/
 
 
 	if (ptold->prstate == PR_CURR) { /* process remains running */
-		if (propprio > tsprio){ // choose prop share group
+		// if (propprio > tsprio){ // choose prop share group
 			if (ptold->prprio > firstkey(readylist)) {
 				return;
 			}
@@ -86,9 +86,9 @@ void	resched(void)		/* assumes interrupts are disabled	*/
 			ptold->prstate = PR_READY;
 			insert(currpid, readylist, ptold->prprio);
 		}
-		else{ // choose ts group
+		// else{ // choose ts group
 
-		}
+		// }
 	}
 
 		/* Force context switch to highest priority ready process */
