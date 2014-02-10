@@ -76,13 +76,13 @@ void	resched(void)		/* assumes interrupts are disabled	*/
 	kprintf("\nProp is %d.\r\r\nTs is %d.\r\n",propprio,tsprio);
 
 	if (ptold->prstate == PR_CURR) { /* process remains running */
-		if (tscounter == 0) return;
 		if (ptold->prgroup == PROPORTIONALSHARE){
 			if (propprio > tsprio && ptold->prprio > firstkey(readylist)) {
 				return;
 			}
 		}
 		if (ptold->prgroup == TSSCHED){ // if no other proc in TS
+			if (tscounter == 0) return;
 			if (tsprio > propprio && ptold->prprio > ptrTS->prprio) {
 				return;
 			}
