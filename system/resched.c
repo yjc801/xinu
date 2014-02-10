@@ -63,7 +63,6 @@ void	resched(void)		/* assumes interrupts are disabled	*/
 		else{
 			tscounter++;
 			if (tscounter == 1){
-				kprintf("The first proc in TS is %d\r\n",first);
 				firstTS = first; // only when there is a process in TS
 				ptrTS = prptr;
 			}
@@ -77,14 +76,16 @@ void	resched(void)		/* assumes interrupts are disabled	*/
 	kprintf("\nProp is %d.\r\r\nTs is %d.\r\n",propprio,tsprio);
 
 	if (ptold->prstate == PR_CURR) { /* process remains running */
+		if (tscounter == 0) return;
 		if (ptold->prgroup == PROPORTIONALSHARE){
-			if (ptold->prprio > firstkey(readylist)) {
+			if (propprio > tsprio &&\
+				ptold->prprio > firstkey(readylist)) {
 				return;
 			}
 		}
-		if (ptold->prgroup == TSSCHED){
-			if (tscounter == 0) return; // if no other proc in TS
-			if (ptold->prprio > ptrTS->prprio) {
+		if (ptold->prgroup == TSSCHED){ // if no other proc in TS
+			if (tsprio > propprio &&\ 
+				ptold->prprio > ptrTS->prprio) {
 				return;
 			}
 		}
@@ -96,9 +97,10 @@ void	resched(void)		/* assumes interrupts are disabled	*/
 		/* Force context switch to highest priority ready process */
 	
 	if (propprio > tsprio || tscounter == 0){
+		kprintf("Dequeue first proc in Prop share"};
 		currpid = dequeue(readylist);
 	}else{
-		kprintf("First proc in TS is \r\n",firstTS->prname);
+		kprintf("Dequeue first proc in TS %s\r\n",firstTS->prname);
 		currpid = getitem(firstTS);
 	}
 
