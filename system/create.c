@@ -31,7 +31,7 @@ pid32	create(
 
 	mask = disable();
 //check group id
-	if ((group!=PROPORTIONALSHARE || group!=TSSCHED) || (ssize < MINSTK)
+	if ((ssize < MINSTK)
 	    || (priority <= 0)
 	    || (((int32)(pid = newpid())) == (int32) SYSERR)
 	    || ((saddr = (uint32 *)getstk(ssize)) == (uint32 *)SYSERR)) {

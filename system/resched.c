@@ -35,8 +35,11 @@ void	resched(void)		/* assumes interrupts are disabled	*/
 	T = clktime * CLKTICKS_PER_SEC; // current CPU time in ticks
 
 	// group A is set to the initial priority if the firstent process belongs to group A
-	
-	if(ptold->prgroup == PROPORTIONALSHARE){
+
+
+	kprintf("Priority of %s is %d.\r\n",ptold->prname,ptold->prprio);
+
+	if(ptold->prgroup == PROPORTIONALSHARE && currpid != NULLPROC){
 		
 		propprio = INITGPPRIO;
 		
@@ -53,6 +56,7 @@ void	resched(void)		/* assumes interrupts are disabled	*/
 		tsprio = INITGPPRIO;
 
 	}
+	kprintf("Finish updating Pi.\r\n");
 
 	// Traverse the queue table and update the priories of each group
 	
@@ -60,6 +64,8 @@ void	resched(void)		/* assumes interrupts are disabled	*/
 		return;
 	}
 	
+	kprintf("not empty.\r\n");
+
 	propcounter = 0;
 	tscounter = 0;
 	first = firstid(readylist);	
