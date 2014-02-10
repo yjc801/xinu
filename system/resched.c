@@ -17,8 +17,8 @@ void	resched(void)		/* assumes interrupts are disabled	*/
 	//uint16 Pi; 
 	struct	procent *prptr; //pointer 
 	struct	procent *ptrTS; //pointer to first proc in TS
-	pid16 firstTS; //id of first proc in TS
-	pid16 first; //id of first process in ready queue
+	int16 firstTS; //id of first proc in TS
+	int16 first; //id of first process in ready queue
 
 	/* If rescheduling is deferred, record attempt and return */
 
@@ -63,8 +63,7 @@ void	resched(void)		/* assumes interrupts are disabled	*/
 		else{
 			tscounter++;
 			if (tscounter == 1){
-				kprintf("The first proc in TS is %d\r\n",first);
-				firstTS = first; // only when there is a process in TS
+				firstTS = first;
 				ptrTS = prptr;
 			}
 		}
@@ -98,7 +97,7 @@ void	resched(void)		/* assumes interrupts are disabled	*/
 	if (propprio > tsprio || tscounter == 0){
 		currpid = dequeue(readylist);
 	}else{
-		kprintf("First proc in TS is \r\n",firstTS->prname);
+		kprintf("First proc in TS is \r\n",ptrTS->prname);
 		currpid = getitem(firstTS);
 	}
 
