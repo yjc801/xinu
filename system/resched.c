@@ -95,10 +95,10 @@ void	resched(void)		/* assumes interrupts are disabled	*/
 		/* Force context switch to highest priority ready process */
 	
 	if (propprio > tsprio || tscounter == 0){
-		kprintf("Dequeue first proc in Prop share");
+		kprintf("Dequeue first proc in Prop share\r\n");
 		currpid = dequeue(readylist);
 	}else{
-		kprintf("First proc in TS is \r\n",ptrTS->prname);
+		kprintf("Dequeue first proc in Prop share %s\r\n",ptrTS->prname);
 		currpid = getitem(firstTS);
 	}
 
