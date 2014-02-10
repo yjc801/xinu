@@ -77,13 +77,13 @@ void	resched(void)		/* assumes interrupts are disabled	*/
 	kprintf("\nProp is %d.\r\r\nTs is %d.\r\n",propprio,tsprio);
 
 	if (ptold->prstate == PR_CURR) { /* process remains running */
-		 // choose prop share group
 		if (ptold->prgroup == PROPORTIONALSHARE){
 			if (ptold->prprio > firstkey(readylist)) {
 				return;
 			}
 		}
 		if (ptold->prgroup == TSSCHED){
+			if (tscounter == 0) return; // if no other proc in TS
 			if (ptold->prprio > ptrTS->prprio) {
 				return;
 			}
@@ -101,7 +101,7 @@ void	resched(void)		/* assumes interrupts are disabled	*/
 		kprintf("First proc in TS is \r\n",firstTS->prname);
 		currpid = getitem(firstTS);
 	}
-	
+
 	ptnew = &proctab[currpid];
 	ptnew->prstate = PR_CURR;
 	preempt = QUANTUM;	/* reset time slice for process */
