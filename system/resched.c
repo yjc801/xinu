@@ -73,7 +73,7 @@ void	resched(void)		/* assumes interrupts are disabled	*/
 	propprio += propcounter;
 	tsprio += tscounter;
 	
-	kprintf("\nProp is %d.\r\r\nTs is %d.\r\n",propprio,tsprio);
+	kprintf("Prop is %d.\r\r\nTs is %d.\r\n",propprio,tsprio);
 
 	if (ptold->prstate == PR_CURR) { /* process remains running */
 		if (ptold->prgroup == PROPORTIONALSHARE){
@@ -95,10 +95,10 @@ void	resched(void)		/* assumes interrupts are disabled	*/
 		/* Force context switch to highest priority ready process */
 	
 	if (propprio > tsprio || tscounter == 0){
-		kprintf("Dequeue first proc in Prop share\r\n");
+		kprintf("Dequeue first proc in Prop share\r\n\n");
 		currpid = dequeue(readylist);
 	}else{
-		kprintf("Dequeue first proc in Prop share %s\r\n",ptrTS->prname);
+		kprintf("Dequeue first proc in Prop share: %s\r\n\n",ptrTS->prname);
 		currpid = getitem(firstTS);
 	}
 
