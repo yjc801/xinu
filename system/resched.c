@@ -95,9 +95,9 @@ void	resched(void)		/* assumes interrupts are disabled	*/
 
 		/* Force context switch to highest priority ready process */
 	
-	if (propprio > tsprio){
+	if (propprio > tsprio || tscounter == 0){
 		currpid = dequeue(readylist);
-	}else{ // choose ts group
+	}else{
 		kprintf("First proc in TS is \r\n",firstTS->prname);
 		currpid = getitem(firstTS);
 	}
