@@ -16,8 +16,9 @@ void	resched(void)		/* assumes interrupts are disabled	*/
 	//uint16 Ri; //process rate
 	//uint16 Pi; 
 	struct	procent *prptr; //pointer 
-	struct	procent *firstTS; //pointer to first proc in TS
-	int16 first; //id of first process in ready queue
+	struct	procent *ptrTS; //pointer to first proc in TS
+	pid16 firstTS; //id of first proc in TS
+	pid16 first; //id of first process in ready queue
 
 	/* If rescheduling is deferred, record attempt and return */
 
@@ -63,7 +64,8 @@ void	resched(void)		/* assumes interrupts are disabled	*/
 			tscounter++;
 			if (tscounter == 1){
 				kprintf("The first proc in TS is %d\r\n",first);
-				firstTS = prptr; // only when there is a process in TS
+				firstTS = first; // only when there is a process in TS
+				ptrTS = prptr;
 			}
 		}
 		first = queuetab[first].qnext;
@@ -75,23 +77,31 @@ void	resched(void)		/* assumes interrupts are disabled	*/
 	kprintf("\nProp is %d.\r\r\nTs is %d.\r\n",propprio,tsprio);
 
 	if (ptold->prstate == PR_CURR) { /* process remains running */
-		// if (propprio > tsprio){ // choose prop share group
+		 // choose prop share group
+		if (ptold->prgroup == PROPORTIONALSHARE){
 			if (ptold->prprio > firstkey(readylist)) {
 				return;
 			}
-
+		}
+		if (ptold->prgroup == TSSCHED){
+			if (ptold->prprio > ptrTS->prprio) {
+				return;
+			}
+		}
 		/* Old process will no longer remain current */
-
 			ptold->prstate = PR_READY;
 			insert(currpid, readylist, ptold->prprio);
 		}
-		// else{ // choose ts group
-
-		// }
 
 		/* Force context switch to highest priority ready process */
-
-	currpid = dequeue(readylist);
+	
+	if (propprio > tsprio){
+		currpid = dequeue(readylist);
+	}else{ // choose ts group
+		kprintf("First proc in TS is \r\n",firstTS->prname);
+		currpid = getitem(firstTS);
+	}
+	
 	ptnew = &proctab[currpid];
 	ptnew->prstate = PR_CURR;
 	preempt = QUANTUM;	/* reset time slice for process */
