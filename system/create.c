@@ -31,7 +31,7 @@ pid32	create(
 
 	mask = disable();
 //check group id
-	if (   (ssize < MINSTK)
+	if ((group!=PROPORTIONALSHARE || group!=TSSCHED) || (ssize < MINSTK)
 	    || (priority <= 0)
 	    || (((int32)(pid = newpid())) == (int32) SYSERR)
 	    || ((saddr = (uint32 *)getstk(ssize)) == (uint32 *)SYSERR)) {
@@ -43,9 +43,15 @@ pid32	create(
 	prptr = &proctab[pid];
 
 	/* Initialize process table entry for new process */
+	if (group == PROPORTIONALSHARE){
+		prptr->prprio = MAXINT;
+	}
+	else{
+		prptr->prprio = priority;
+	}
 	prptr->prstate = PR_SUSP;	/* initial state is suspended	*/
-	//prptr->prrate = priority; // rate 
-	prptr->prprio = priority;   // initial priority
+	prptr->prrate = priority; // rate in prop share 
+	// prptr->prprio = priority;   // initial priority
 	prptr->prgroup = group;
 	prptr->prstkptr = (char *)saddr;
 	prptr->prstkbase = (char *)saddr;
