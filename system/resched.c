@@ -13,8 +13,10 @@ void	resched(void)		/* assumes interrupts are disabled	*/
 	struct procent *ptnew;	/* ptr to table entry for new process	*/
 	int32 propcounter; //counter for propotional group
 	int32 tscounter; //counter for ts group
-	//uint16 Ri; //process rate
-	//uint16 Pi; 
+	uint16 Ri; //process rate
+	uint16 Pi; 
+	uint32 t;
+	uint32 T;
 	struct	procent *prptr; //pointer 
 	struct	procent *ptrTS; //pointer to first proc in TS
 	int16 firstTS; //id of first proc in TS
@@ -30,23 +32,30 @@ void	resched(void)		/* assumes interrupts are disabled	*/
 	/* Point to process table entry for the firstent (old) process */
 	ptold = &proctab[currpid];
 
-	// update the priority of firstent process
-	// Pi' = Pi' + (t*100/Ri); Pi = Maxint - Pi'
-	//Pi = MAXINT - ptold->prprio;
-	//Ri = ptold->prrate;
-	//Pi += t*100.0/Ri;
-	//ptold->prprio = MAXINT - Pi;
+	T = clktime * CLKTICKS_PER_SEC; // current CPU time in ticks
 
 	// group A is set to the initial priority if the firstent process belongs to group A
 	
 	if(ptold->prgroup == PROPORTIONALSHARE){
+		
 		propprio = INITGPPRIO;
-	}
-	else{
+		
+		// update the priority of firstent process
+
+		t = ptold->prtime * CLKTICKS_PER_SEC;
+		Pi = MAXINT - ptold->prprio;
+		Ri = ptold->prrate;
+		Pi += t*100.0/Ri;
+		ptold->prprio = MAXINT - Pi;
+
+	}else{
+		
 		tsprio = INITGPPRIO;
+
 	}
 
 	// Traverse the queue table and update the priories of each group
+	
 	if (isempty(readylist)) {
 		return;
 	}
@@ -89,6 +98,7 @@ void	resched(void)		/* assumes interrupts are disabled	*/
 		}
 		/* Old process will no longer remain current */
 			ptold->prstate = PR_READY;
+			ptold->prtime += clktime - ptold->prstart;
 			insert(currpid, readylist, ptold->prprio);
 		}
 
@@ -104,6 +114,8 @@ void	resched(void)		/* assumes interrupts are disabled	*/
 
 	ptnew = &proctab[currpid];
 	ptnew->prstate = PR_CURR;
+	ptnew->prstart = clktime;
+	if (T > (MAXINT - ptnew->prprio) ) ptnew->prprio = T; 
 	preempt = QUANTUM;	/* reset time slice for process */
 	ctxsw(&ptold->prstkptr, &ptnew->prstkptr);
 
