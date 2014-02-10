@@ -36,9 +36,6 @@ void	resched(void)		/* assumes interrupts are disabled	*/
 
 	// group A is set to the initial priority if the firstent process belongs to group A
 
-
-	kprintf("Priority of %s is %d.\r\n",ptold->prname,ptold->prprio);
-
 	if(ptold->prgroup == PROPORTIONALSHARE && currpid != NULLPROC){
 		
 		propprio = INITGPPRIO;
@@ -50,7 +47,8 @@ void	resched(void)		/* assumes interrupts are disabled	*/
 		Ri = ptold->prrate;
 		Pi += t*100.0/Ri;
 		ptold->prprio = MAXINT - Pi;
-
+		kprintf("Priority of %s is %d.\r\n",ptold->prname,ptold->prprio);
+		
 	}else{
 		
 		tsprio = INITGPPRIO;
