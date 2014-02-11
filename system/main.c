@@ -8,8 +8,8 @@ unsigned long ctr100;
 
 main(){
 	round = 1000;
-	resume( prA = create(prch, 2000, PROPORTIONALSHARE, 30, "proc A", 2, 'A', 'A') );
-	resume( prB = create(prch, 2000, PROPORTIONALSHARE, 50, "proc B", 2, 'B', 'B') );
+	resume( prA = create(prchP, 2000, PROPORTIONALSHARE, 30, "proc A", 2, 'A', 'A') );
+	resume( prB = create(prchP, 2000, PROPORTIONALSHARE, 50, "proc B", 2, 'B', 'B') );
 // resume( prC = create(prch, 2000, 15, TSSCHED, "proc C", 2, 'C', 'C’') );
 
 while (1) {
