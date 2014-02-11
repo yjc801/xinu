@@ -36,11 +36,12 @@ void	resched(void)		/* assumes interrupts are disabled	*/
 
 	// group A is set to the initial priority if the firstent process belongs to group A
 
-	if(ptold->prgroup == PROPORTIONALSHARE && currpid != NULLPROC){
+	if(ptold->prgroup == PROPORTIONALSHARE && currpid != NULLPROC)
+	{
 		
 		propprio = INITGPPRIO;
 		// update the priority of firstent process
-		t = ptold->prtime * CLKTICKS_PER_SEC;
+		t = ptold->prtime;
 		kprintf("the t is %d.\r\n",t);
 		Pi = MAXINT - ptold->prprio;
 		kprintf("the Pi is %d.\r\n",Pi);
@@ -49,7 +50,7 @@ void	resched(void)		/* assumes interrupts are disabled	*/
 		Pi += t*100/Ri;
 		ptold->prprio = MAXINT - Pi;
 		kprintf("Priority of %s is %d.\r\n",ptold->prname,ptold->prprio);
-		
+
 	}else{
 		
 		tsprio = INITGPPRIO;
@@ -101,7 +102,7 @@ void	resched(void)		/* assumes interrupts are disabled	*/
 		/* Old process will no longer remain current */
 			ptold->prstate = PR_READY;
 			kprintf("clktime is %d.\r\n",clktime);
-			ptold->prtime += clktime - ptold->prstart;
+			ptold->prtime += (clktime * CLKCYCS_PER_TICK + clkticks) - ptold->prstart;
 			insert(currpid, readylist, ptold->prprio);
 		}
 
@@ -117,8 +118,8 @@ void	resched(void)		/* assumes interrupts are disabled	*/
 
 	ptnew = &proctab[currpid];
 	ptnew->prstate = PR_CURR;
-	ptnew->prstart = clktime;
-	if (T > (MAXINT - ptnew->prprio) ) ptnew->prprio = T; 
+	ptnew->prstart = clktime * CLKCYCS_PER_TICK + clkticks;
+	if (ptnew->prgroup == PROPORTIONALSHARE && T > (MAXINT - ptnew->prprio)) ptnew->prprio = T; 
 	preempt = QUANTUM;	/* reset time slice for process */
 	ctxsw(&ptold->prstkptr, &ptnew->prstkptr);
 
