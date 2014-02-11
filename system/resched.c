@@ -42,14 +42,14 @@ void	resched(void)		/* assumes interrupts are disabled	*/
 		propprio = INITGPPRIO;
 		// update the priority of firstent process
 		t = ptold->prtime;
-		kprintf("the t is %d.\r\n",t);
+		// kprintf("the t is %d.\r\n",t);
 		Pi = MAXINT - ptold->prprio;
-		kprintf("the Pi is %d.\r\n",Pi);
+		// kprintf("the Pi is %d.\r\n",Pi);
 		Ri = ptold->prrate;
-		kprintf("the Ri is %d.\r\n",Ri);
+		// kprintf("the Ri is %d.\r\n",Ri);
 		Pi += t*100/Ri;
 		ptold->prprio = MAXINT - Pi;
-		kprintf("Priority of %s is %d.\r\n",ptold->prname,ptold->prprio);
+		// kprintf("Priority of %s is %d.\r\n",ptold->prname,ptold->prprio);
 
 	}else{
 		
@@ -68,7 +68,7 @@ void	resched(void)		/* assumes interrupts are disabled	*/
 	first = firstid(readylist);	
 	while (queuetab[first].qkey != MINKEY) {
 		prptr = &proctab[first];
-		kprintf("Proc in ready queue %s\r\n",prptr->prname);
+		// kprintf("Proc in ready queue %s\r\n",prptr->prname);
 		if(prptr->prgroup == PROPORTIONALSHARE){
 			propcounter++;
 		}
@@ -85,7 +85,7 @@ void	resched(void)		/* assumes interrupts are disabled	*/
 	propprio += propcounter;
 	tsprio += tscounter;
 	
-	kprintf("Prop is %d.\r\r\nTs is %d.\r\n",propprio,tsprio);
+	// kprintf("Prop is %d.\r\r\nTs is %d.\r\n",propprio,tsprio);
 
 	if (ptold->prstate == PR_CURR) { /* process remains running */
 		if (ptold->prgroup == PROPORTIONALSHARE){
@@ -101,7 +101,7 @@ void	resched(void)		/* assumes interrupts are disabled	*/
 		}
 		/* Old process will no longer remain current */
 			ptold->prstate = PR_READY;
-			kprintf("clktime is %d.\r\n",clktime);
+			// kprintf("clktime is %d.\r\n",clktime);
 			ptold->prtime += (clktime * CLKCYCS_PER_TICK + clkticks) - ptold->prstart;
 			insert(currpid, readylist, ptold->prprio);
 		}
@@ -109,10 +109,10 @@ void	resched(void)		/* assumes interrupts are disabled	*/
 		/* Force context switch to highest priority ready process */
 	
 	if (propprio > tsprio || tscounter == 0){
-		kprintf("Dequeue first proc in Prop share\r\n\n");
+		// kprintf("Dequeue first proc in Prop share\r\n\n");
 		currpid = dequeue(readylist);
 	}else{
-		kprintf("Dequeue first proc in Prop share: %s\r\n\n",ptrTS->prname);
+		// kprintf("Dequeue first proc in Prop share: %s\r\n\n",ptrTS->prname);
 		currpid = getitem(firstTS);
 	}
 
