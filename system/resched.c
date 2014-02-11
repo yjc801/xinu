@@ -39,13 +39,14 @@ void	resched(void)		/* assumes interrupts are disabled	*/
 	if(ptold->prgroup == PROPORTIONALSHARE && currpid != NULLPROC){
 		
 		propprio = INITGPPRIO;
-		
 		// update the priority of firstent process
-
 		t = ptold->prtime * CLKTICKS_PER_SEC;
+		kprintf("the t is %d.\r\n",t);
 		Pi = MAXINT - ptold->prprio;
+		kprintf("the Pi is %d.\r\n",Pi);
 		Ri = ptold->prrate;
-		Pi += t*100.0/Ri;
+		kprintf("the Ri is %d.\r\n",Ri);
+		Pi += t*100/Ri;
 		ptold->prprio = MAXINT - Pi;
 		kprintf("Priority of %s is %d.\r\n",ptold->prname,ptold->prprio);
 		
@@ -54,7 +55,6 @@ void	resched(void)		/* assumes interrupts are disabled	*/
 		tsprio = INITGPPRIO;
 
 	}
-	kprintf("Finish updating Pi.\r\n");
 
 	// Traverse the queue table and update the priories of each group
 	
@@ -62,8 +62,6 @@ void	resched(void)		/* assumes interrupts are disabled	*/
 		return;
 	}
 	
-	kprintf("not empty.\r\n");
-
 	propcounter = 0;
 	tscounter = 0;
 	first = firstid(readylist);	
@@ -102,6 +100,7 @@ void	resched(void)		/* assumes interrupts are disabled	*/
 		}
 		/* Old process will no longer remain current */
 			ptold->prstate = PR_READY;
+			kprintf("clktime is %d.\r\n",clktime);
 			ptold->prtime += clktime - ptold->prstart;
 			insert(currpid, readylist, ptold->prprio);
 		}

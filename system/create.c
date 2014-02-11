@@ -51,7 +51,7 @@ pid32	create(
 	}
 	prptr->prstate = PR_SUSP;	/* initial state is suspended	*/
 	prptr->prrate = priority; // rate in prop share 
-	// prptr->prprio = priority;   // initial priority
+	prptr->prtime = 0;   // initial cpu time 
 	prptr->prgroup = group;
 	prptr->prstkptr = (char *)saddr;
 	prptr->prstkbase = (char *)saddr;
