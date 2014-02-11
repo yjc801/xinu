@@ -1,20 +1,21 @@
 #include <xinu.h>
  
-void prchP(char c, char d);
-void prchT(char c, char d);
+void prchP(char, char);
+void prchT(char, char);
 int prA, prB, prC;
 int round;
 unsigned long ctr100;
 
-main(){
+int main(void){
 	round = 1000;
 	resume( prA = create(prchP, 2000, PROPORTIONALSHARE, 30, "proc A", 2, 'A', 'A') );
 	resume( prB = create(prchP, 2000, PROPORTIONALSHARE, 50, "proc B", 2, 'B', 'B') );
 // resume( prC = create(prch, 2000, 15, TSSCHED, "proc C", 2, 'C', 'C’') );
 
-while (1) {
-	sleepms(10000); 
-	}
+//while (1) {
+//	sleepms(10000); 
+//	}
+	return OK;
 }
 
 void prchP(char c, char d){
@@ -36,3 +37,5 @@ void prchT(char c, char d){
 		if(i%50 == 0) sleep(1);
 	}
 }
+
+
