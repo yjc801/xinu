@@ -48,7 +48,7 @@ void	resched(void)		/* assumes interrupts are disabled	*/
 		Pi += t*100.0/Ri;
 		ptold->prprio = MAXINT - Pi;
 		kprintf("Priority of %s is %d.\r\n",ptold->prname,ptold->prprio);
-		
+
 	}else{
 		
 		tsprio = INITGPPRIO;
@@ -102,7 +102,7 @@ void	resched(void)		/* assumes interrupts are disabled	*/
 		}
 		/* Old process will no longer remain current */
 			ptold->prstate = PR_READY;
-			ptold->prtime += clktime - ptold->prstart;
+			ptold->prtime += (clktime * CLKCYCS_PER_TICK + clkticks) - ptold->prstart;
 			insert(currpid, readylist, ptold->prprio);
 		}
 
@@ -118,7 +118,7 @@ void	resched(void)		/* assumes interrupts are disabled	*/
 
 	ptnew = &proctab[currpid];
 	ptnew->prstate = PR_CURR;
-	ptnew->prstart = clktime;
+	ptnew->prstart = clktime * CLKCYCS_PER_TICK + clkticks;
 	if (T > (MAXINT - ptnew->prprio) ) ptnew->prprio = T; 
 	preempt = QUANTUM;	/* reset time slice for process */
 	ctxsw(&ptold->prstkptr, &ptnew->prstkptr);
