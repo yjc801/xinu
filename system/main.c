@@ -11,7 +11,7 @@ int main(void){
 	kprintf("Hello world!\r\n");
 	resume( prA = create(prchP, 2000, PROPORTIONALSHARE, 30, "proc A", 2, 'A', 'A') );
 	resume( prB = create(prchP, 2000, PROPORTIONALSHARE, 30, "proc B", 2, 'B', 'B') );
-// resume( prC = create(prch, 2000, 15, TSSCHED, "proc C", 2, 'C', 'C’') );
+	// resume( prC = create(prchT, 2000, TSSCHED, 15, "proc C", 2, 'C', 'C’') );
 
 //while (1) {
 //	sleepms(10000); 

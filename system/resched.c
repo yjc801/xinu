@@ -14,9 +14,9 @@ void	resched(void)		/* assumes interrupts are disabled	*/
 	int32 propcounter; //counter for propotional group
 	int32 tscounter; //counter for ts group
 	uint16 Ri; //process rate
-	uint16 Pi; 
-	uint32 t;
-	uint32 T;
+	uint16 Pi; // Pi for proportional share
+	uint32 t;  // CPU consumed ticks
+	uint32 T;  // CPU elapsed ticks
 	struct	procent *prptr; //pointer 
 	struct	procent *ptrTS; //pointer to first proc in TS
 	struct	procent *ptrfirst; //pointer to first proc in readylist
@@ -29,10 +29,13 @@ void	resched(void)		/* assumes interrupts are disabled	*/
 		Defer.attempt = TRUE;
 		return;
 	}
-	kprintf("----------------preempt is %d -------------------\r\n",preempt);	
+	// kprintf("----------------preempt is %d -------------------\r\n",preempt);	
 	/* Point to process table entry for the firstent (old) process */
+	
 	ptold = &proctab[currpid];
+	
 	kprintf("Process %s\r\n",ptold->prname);
+
 	T = clktime * CLKTICKS_PER_SEC; // current CPU time in ticks
 
 	// group A is set to the initial priority if the firstent process belongs to group A
@@ -43,11 +46,11 @@ void	resched(void)		/* assumes interrupts are disabled	*/
 		propprio = INITGPPRIO;
 		// update the priority of firstent process
 		t = ptold->prtime;
-		 kprintf("the t is %d.\r\n",t);
+		 // kprintf("the t is %d.\r\n",t);
 		Pi = MAXINT - ptold->prprio;
-		 kprintf("the Pi is %d.\r\n",Pi);
+		 // kprintf("the Pi is %d.\r\n",Pi);
 		Ri = ptold->prrate;
-		 kprintf("the Ri is %d.\r\n",Ri);
+		 // kprintf("the Ri is %d.\r\n",Ri);
 		Pi += t*100/Ri;
 		ptold->prprio = MAXINT - Pi;
 		 kprintf("Priority of %s is %d.\r\n",ptold->prname,ptold->prprio);
@@ -55,6 +58,9 @@ void	resched(void)		/* assumes interrupts are disabled	*/
 	}else{
 		
 		tsprio = INITGPPRIO;
+		if (preempt == QUANTUM){
+			ptold->prprio += 1;
+		}
 
 	}
 
@@ -90,14 +96,12 @@ void	resched(void)		/* assumes interrupts are disabled	*/
 	
 	kprintf("Prop is %d.\r\r\nTs is %d.\r\n",propprio,tsprio);
 
-	if (ptold->prstate == PR_CURR) { /* process remains running 
-*/
-	kprintf("clktime is %d.\r\n",clktime*CLKCYCS_PER_TICK + clkticks);
+	if (ptold->prstate == PR_CURR) { /* process remains running */
+	// kprintf("clktime is %d.\r\n",clktime*CLKCYCS_PER_TICK + clkticks);
 	ptold->prtime += (clktime * CLKCYCS_PER_TICK + clkticks) - ptold->prstart;
 		if (ptold->prgroup == PROPORTIONALSHARE){
-			if (propprio > tsprio && ptold->prprio > ptrfirst->prprio) {	
-			kprintf("---------------Remain running-----------\r\n");
-			return;
+			if (propprio > tsprio && ptold->prprio > ptrfirst->prprio) {
+				return;
 			}
 		}
 		if (ptold->prgroup == TSSCHED){ // if no other proc in TS
