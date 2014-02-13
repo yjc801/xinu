@@ -7,11 +7,12 @@ int round;
 unsigned long ctr100;
 
 int main(void){
-	round = 100;
+	round = 50;
 	kprintf("Hello world!\r\n");
-	resume( prA = create(prchP, 2000, PROPORTIONALSHARE, 30, "proc A", 2, 'A', 'A') );
-	resume( prB = create(prchP, 2000, PROPORTIONALSHARE, 30, "proc B", 2, 'B', 'B') );
-	// resume( prC = create(prchT, 2000, TSSCHED, 15, "proc C", 2, 'C', 'C’') );
+//	resume( prA = create(prchP, 2000, PROPORTIONALSHARE, 30, "proc A", 2, 'A', 'A') );
+	//resume( prB = create(prchP, 2000, PROPORTIONALSHARE, 30, "proc B", 2, 'B', 'B') );
+	resume( prA = create(prchP, 2000, TSSCHED, 15, "proc A", 2, 'A', 'A') );
+	resume( prC = create(prchT, 2000, TSSCHED, 20, "proc C", 2, 'C', 'C'));
 
 //while (1) {
 //	sleepms(10000); 
@@ -20,7 +21,7 @@ int main(void){
 }
 
 void prchP(char c, char d){
-	//sleepms(500);
+	//sleepms(5);
 	//kprintf("Proc %c starts!\r\n", c);
 	int i;
 	for(i=0; i<round; i++){
@@ -30,12 +31,12 @@ void prchP(char c, char d){
 }
 
 void prchT(char c, char d){
-	sleepms(500);
+	sleepms(100);
 	kprintf("Proc %c starts!\r\n", c);
 	int i;
 	for(i=0; i<round; i++){
 		kprintf("%c", d);
-		if(i%50 == 0) sleep(1);
+		//if(i%50 == 0) sleep(1);
 	}
 }
 
