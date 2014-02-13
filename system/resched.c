@@ -29,7 +29,7 @@ void	resched(void)		/* assumes interrupts are disabled	*/
 		Defer.attempt = TRUE;
 		return;
 	}
-	// kprintf("----------------preempt is %d -------------------\r\n",preempt);	
+	kprintf("----------------preempt is %d -------------------\r\n",preempt);	
 	/* Point to process table entry for the firstent (old) process */
 	
 	ptold = &proctab[currpid];
@@ -53,14 +53,15 @@ void	resched(void)		/* assumes interrupts are disabled	*/
 		 // kprintf("the Ri is %d.\r\n",Ri);
 		Pi += t*100/Ri;
 		ptold->prprio = MAXINT - Pi;
-		kprintf("Priority of %s is %d.\r\n",ptold->prname,ptold->prprio);
 
 	}
 
-	if(ptold->prgroup == TS && currpid != NULLPROC){
+		kprintf("Priority of %s is %d.\r\n",ptold->prname,ptold->prprio);
+
+	if(ptold->prgroup == TSSCHED && currpid != NULLPROC){
 		
 		tsprio = INITGPPRIO;
-		if (preempt == QUANTUM){
+		if (preempt != QUANTUM){
 			ptold->prprio += 1;
 		}
 
