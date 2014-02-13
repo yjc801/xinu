@@ -29,7 +29,7 @@ void	resched(void)		/* assumes interrupts are disabled	*/
 		Defer.attempt = TRUE;
 		return;
 	}
-	
+	kprintf("----------------preempt is %d -------------------\r\n",preempt);	
 	/* Point to process table entry for the firstent (old) process */
 	ptold = &proctab[currpid];
 	kprintf("Process %s\r\n",ptold->prname);
