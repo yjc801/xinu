@@ -53,9 +53,11 @@ void	resched(void)		/* assumes interrupts are disabled	*/
 		 // kprintf("the Ri is %d.\r\n",Ri);
 		Pi += t*100/Ri;
 		ptold->prprio = MAXINT - Pi;
-		 kprintf("Priority of %s is %d.\r\n",ptold->prname,ptold->prprio);
+		kprintf("Priority of %s is %d.\r\n",ptold->prname,ptold->prprio);
 
-	}else{
+	}
+
+	if(ptold->prgroup == TS && currpid != NULLPROC){
 		
 		tsprio = INITGPPRIO;
 		if (preempt == QUANTUM){
