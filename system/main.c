@@ -7,9 +7,10 @@ int round;
 unsigned long ctr100;
 
 int main(void){
-	round = 1000;
+	round = 100;
+	kprintf("Hello world!\r\n");
 	resume( prA = create(prchP, 2000, PROPORTIONALSHARE, 30, "proc A", 2, 'A', 'A') );
-	resume( prB = create(prchP, 2000, PROPORTIONALSHARE, 50, "proc B", 2, 'B', 'B') );
+	resume( prB = create(prchP, 2000, PROPORTIONALSHARE, 30, "proc B", 2, 'B', 'B') );
 // resume( prC = create(prch, 2000, 15, TSSCHED, "proc C", 2, 'C', 'C’') );
 
 //while (1) {
@@ -19,13 +20,13 @@ int main(void){
 }
 
 void prchP(char c, char d){
-	sleepms(500);
-	kprintf("Proc %c starts!\r\n", c);
+	//sleepms(500);
+	//kprintf("Proc %c starts!\r\n", c);
 	int i;
 	for(i=0; i<round; i++){
 		kprintf("%c", d);
 	}
-	kprintf("Proc %c ends! \r\n", c);
+	//kprintf("Proc %c ends! \r\n", c);
 }
 
 void prchT(char c, char d){
