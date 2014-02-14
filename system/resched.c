@@ -16,7 +16,7 @@ void	resched(void)		/* assumes interrupts are disabled	*/
 	uint16 Ri; //process rate
 	uint16 Pi; // Pi for proportional share
 	uint32 t;  // CPU consumed ticks
-	uint32 T;  // CPU elapsed ticks
+	// uint32 T;  // CPU elapsed ticks
 	struct	procent *prptr; //pointer 
 	struct	procent *ptrTS; //pointer to first proc in TS
 	struct	procent *ptrfirst; //pointer to first proc in readylist
@@ -36,7 +36,7 @@ void	resched(void)		/* assumes interrupts are disabled	*/
 	
 	kprintf("Process %s\r\n",ptold->prname);
 
-	T = clktime * CLKTICKS_PER_SEC; // current CPU time in ticks
+	// T = clktime * CLKTICKS_PER_SEC; // current CPU time in ticks
 
 	// group A is set to the initial priority if the firstent process belongs to group A
 
@@ -130,7 +130,7 @@ void	resched(void)		/* assumes interrupts are disabled	*/
 	ptnew = &proctab[currpid];
 	ptnew->prstate = PR_CURR;
 	ptnew->prstart = clktime * CLKCYCS_PER_TICK + clkticks;
-	if (ptnew->prgroup == PROPORTIONALSHARE && T > (MAXINT - ptnew->prprio)) ptnew->prprio = T; 
+	// if (ptnew->prgroup == PROPORTIONALSHARE && T > (MAXINT - ptnew->prprio)) ptnew->prprio = T; 
 	preempt = QUANTUM;	/* reset time slice for process */
 	ctxsw(&ptold->prstkptr, &ptnew->prstkptr);
 

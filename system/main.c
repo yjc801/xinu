@@ -9,10 +9,10 @@ unsigned long ctr100;
 int main(void){
 	round = 100;
 	kprintf("Hello world!\r\n");
-//	resume( prA = create(prchP, 2000, PROPORTIONALSHARE, 30, "proc A", 2, 'A', 'A') );
-	//resume( prB = create(prchP, 2000, PROPORTIONALSHARE, 30, "proc B", 2, 'B', 'B') );
-	resume( prA = create(prchT, 2000, TSSCHED, 25, "proc A", 2, 'A', 'A') );
-	resume( prC = create(prchP, 2000, TSSCHED, 20, "proc C", 2, 'C', 'C'));
+	resume( prA = create(prchP, 2000, PROPORTIONALSHARE, 30, "proc A", 2, 'A', 'A') );
+	resume( prB = create(prchP, 2000, PROPORTIONALSHARE, 50, "proc B", 2, 'B', 'B') );
+	// resume( prA = create(prchT, 2000, TSSCHED, 25, "proc A", 2, 'A', 'A') );
+	// resume( prC = create(prchP, 2000, TSSCHED, 20, "proc C", 2, 'C', 'C'));
 
 while (1) {
 	sleepms(1000); 

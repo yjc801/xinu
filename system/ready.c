@@ -14,6 +14,9 @@ status	ready(
 	)
 {
 	register struct procent *prptr;
+	uint32 T;
+
+	T = clktime * CLKTICKS_PER_SEC; // current CPU time in ticks
 
 	if (isbadpid(pid)) {
 		return(SYSERR);
@@ -23,6 +26,8 @@ status	ready(
 
 	prptr = &proctab[pid];
 	prptr->prstate = PR_READY;
+	if (prptr->prgroup == PROPORTIONALSHARE && T > (MAXINT - ptnew->prprio)) prptr->prprio = T; 
+	
 	insert(pid, readylist, prptr->prprio);
 
 	if (resch == RESCHED_YES) {
