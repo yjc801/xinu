@@ -47,9 +47,9 @@ void	resched(void)		/* assumes interrupts are disabled	*/
 		// update the priority of firstent process
 		t = preempt;
 		//t = ptold->prtime;
-		 kprintf("the t is %d.\r\n",t);
+//		 kprintf("the t is %d.\r\n",t);
 		Pi = MAXINT - ptold->prprio;
-		  kprintf("the Pi is %d.\r\n",Pi);
+//		  kprintf("the Pi is %d.\r\n",Pi);
 		Ri = ptold->prrate;
 		 // kprintf("the Ri is %d.\r\n",Ri);
 		Pi += t*100/Ri;
@@ -99,19 +99,23 @@ void	resched(void)		/* assumes interrupts are disabled	*/
 	propprio += propcounter;
 	tsprio += tscounter;
 	
-//	kprintf("Prop is %d.\r\r\nTs is %d.\r\n",propprio,tsprio);
+	kprintf("Prop is %d.\r\r\nTs is %d.\r\n",propprio,tsprio);
 
 	if (ptold->prstate == PR_CURR) { /* process remains running */
 	// kprintf("clktime is %d.\r\n",clktime*CLKCYCS_PER_TICK + clkticks);
 		if (ptold->prgroup == PROPORTIONALSHARE){
 			//ptold->prtime = (clktime * CLKCYCS_PER_TICK + clkticks) - ptold->prstart;
-			if (propprio > tsprio && ptold->prprio > ptrfirst->prprio) {
+			if (propprio > tsprio){
+				if(propcounter == 0 || ptold->prprio > ptrfirst->prprio){
 				return;
+				}
 			}
 		}
 		if (ptold->prgroup == TSSCHED){ // if no other proc in TS
-			if (tsprio > propprio && ptold->prprio > ptrTS->prprio) {
+			if (tsprio > propprio){
+			if(tscounter == 0 || ptold->prprio > ptrTS->prprio) {
 				return;
+				}
 			}
 		}
 		/* Old process will no longer remain current */
@@ -123,10 +127,10 @@ void	resched(void)		/* assumes interrupts are disabled	*/
 		/* Force context switch to highest priority ready process */
 	
 	if (propprio > tsprio || tscounter == 0){
-//		kprintf("Dequeue first proc in Prop share\r\n\n");
+		//kprintf("Dequeue first proc in Prop share\r\n\n");
 		currpid = dequeue(readylist);
 	}else{
-//		 kprintf("Dequeue first proc in TS: %s\r\n\n",ptrTS->prname);
+		// kprintf("Dequeue first proc in TS: %s\r\n\n",ptrTS->prname);
 		currpid = getitem(firstTS);
 	}
 

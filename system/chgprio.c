@@ -6,7 +6,7 @@
  *  chprio  -  Change the scheduling priority of a process
  *------------------------------------------------------------------------
  */
-pri16	chprio(
+pri16	chgprio(
 	
 	int group, 		// group
 	pri16 newprio	// new group priority
@@ -21,11 +21,11 @@ pri16	chprio(
 		restore(mask);
 		return (pri16) SYSERR;
 	}
-	if (group = PROPORTIONALSHARE){
+	if (group == PROPORTIONALSHARE){
 		oldprio = INITGPPRIO_PROP;
 		INITGPPRIO_PROP = newprio;
 	}
-	if (group = TSSCHED){
+	if (group == TSSCHED){
 		oldprio = INITGPPRIO_TS;
 		INITGPPRIO_TS = newprio;
 	}

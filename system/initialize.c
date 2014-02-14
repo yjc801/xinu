@@ -20,6 +20,8 @@ struct	procent	proctab[NPROC];	/* Process table			*/
 struct	sentry	semtab[NSEM];	/* Semaphore table			*/
 struct	memblk	memlist;	/* List of free memory blocks		*/
 
+pri16 INITGPPRIO_PROP;
+pri16 INITGPPRIO_TS;
 pri16 propprio;
 pri16 tsprio;
 
@@ -109,8 +111,11 @@ static	void	sysinit(void)
 
 	/* Initialize system variables */
 	
-	propprio = 10;
-	tsprio = 10;
+	INITGPPRIO_PROP = 10;
+	INITGPPRIO_TS = 10;
+	
+	propprio = INITGPPRIO_PROP;
+	tsprio = INITGPPRIO_TS;
 
 	/* Count the Null process as the first process in the system */
 

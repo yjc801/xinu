@@ -15,7 +15,7 @@ C_FILES += conf.c
 # Files for process control
 S_FILES += ctxsw.S
 C_FILES += create.c kill.c ready.c resched.c resume.c suspend.c chprio.c getprio.c \
-		getitem.c newqueue.c insert.c getpid.c xdone.c yield.c userret.c
+		getitem.c newqueue.c insert.c getpid.c xdone.c yield.c userret.c chgprio.c
 
 # Files for preemption
 S_FILES += clkupdate.S intutils.S intdispatch.S halt.S
