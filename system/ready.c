@@ -26,7 +26,7 @@ status	ready(
 
 	prptr = &proctab[pid];
 	prptr->prstate = PR_READY;
-	if (prptr->prgroup == PROPORTIONALSHARE && T > (MAXINT - ptnew->prprio)) prptr->prprio = T; 
+	if (prptr->prgroup == PROPORTIONALSHARE && T > (MAXINT - prptr->prprio)) prptr->prprio = MAXINT - T; 
 	
 	insert(pid, readylist, prptr->prprio);
 

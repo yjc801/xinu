@@ -50,8 +50,6 @@ struct procent {		/* entry in the process table		*/
 	int     prgroup;        // group of the process
 	uint16  prrate;         //process rate, Ri
 	pri16	prprio;		/* process priority			*/
-	uint32  prtime;    // CPU time consumed by the process
-	uint32  prstart;    // CPU time when process first starts
 	char	*prstkptr;	/* saved stack pointer			*/
 	char	*prstkbase;	/* base of run time stack		*/
 	uint32	prstklen;	/* stack length in bytes		*/
