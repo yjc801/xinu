@@ -21,8 +21,25 @@ pri16	chprio(
 		return (pri16) SYSERR;
 	}
 	prptr = &proctab[pid];
-	oldprio = prptr->prprio;
-	prptr->prprio = newprio;
+	
+	if (prptr->prgroup == PROPORTIONALSHARE){
+		oldprio = prptr->prrate;
+		prptr->prrate = newprio;
+	}
+
+	if (prptr->prgroup == TSSCHED){
+		oldprio = prptr->prprio;
+		prptr->prprio = newprio;
+		// if changing the current process
+		if (prptr->prstate == PR_CURR){
+			resched();
+		}
+		// if changing the process in ready queue
+		if (prptr->prstate == PR_READY){
+			insert(getitem(pid), readylist, prptr->prprio);
+		}
+	}
+
 	restore(mask);
 	return oldprio;
 }

@@ -1,9 +1,9 @@
-/* chprio.c - chprio */
+/* chgprio.c - chgprio */
 
 #include <xinu.h>
 
 /*------------------------------------------------------------------------
- *  chprio  -  Change the scheduling priority of a process
+ *  chgprio  -  Change the scheduling priority of a group
  *------------------------------------------------------------------------
  */
 pri16	chgprio(
