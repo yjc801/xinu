@@ -43,7 +43,7 @@ void	resched(void)		/* assumes interrupts are disabled	*/
 	if(ptold->prgroup == PROPORTIONALSHARE && currpid != NULLPROC)
 	{
 		
-		propprio = INITGPPRIO;
+		propprio = INITGPPRIO_PROP;
 		// update the priority of firstent process
 		t = preempt;
 		//t = ptold->prtime;
@@ -61,7 +61,7 @@ void	resched(void)		/* assumes interrupts are disabled	*/
 
 	if(ptold->prgroup == TSSCHED && currpid != NULLPROC){
 		
-		tsprio = INITGPPRIO;
+		tsprio = INITGPPRIO_TS;
 		if (preempt != QUANTUM){
 			ptold->prprio += 1;
 		}

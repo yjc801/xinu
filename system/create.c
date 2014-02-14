@@ -12,7 +12,7 @@ static	pid32	newpid(void);
 pid32	create(
 	  void		*funcaddr,	/* address of function to run	*/
 	  uint32	ssize,		/* stack size in bytes		*/
-	  int	    group,          /* group, either PROPORTIONALSHARE or TSSCHED */
+	  int	    group,      /* group, either PROPORTIONALSHARE or TSSCHED */
 	  pri16		priority,	/* process priority		*/
 	  char		*name,		/* process name (for debugging)	*/
 	  uint32	nargs,		/* number of args that follow	*/
@@ -31,7 +31,8 @@ pid32	create(
 
 	mask = disable();
 //check group id
-	if ((ssize < MINSTK)
+	if (isbadgroup(group)
+		||(ssize < MINSTK)
 	    || (priority <= 0)
 	    || (((int32)(pid = newpid())) == (int32) SYSERR)
 	    || ((saddr = (uint32 *)getstk(ssize)) == (uint32 *)SYSERR)) {
@@ -43,15 +44,18 @@ pid32	create(
 	prptr = &proctab[pid];
 
 	/* Initialize process table entry for new process */
+
+	prptr->prstate = PR_SUSP;	/* initial state is suspended	*/ 
+	prptr->prgroup = group;
+
 	if (group == PROPORTIONALSHARE){
 		prptr->prprio = MAXINT;
+		prptr->prrate = priority; // rate in prop share
 	}
 	else{
 		prptr->prprio = priority;
 	}
-	prptr->prstate = PR_SUSP;	/* initial state is suspended	*/
-	prptr->prrate = priority; // rate in prop share 
-	prptr->prgroup = group;
+
 	prptr->prstkptr = (char *)saddr;
 	prptr->prstkbase = (char *)saddr;
 	prptr->prstklen = ssize;
