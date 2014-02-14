@@ -7,12 +7,12 @@ int round;
 unsigned long ctr100;
 
 int main(void){
-	round = 500;
-	resume( prA = create(prchP, 2000, PROPORTIONALSHARE, 20, "proc A", 2, 'A', 'A') );
-	resume( prB = create(prchP, 2000, PROPORTIONALSHARE, 50, "proc B", 2, 'B', 'B') );
-	 resume( prD = create(prchP, 2000, TSSCHED, 25, "proc D", 2, 'D', 'D') );
-	 chgprio(TSSCHED,20);
-	// resume( prC = create(prchP, 2000, TSSCHED, 20, "proc C", 2, 'C', 'C'));
+	round = 100;
+	//resume( prA = create(prchP, 2000, PROPORTIONALSHARE, 20, "proc A", 2, 'A', 'A') );
+	//resume( prB = create(prchP, 2000, PROPORTIONALSHARE, 50, "proc B", 2, 'B', 'B') );
+	 resume( prC = create(prchP, 2000, TSSCHED, 20, "proc C", 2, 'C', 'C') );
+	//chgprio(TSSCHED,20);
+	 resume( prD = create(prchT, 2000, TSSCHED, 20, "proc D", 2, 'D', 'D'));
 
 //while (1) {
 //	sleepms(100); 
@@ -24,6 +24,7 @@ void prchP(char c, char d){
 	//sleepms(50);
 	//kprintf("Proc %c starts!\r\n", c);
 	int i;
+	//chprio(getpid(),10);
 	for(i=0; i<round; i++){
 		kprintf("%c", d);
 	}
@@ -31,12 +32,12 @@ void prchP(char c, char d){
 }
 
 void prchT(char c, char d){
-	sleepms(50);
+	//sleepms(50);
 	//kprintf("Proc %c starts!\r\n", c);
 	int i;
 	for(i=0; i<round; i++){
 		kprintf("%c", d);
-		if(i%50 == 0) sleep(1);
+		if (i%10==0) sleepms(5);
 	}
 }
 

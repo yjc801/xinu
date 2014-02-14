@@ -57,12 +57,12 @@ void	resched(void)		/* assumes interrupts are disabled	*/
 
 	}
 
-	//	kprintf("Priority of %s is %d.\r\n",ptold->prname,ptold->prprio);
+	kprintf("Priority of %s is %d.\r\n",ptold->prname,ptold->prprio);
 
 	if(ptold->prgroup == TSSCHED && currpid != NULLPROC){
 		
 		tsprio = INITGPPRIO_TS;
-		if (preempt != QUANTUM){
+		if (preempt < QUANTUM){
 			ptold->prprio += 1;
 		}
 

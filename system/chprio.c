@@ -37,6 +37,7 @@ pri16	chprio(
 		// if changing the process in ready queue
 		if (prptr->prstate == PR_READY){
 			insert(getitem(pid), readylist, prptr->prprio);
+			resched();
 		}
 	}
 
