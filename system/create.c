@@ -51,6 +51,7 @@ pid32	create(
 	if (group == PROPORTIONALSHARE){
 		prptr->prprio = MAXINT;
 		prptr->prrate = priority; // rate in prop share
+		prptr->prtime = 0;
 	}
 	else{
 		prptr->prprio = priority;
