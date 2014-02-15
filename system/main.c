@@ -7,12 +7,12 @@ int round;
 unsigned long ctr100;
 
 int main(void){
-	round = 100;
-	//resume( prA = create(prchP, 2000, PROPORTIONALSHARE, 20, "proc A", 2, 'A', 'A') );
-	//resume( prB = create(prchP, 2000, PROPORTIONALSHARE, 50, "proc B", 2, 'B', 'B') );
-	 resume( prC = create(prchP, 2000, TSSCHED, 20, "proc C", 2, 'C', 'C') );
+	round = 200;
+	resume( prA = create(prchP, 2000, PROPORTIONALSHARE, 10, "proc A", 2, 'A', 'A') );
+	resume( prB = create(prchP, 2000, PROPORTIONALSHARE, 50, "proc B", 2, 'B', 'B') );
+	// resume( prC = create(prchP, 2000, TSSCHED, 20, "proc C", 2, 'C', 'C') );
 	//chgprio(TSSCHED,20);
-	 resume( prD = create(prchT, 2000, TSSCHED, 20, "proc D", 2, 'D', 'D'));
+	// resume( prD = create(prchT, 2000, TSSCHED, 20, "proc D", 2, 'D', 'D'));
 
 //while (1) {
 //	sleepms(100); 
