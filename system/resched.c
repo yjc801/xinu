@@ -46,7 +46,7 @@ void	resched(void)		/* assumes interrupts are disabled	*/
 		ptold->prprio = MAXINT - Pi;
 	}
 
-	kprintf("Priority of %s is %d.\r\n",ptold->prname,ptold->prprio);
+	// kprintf("Priority of %s is %d.\r\n",ptold->prname,ptold->prprio);
 
 	if(ptold->prgroup == TSSCHED && currpid != NULLPROC){
 		
@@ -63,7 +63,7 @@ void	resched(void)		/* assumes interrupts are disabled	*/
 		return;
 	}
 	
-	kprintf("Process %s\r\n",ptold->prname);
+	// kprintf("Process %s\r\n",ptold->prname);
 	propcounter = 0;
 	tscounter = 0;
 	first = firstid(readylist);
@@ -86,7 +86,7 @@ void	resched(void)		/* assumes interrupts are disabled	*/
 	propprio += propcounter;
 	tsprio += tscounter;
 	
-	kprintf("Prop is %d.\r\r\nTs is %d.\r\n",propprio,tsprio);
+	// kprintf("Prop is %d.\r\r\nTs is %d.\r\n",propprio,tsprio);
 
 	if (ptold->prstate == PR_CURR) { /* process remains running */
 
