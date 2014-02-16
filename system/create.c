@@ -49,7 +49,12 @@ pid32	create(
 	prptr->prgroup = group;
 
 	if (group == PROPORTIONALSHARE){
+		if (isbadrate(priority) || (priority+rate_sum)>100){
+			restore(mask);
+			return SYSERR;
+		}
 		prptr->prprio = MAXINT;
+		rate_sum += priority;
 		prptr->prrate = priority; // rate in prop share
 		prptr->prtime = 0;
 	}

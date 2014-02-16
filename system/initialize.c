@@ -24,6 +24,7 @@ pri16 INITGPPRIO_PROP;
 pri16 INITGPPRIO_TS;
 pri16 propprio;
 pri16 tsprio;
+pri16 rate_sum;
 
 /* Active system status */
 
@@ -114,6 +115,7 @@ static	void	sysinit(void)
 	INITGPPRIO_PROP = 10;
 	INITGPPRIO_TS = 10;
 	
+	rate_sum = 0;
 	propprio = INITGPPRIO_PROP;
 	tsprio = INITGPPRIO_TS;
 
