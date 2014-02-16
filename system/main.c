@@ -8,7 +8,7 @@ unsigned long ctr100;
 
 int main(void){
 	round = 1000;
-	resume( prA = create(prchP, 2000, PROPORTIONALSHARE, 0, "proc A", 2, 'A', 'A') );
+	resume( prA = create(prchP, 2000, PROPORTIONALSHARE, 30, "proc A", 2, 'A', 'A') );
 	resume( prB = create(prchP, 2000, PROPORTIONALSHARE, 50, "proc B", 2, 'B', 'B') );
 	resume( prC = create(prchT, 2000, TSSCHED, 15, "proc C", 2, 'C', 'C') );
 	//chgprio(TSSCHED,20);
