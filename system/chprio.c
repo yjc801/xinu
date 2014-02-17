@@ -23,6 +23,10 @@ pri16	chprio(
 	prptr = &proctab[pid];
 	
 	if (prptr->prgroup == PROPORTIONALSHARE){
+		if (isbadrate(newprio) || (rate_sum-oldprio+newprio)>100){
+			restore(mask);
+			return SYSERR;
+		}
 		oldprio = prptr->prrate;
 		prptr->prrate = newprio;
 	}
