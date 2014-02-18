@@ -42,7 +42,7 @@ xinu.bin: xinu.elf
 
 TOPDIR    = ..
 
-COMPS     = system device/tty
+COMPS     = system device/tty shell 
 
 # Include expected files, each should add its part to the compile source
 COMP_SRC :=

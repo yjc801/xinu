@@ -38,7 +38,7 @@ C_FILES += close.c control.c getc.c open.c ioerr.c ionull.c read.c putc.c seek.c
 C_FILES += kprintf.c debug.c
 
 # Files for time and date manipulation
-C_FILES += ascdate.c gettime.c
+C_FILES += ascdate.c
 
 # Main program
 C_FILES += main.c

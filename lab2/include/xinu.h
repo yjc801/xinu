@@ -19,4 +19,5 @@
 #include <mips.h>
 #include <gpio.h>
 #include <date.h>
+#include <shell.h>
 #include <prototypes.h>

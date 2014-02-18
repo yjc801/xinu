@@ -125,12 +125,12 @@ extern	syscall	open(did32, char *, char *);
 extern	void	panic(char *);
 
 //pipes
-extern	void	pipcreate();
-extern	void	pipconnect(pipid32, pid32, pid32);
-extern	void	pipwrite(pipid32, char *, uint32);
-extern	void	pipread(pipid32, char *, uint32);
-extern	void	pipdelete(pipid32);
-extern	void	pipdisconnect(pipid32);
+extern	pipid32	pipcreate();
+extern	int	pipdelete(pipid32);
+extern	int	pipconnect(pipid32, pid32, pid32);
+extern	int	pipdisconnect(pipid32);
+extern	int32	pipwrite(pipid32, char *, uint32);
+extern	int32	pipread(pipid32, char *, uint32);
 
 /* in file putc.c */
 extern	syscall	putc(did32, char);
