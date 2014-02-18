@@ -10,7 +10,7 @@ This repository includes some implementations on XINU.
 ### Lab 1 Schedulers
 Implemented aging scheduler, proportional share scheduler, and timeshare scheduler.
 ### Lab 2 Interprocess Communication
-To be continued
+Implemented pipes to XINU.
 ### Lab 3 Interprocess Communication and Low-level Memory Management
 To be Continued
 ### Lab 4 Remote Disk System In Unix and Xinu
