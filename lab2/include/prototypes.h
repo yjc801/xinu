@@ -26,7 +26,7 @@ extern	syscall	close(did32);
 extern	syscall	control(did32, int32, int32, int32);
 
 /* in file create.c */
-extern	pid32	create(void *, uint32, int, pri16, char *, uint32, ...);
+extern	pid32	create(void *, uint32, pri16, char *, uint32, ...);
 
 /* in file ctxsw.S */
 extern	void	ctxsw(void *, void *);
@@ -125,7 +125,7 @@ extern	syscall	open(did32, char *, char *);
 extern	void	panic(char *);
 
 //pipes
-extern	pipid32	pipcreate();
+extern	pipid32	pipcreate(void);
 extern	int	pipdelete(pipid32);
 extern	int	pipconnect(pipid32, pid32, pid32);
 extern	int	pipdisconnect(pipid32);
@@ -189,6 +189,8 @@ extern	syscall	signaln(sid32, int32);
 /* in file sleep.c */
 extern	syscall	sleepms(uint32);
 extern	syscall	sleep(uint32);
+
+extern process shell(did32);
 
 /* in file suspend.c */
 extern	syscall	suspend(pid32);

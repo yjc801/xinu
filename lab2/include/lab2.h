@@ -24,5 +24,6 @@ extern	struct	pipentry piptab[];
 
 #define	isbadpip(s)	((int32)(s) < 0 || (s) >= NPIPE)
 
-
 extern int32 pipcount;
+
+

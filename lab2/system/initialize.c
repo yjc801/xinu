@@ -19,6 +19,7 @@ static	void sysinit(void);	/* initializes system structures	*/
 struct	procent	proctab[NPROC];	/* Process table			*/
 struct	sentry	semtab[NSEM];	/* Semaphore table			*/
 struct	memblk	memlist;	/* List of free memory blocks		*/
+struct	pipentry piptab[NPIPE];	/* Pipeline table			*/
 
 /* Active system status */
 

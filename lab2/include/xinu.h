@@ -20,5 +20,5 @@
 #include <gpio.h>
 #include <date.h>
 #include <shell.h>
-#include <prototypes.h>
 #include <lab2.h>
+#include <prototypes.h>
