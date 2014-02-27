@@ -103,6 +103,7 @@ static	void	sysinit(void)
 	struct	procent	*prptr;		/* ptr to process table entry	*/
 	struct	dentry	*devptr;	/* ptr to device table entry	*/
 	struct	sentry	*semptr;	/* prr to semaphore table entry	*/
+	struct	pipentry *piptr;	/* prr to pipeline table entry	*/
 	struct	memblk	*memptr;	/* ptr to memory block		*/
 
 	/* Initialize system variables */
