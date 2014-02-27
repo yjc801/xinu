@@ -3,24 +3,38 @@
 #include <xinu.h>
 
 /*------------------------------------------------------------------------
- *  chprio  -  Change the scheduling priority of a process
+ *  pipcreate
  *------------------------------------------------------------------------
  */
 pipid32	pipcreate(void)
 {
 	intmask	mask;			/* saved interrupt mask		*/
-	pipid32	pipid;		
+	pipid32	pipid;	
+	static pipid32 nextpip = 0;
+	int32	i;
 
 	mask = disable();
+	// check if this process is a producer or consumer
+
 	if (pipcount > NPIPE) {
 		restore(mask);
-		return (pipid32) SYSERR;
+		return SYSERR;
 	}
 
 	pipcount++;
 	
-	pipid = (pipid32) semcreate(1);
-
+	for (i = 0; i < NPIPE; i++)
+	{
+		pipid = nextpip++;
+		if (nextpip >= NPIPE)
+			nextpip = 0;
+		if (piptab[pipid].pstate == PIPE_FREE) {
+			piptab[pipid].pstate = PIPE_USED;
+			restore(mask);
+			return pipid;
+		}
+	}
+	
 	restore(mask);
-	return pipid;
+	return SYSERR;
 }

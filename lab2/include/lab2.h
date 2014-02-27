@@ -2,6 +2,8 @@
 #define NPIPE 10
 #endif
 
+#define PIPE_SIZ 256
+
 typedef	int32	pipid32;		/* semaphore ID				*/
 
 /* Pipe state definitions */
@@ -14,8 +16,8 @@ typedef	int32	pipid32;		/* semaphore ID				*/
 
 /* Pipe table entry */
 struct	pipentry	{
-	uint16	pipstate;
-	qid16	pipqueue;	
+	uint16	pstate;
+	char buff[PIPE_SIZ];
 };
 
 extern	struct	pipentry piptab[];

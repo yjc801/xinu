@@ -157,6 +157,13 @@ static	void	sysinit(void)
 		semptr->squeue = newqueue();
 	}
 
+	// Initialize pipes
+	
+	for (i = 0; i < NPIPE; i++) {
+		piptr = &piptab[i];
+		piptr->pstate = PIPE_FREE;
+	}
+
 	/* Initialize buffer pools */
 
 	bufinit();
