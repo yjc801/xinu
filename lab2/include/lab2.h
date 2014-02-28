@@ -3,6 +3,7 @@
 #endif
 
 #define PIPE_SIZ 256
+
 #define PIPE_WRITER 0
 #define PIPE_READER 1
 

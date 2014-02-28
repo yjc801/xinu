@@ -19,7 +19,7 @@ pipid32	pipcreate(void)
 	
 	prptr = &proctab[currpid];
 
-	if (prptr->prpipid != -1
+	if (prptr->prpipid != INIT_PIPID
 		|| pipcount > NPIPE) {
 		restore(mask);
 		return SYSERR;
