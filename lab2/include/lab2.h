@@ -13,6 +13,7 @@ typedef	int32	pipid32;		/* pipeline ID				*/
 #define	PIPE_CONNECTED	2		/* Pipe table entry is connected	*/
 #define	PIPE_OTHER		3		/* Pipe table entry is in other state	*/
 
+#define	isbadpip(s)	((int32)(s) < 0 || (s) >= NPIPE)
 
 /* Pipe table entry */
 struct	pipentry	{
@@ -23,9 +24,6 @@ struct	pipentry	{
 };
 
 extern	struct	pipentry piptab[];
-
-#define	isbadpip(s)	((int32)(s) < 0 || (s) >= NPIPE)
-
 extern int32 pipcount;   // number of pipes in use
 
 

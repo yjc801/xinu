@@ -1,8 +1,8 @@
 /* xinu.h - include all system header files */
 
-#include <lab2.h>
 #include <kernel.h>
 #include <conf.h>
+#include <lab2.h>
 #include <process.h>
 #include <queue.h>
 #include <sched.h>
