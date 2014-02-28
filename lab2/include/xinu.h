@@ -1,5 +1,6 @@
 /* xinu.h - include all system header files */
 
+#include <lab2.h>
 #include <kernel.h>
 #include <conf.h>
 #include <process.h>
@@ -20,5 +21,4 @@
 #include <gpio.h>
 #include <date.h>
 #include <shell.h>
-#include <lab2.h>
 #include <prototypes.h>
