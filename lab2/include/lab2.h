@@ -3,10 +3,15 @@
 #endif
 
 #define PIPE_SIZ 256
+#define PIPE_WRITER 0
+#define PIPE_READER 1
 
 typedef	int32	pipid32;		/* pipeline ID				*/
 
 /* Pipe state definitions */
+
+#define	INIT_PID			-1		/* Initial Process ID for reader and writer	*/
+#define	INIT_PIPID			-1		/* Initial Pipe ID for process	*/
 
 #define	PIPE_FREE		0		/* Pipe table entry is available	*/
 #define	PIPE_USED		1		/* Pipe table entry is in use	*/

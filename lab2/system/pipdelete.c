@@ -29,8 +29,12 @@ int	pipdelete(
 		return SYSERR;
 	}
 
-	piptr->pstate = PIPE_FREE;
 	pipcount--;
+
+	currpid->prpipid = INIT_PIPID;
+	piptr->pstate = PIPE_FREE;
+	piptr->pwriter = INIT_PID;
+	piptr->preader = INIT_PID;
 
 	// clear the buffer
 	for (i = 0; i < PIPE_SIZ; i++){

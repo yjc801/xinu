@@ -48,6 +48,7 @@
 struct procent {		/* entry in the process table		*/
 	uint16	prstate;	/* process state: PR_CURR, etc.		*/
 	pipid32 prpipid;     // pipe ID
+	int16 	prpipside;     // pipe sied (either writer or reader)
 	pri16	prprio;		/* process priority			*/
 	char	*prstkptr;	/* saved stack pointer			*/
 	char	*prstkbase;	/* base of run time stack		*/
