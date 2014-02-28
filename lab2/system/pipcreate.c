@@ -9,14 +9,17 @@
 pipid32	pipcreate(void)
 {
 	intmask	mask;			/* saved interrupt mask		*/
-	pipid32	pipid;	
+	pipid32	pipid;
+	struct procent *prptr;
 	static pipid32 nextpip = 0;
 	int32	i;
 
 	mask = disable();
 	// check if this process is a producer or consumer
+	
+	prptr = &proctab[currpid];
 
-	if (currpid->prpipid != -1
+	if (prptr->prpipid != -1
 		|| pipcount > NPIPE) {
 		restore(mask);
 		return SYSERR;
@@ -33,7 +36,7 @@ pipid32	pipcreate(void)
 			piptab[pipid].pstate = PIPE_USED;
 			piptab[pipid].preader = INIT_PID;
 			piptab[pipid].pwriter = INIT_PID;
-			currpid->prpipid = pipid;  // owner of the pipe
+			prptr->prpipid = pipid;  // owner of the pipe
 			restore(mask);
 			return pipid;
 		}

@@ -11,7 +11,7 @@
 
 int main(int argc, char **argv)
 {
-	umsg32 retval;
+//	umsg32 retval;
 
 	pipid32 pipid;
 	

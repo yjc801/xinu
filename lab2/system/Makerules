@@ -12,6 +12,9 @@ C_FILES = initialize.c queue.c
 # Configuration file
 C_FILES += conf.c
 
+# Pipeline file
+C_FILES += pipcreate.c pipdelete.c pipconnect.c pipdisconnect.c pipread.c pipwrite.c
+
 # Files for process control
 S_FILES += ctxsw.S
 C_FILES += create.c kill.c ready.c resched.c resume.c suspend.c chprio.c getprio.c \

@@ -38,7 +38,7 @@ int	pipconnect(pipid32 pipid, pid32 writer, pid32 reader)
 	prptr_reader->prpipside = PIPE_READER;
 
 	// update pipe
-	piptr->pstate = PIPE_CONNECTED
+	piptr->pstate = PIPE_CONNECTED;
 	piptr->pwriter = writer;
 	piptr->preader = reader;
 	

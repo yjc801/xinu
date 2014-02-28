@@ -24,6 +24,7 @@ struct	pipentry piptab[NPIPE];	/* Pipeline table			*/
 /* Active system status */
 
 int	prcount;		/* Total number of live processes	*/
+int	pipcount;		/* Total number of live processes	*/
 pid32	currpid;		/* ID of currently executing process	*/
 
 /* Memory bounds set by startup.S */
@@ -111,7 +112,9 @@ static	void	sysinit(void)
 
 	/* Count the Null process as the first process in the system */
 
-	prcount = 0;
+	prcount = 1;
+
+	pipcount = 0;
 
 	/* Scheduling is not currently blocked */
 

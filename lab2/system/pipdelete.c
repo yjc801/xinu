@@ -13,7 +13,7 @@ int	pipdelete(
 	intmask	mask;			/* saved interrupt mask		*/
 	int i;		
 	struct	pipentry *piptr;		/* ptr to semaphore table entry	*/
-
+	struct procent *prptr;
 	mask = disable();
 
 	if (isbadpip(pipid)) {
@@ -22,8 +22,9 @@ int	pipdelete(
 	}
 	
 	piptr = &piptab[pipid];
+	prptr = &proctab[currpid];
 
-	if (currpid->prpipid != pipid        // must be the owner of the pipe
+	if (prptr->prpipid != pipid        // must be the owner of the pipe
 		||piptr->pstate == PIPE_FREE) {
 		restore(mask);
 		return SYSERR;
@@ -31,7 +32,7 @@ int	pipdelete(
 
 	pipcount--;
 
-	currpid->prpipid = INIT_PIPID;
+	prptr->prpipid = INIT_PIPID;
 	piptr->pstate = PIPE_FREE;
 	piptr->pwriter = INIT_PID;
 	piptr->preader = INIT_PID;
