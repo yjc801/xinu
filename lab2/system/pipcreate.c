@@ -16,7 +16,8 @@ pipid32	pipcreate(void)
 	mask = disable();
 	// check if this process is a producer or consumer
 
-	if (pipcount > NPIPE) {
+	if (currpid->prpipid != -1
+		|| pipcount > NPIPE) {
 		restore(mask);
 		return SYSERR;
 	}
@@ -30,6 +31,7 @@ pipid32	pipcreate(void)
 			nextpip = 0;
 		if (piptab[pipid].pstate == PIPE_FREE) {
 			piptab[pipid].pstate = PIPE_USED;
+			currpid->prpipid = pipid;  // owner of the pipe
 			restore(mask);
 			return pipid;
 		}

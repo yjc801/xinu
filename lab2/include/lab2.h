@@ -4,7 +4,7 @@
 
 #define PIPE_SIZ 256
 
-typedef	int32	pipid32;		/* semaphore ID				*/
+typedef	int32	pipid32;		/* pipeline ID				*/
 
 /* Pipe state definitions */
 
@@ -17,13 +17,15 @@ typedef	int32	pipid32;		/* semaphore ID				*/
 /* Pipe table entry */
 struct	pipentry	{
 	uint16	pstate;
-	char buff[PIPE_SIZ];
+	pipid32 pwriter;
+	pipid32 preader;
+	char	buffer[PIPE_SIZ];
 };
 
 extern	struct	pipentry piptab[];
 
 #define	isbadpip(s)	((int32)(s) < 0 || (s) >= NPIPE)
 
-extern int32 pipcount;
+extern int32 pipcount;   // number of pipes in use
 
 

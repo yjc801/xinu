@@ -45,6 +45,7 @@ pid32	create(
 
 	prptr->prstate = PR_SUSP;	/* initial state is suspended	*/
 	prptr->prprio = priority;
+	prptr->prpipid = -1;       // initial pip id for the process
 	prptr->prstkptr = (char *)saddr;
 	prptr->prstkbase = (char *)saddr;
 	prptr->prstklen = ssize;

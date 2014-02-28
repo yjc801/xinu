@@ -111,7 +111,7 @@ static	void	sysinit(void)
 
 	/* Count the Null process as the first process in the system */
 
-	prcount = 1;
+	prcount = 0;
 
 	/* Scheduling is not currently blocked */
 
