@@ -26,6 +26,8 @@ struct	pipentry piptab[NPIPE];	/* Pipeline table			*/
 int	prcount;		/* Total number of live processes	*/
 int	pipcount;		/* Total number of live processes	*/
 pid32	currpid;		/* ID of currently executing process	*/
+sid32 sem_empty;
+sid32 sem_full;
 
 /* Memory bounds set by startup.S */
 
@@ -107,8 +109,6 @@ static	void	sysinit(void)
 	struct	sentry	*semptr;	/* prr to semaphore table entry	*/
 	struct	pipentry *piptr;	/* prr to pipeline table entry	*/
 	struct	memblk	*memptr;	/* ptr to memory block		*/
-	sid32 sem_empty;
-	sid32 sem_full;
 	
 	/* Initialize system variables */
 
