@@ -36,6 +36,7 @@ int	pipdelete(
 	piptr->pstate = PIPE_FREE;
 	piptr->pwriter = INIT_PID;
 	piptr->preader = INIT_PID;
+	piptr->buffcount = 0;
 
 	// clear the buffer
 	for (i = 0; i < PIPE_SIZ; i++){

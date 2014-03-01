@@ -26,7 +26,7 @@ int	pipdisconnect(pipid32 pipid)
 	// check whether curr is reader or writer
 	
 	if (piptr->pstate != PIPE_CONNECTED
-		||(piptr->pwriter != currpid 
+		|| (piptr->pwriter != currpid 
 		&& piptr->preader != currpid)) {
 		restore(mask); 
 		return SYSERR;
@@ -39,7 +39,8 @@ int	pipdisconnect(pipid32 pipid)
 		prptr->prpipside = -1;   // disconnect pipe with curr process, reset writer/reader
 		if (piptr->preader == currpid){
 			piptr->preader = INIT_PID;
-		}else{
+		}
+		else{
 			piptr->pwriter = INIT_PID;
 		}
 		restore(mask);
@@ -57,13 +58,15 @@ int	pipdisconnect(pipid32 pipid)
 		piptr->pwriter = INIT_PID;
 	}
 
+	// reset
+	piptr->pstate = PIPE_USED;
+	prptr->prpipside = -1;
+
 	// clean up buffer
+	piptr->buffcount = 0;
 	for (i = 0; i < PIPE_SIZ; i++){
 		piptr->buffer[i] = '\0';
 	}
-
-	piptr->pstate = PIPE_USED;
-	prptr->prpipside = -1;
 
 	restore(mask);
 	return OK;

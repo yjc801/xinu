@@ -107,7 +107,9 @@ static	void	sysinit(void)
 	struct	sentry	*semptr;	/* prr to semaphore table entry	*/
 	struct	pipentry *piptr;	/* prr to pipeline table entry	*/
 	struct	memblk	*memptr;	/* ptr to memory block		*/
-
+	sid32 sem_empty;
+	sid32 sem_full;
+	
 	/* Initialize system variables */
 
 	/* Count the Null process as the first process in the system */
@@ -168,6 +170,10 @@ static	void	sysinit(void)
 		piptr = &piptab[i];
 		piptr->pstate = PIPE_FREE;
 	}
+
+	// Initialize semaphores for pipes
+	sem_empty = semcreate(PIPE_SIZE);
+	sem_full = semcreate(0);
 
 	/* Initialize buffer pools */
 

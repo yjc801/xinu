@@ -36,6 +36,7 @@ pipid32	pipcreate(void)
 			piptab[pipid].pstate = PIPE_USED;
 			piptab[pipid].preader = INIT_PID;
 			piptab[pipid].pwriter = INIT_PID;
+			piptab[pipid].buffcount = 0;
 			prptr->prpipid = pipid;  // owner of the pipe
 			restore(mask);
 			return pipid;

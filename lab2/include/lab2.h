@@ -26,6 +26,8 @@ struct	pipentry	{
 	uint16	pstate;
 	pipid32 pwriter;
 	pipid32 preader;
+	bool8	piphasmsg;
+	int32	buffcount;
 	char	buffer[PIPE_SIZ];
 };
 
