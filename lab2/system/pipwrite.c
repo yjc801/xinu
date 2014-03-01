@@ -9,7 +9,7 @@
 int32	pipwrite(pipid32 pipid, char *buf, uint32 len)
 {
 	intmask	mask;			/* saved interrupt mask		*/
-	int i;
+	//int i;
 	struct pipentry *piptr;
 
 	if (isbadpip(pipid)
