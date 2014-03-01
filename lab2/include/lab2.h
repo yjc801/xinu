@@ -28,7 +28,7 @@ struct	pipentry	{
 	pipid32 preader;
 	bool8	piphasmsg;
 	int32	buffcount;
-	char	buffer[PIPE_SIZ];
+	char	buffer[PIPE_SIZE];
 };
 
 extern	struct	pipentry piptab[];
