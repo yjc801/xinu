@@ -22,6 +22,7 @@ const	struct	cmdent	cmdtab[] = {
 	{"sleep",	FALSE,	xsh_sleep},
 	{"uptime",	FALSE,	xsh_uptime},
 	{"?",		FALSE,	xsh_help}
+	{"gen",		TRUE,	xsh_gen}
 
 };
 

@@ -25,6 +25,8 @@ extern	shellcmd  xsh_ethstat	(int32, char *[]);
 /* in file xsh_exit.c */
 extern	shellcmd  xsh_exit	(int32, char *[]);
 
+extern	shellcmd  xsh_gen	(int32, char *[]);
+
 /* in file xsh_help.c */
 extern	shellcmd  xsh_help	(int32, char *[]);
 

@@ -19,7 +19,8 @@ C_FILES +=	xsh_argecho.c				\
 		xsh_memstat.c				\
 		xsh_ps.c				\
 		xsh_sleep.c				\
-		xsh_uptime.c
+		xsh_uptime.c \
+		xsh_gen.c
 
 
 # Add the files to the compile source path
