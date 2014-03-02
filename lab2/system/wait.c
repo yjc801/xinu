@@ -25,7 +25,6 @@ syscall	wait(
 		restore(mask);
 		return SYSERR;
 	}
-
 	if (--(semptr->scount) < 0) {		/* if caller must block	*/
 		prptr = &proctab[currpid];
 		prptr->prstate = PR_WAIT;	/* set state to waiting	*/

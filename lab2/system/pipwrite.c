@@ -27,34 +27,31 @@ int32	pipwrite(pipid32 pipid, char *buf, uint32 len)
 		return SYSERR;
 	}
 
-	kprintf("I'm the writer\r\n");
-
 	// check if buffer is full, if yes, put on the semaphor
 	// if (piptr->buffcount >= PIPE_SIZE){
 	// }
 
-	int32 count;
+	int32 count, temp;
 	count = 0;
 	// start = piptr->buffcount + 1;
 
-	while (count != len && buf[count] != '\0'){
-	
+	while (count < len){
 		wait(sem_empty);
-		if (piptr->pstate != PIPE_CONNECTED) {
-			restore(mask);
-			return SYSERR;
-		}
-		piptr->buffer[count] = buf[count];
+		temp = count % PIPE_SIZE;
+		piptr->buffer[temp] = buf[count];
 		count++;
 		signal(sem_full);
-	
 	}
-
+	
 	// if reader is in other state? (killed, other state)
 	// signal read if it is waiting
+//	int i;
 
+//	for (i = 0; i < len; i++){
+//		kprintf("********* %c *********\r\n",piptr->buffer[i]);
+//	}
 	// ready
-	kprintf("Finish writing! I have written %d letters.\r\n",count);
+	//kprintf("Finish writing! I have written %d letters.\r\n",count);
 	restore(mask);
 	return count;
 }

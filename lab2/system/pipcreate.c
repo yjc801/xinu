@@ -13,6 +13,7 @@ pipid32	pipcreate(void)
 	struct procent *prptr;
 	static pipid32 nextpip = 0;
 	int32	i;
+	int32 j;
 
 	mask = disable();
 	// check if this process is a producer or consumer
@@ -33,11 +34,13 @@ pipid32	pipcreate(void)
 		if (nextpip >= NPIPE)
 			nextpip = 0;
 		if (piptab[pipid].pstate == PIPE_FREE) {
-			kprintf("Creating PIPE........\n");
 			piptab[pipid].pstate = PIPE_USED;
 			piptab[pipid].preader = INIT_PID;
 			piptab[pipid].pwriter = INIT_PID;
 			piptab[pipid].buffcount = 0;
+			for (j = 0; j < PIPE_SIZE; j++){
+				piptab[pipid].buffer[j] = '\0';
+			}
 			prptr->prpipid = pipid;  // owner of the pipe
 			restore(mask);
 			return pipid;
