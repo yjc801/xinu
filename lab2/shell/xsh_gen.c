@@ -17,12 +17,12 @@ shellcmd xsh_gen(int nargs, char *args[]) {
 	// char	*chptr;			/* walks along argument string	*/
 
 	/* Output info for '--help' argument */
-	if (nargs < 2){
-		printf("%s\n", args[0]);
-	}else{
-		printf("More than 2 args.\n");
+	if (nargs != 1){
+		fprintf(stderr, "%s: incorrect argument\n", args[0]);
+		// fprintf(stderr, "Try '%s --help' for more information\n", args[0]);
+		return SYSERR;
 	}
-
+	fprintf(stderr, "%d\n", rand());
 	// if (nargs == 2 && strncmp(args[1], "--help", 7) == 0) {
 	// 	printf("Usage: %s PID\n\n", args[0]);
 	// 	printf("Description:\n");
