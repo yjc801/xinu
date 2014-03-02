@@ -3,7 +3,8 @@
 #include <xinu.h>
 #include <string.h>
 #include <stdio.h>
-// #include <wordlist.h>
+#include <stdlib.h>
+#include <wordlist.h>
 
 /*------------------------------------------------------------------------
  * xsh_gen - generate words
@@ -17,12 +18,20 @@ shellcmd xsh_gen(int nargs, char *args[]) {
 	// char	*chptr;			/* walks along argument string	*/
 
 	/* Output info for '--help' argument */
-	if (nargs != 1){
-		fprintf(stderr, "%s: incorrect argument\n", args[0]);
+	//if (nargs != 1){
+	//	fprintf(stderr, "%s: incorrect argument\n", args[0]);
 		// fprintf(stderr, "Try '%s --help' for more information\n", args[0]);
-		return SYSERR;
+	//	return SYSERR;
+	//}
+	char word[5];
+	int i;
+
+	for (i = 0; i < 5; i++){
+		word[i] = words[rand() % 2048][i];
 	}
-	fprintf(stderr, "%d\n", rand());
+
+	fprintf(stderr, "%s\n", word);
+	fprintf(stderr, "%d\n", nargs);
 	// if (nargs == 2 && strncmp(args[1], "--help", 7) == 0) {
 	// 	printf("Usage: %s PID\n\n", args[0]);
 	// 	printf("Description:\n");
