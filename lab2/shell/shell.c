@@ -237,6 +237,7 @@ process	shell (
 
 		// if has a second command
 		if (cmp2 != NULL){
+			fprintf(dev, "%s\n", cmp2);
 			for (j = 0; j < ncmd; j++) {
 				src = cmdtab[j].cname;
 				diff = FALSE;
