@@ -22,8 +22,8 @@ int main(int argc, char **argv)
 	pipid = pipcreate();
 	kprintf("Pipe ID is %d\r\n", pipid);
 	kprintf("number of pipes %d\r\n", pipcount);
-	pipdelete(pipid);
-	kprintf("number of pipes %d\r\n", pipcount);
+//	pipdelete(pipid);
+//	kprintf("number of pipes %d\r\n", pipcount);
 	prA = create(prchP, 2000, 1, "proc A", 2, 'A', 'A');
 	prB = create(prchT, 2000, 1, "proc B", 2, 'B', 'B');
 	printf("Connected? %d\r\n",pipconnect(pipid,prA,prB));
@@ -54,7 +54,7 @@ void prchP(char c, char d){
 	kprintf("Proc %c ends! \r\n", c);
 }
 
-void prchP(char c, char d){
+void prchT(char c, char d){
 	kprintf("Proc %c starts!\r\n", c);
 	int i;
 	//chprio(getpid(),10);

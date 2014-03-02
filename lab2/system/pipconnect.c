@@ -22,13 +22,12 @@ int	pipconnect(pipid32 pipid, pid32 writer, pid32 reader)
 		restore(mask);
 		return SYSERR;
 	}
-
 	piptr = &piptab[pipid];
 	prptr_writer = &proctab[writer];
 	prptr_reader = &proctab[reader];
 
 // check if the pipe has already been connected
-
+	
 	if (piptr->pstate != PIPE_USED 
 		|| piptr->pwriter != INIT_PID
 		|| piptr->preader != INIT_PID) {
@@ -43,7 +42,6 @@ int	pipconnect(pipid32 pipid, pid32 writer, pid32 reader)
 		restore(mask);
 		return SYSERR;
 	}
-
 
 	// update processes
 	prptr_writer->prpipside = PIPE_WRITER;

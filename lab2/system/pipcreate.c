@@ -33,6 +33,7 @@ pipid32	pipcreate(void)
 		if (nextpip >= NPIPE)
 			nextpip = 0;
 		if (piptab[pipid].pstate == PIPE_FREE) {
+			kprintf("Creating PIPE........\n");
 			piptab[pipid].pstate = PIPE_USED;
 			piptab[pipid].preader = INIT_PID;
 			piptab[pipid].pwriter = INIT_PID;
