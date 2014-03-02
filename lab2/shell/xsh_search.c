@@ -9,7 +9,7 @@
  * xsh_gen - generate words
  *------------------------------------------------------------------------
  */
-shellcmd xsh_gen(int nargs, char *args[]) {
+shellcmd xsh_search(int nargs, char *args[]) {
 
 	// int32	retval;			/* return value			*/
 	// pid32	pid;			/* ID of process to kill	*/
