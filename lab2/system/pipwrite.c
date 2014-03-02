@@ -54,7 +54,7 @@ int32	pipwrite(pipid32 pipid, char *buf, uint32 len)
 	// signal read if it is waiting
 
 	// ready
-	kprintf("Finish reading\r\n");
+	kprintf("Finish writing! I have written %d letters.\r\n",count);
 	restore(mask);
 	return count;
 }
