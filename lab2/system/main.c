@@ -55,19 +55,19 @@ void writer(pipid32 pip, int len){
 
 void reader(pipid32 pip, int len) {
 	kprintf("[Rd]: rd %d chars\r\n", len);
-	int length = 0;
-	char mybuf[7500];
-	int mylen;
+	// int length = 0;
+	// char mybuf[7500];
+	// int mylen;
 	
-	while (length < 7500) {
-		mylen = pipread(pip, &mybuf[length], 7500-length);
-		if (SYSERR == mylen) {
-			kprintf("[rd]: Sucks!\r\n");
-		break;
-		}
-		length += mylen;
-	}
+	// while (length < 7500) {
+	// 	mylen = pipread(pip, &mybuf[length], 7500-length);
+	// 	if (SYSERR == mylen) {
+	// 		kprintf("[rd]: Sucks!\r\n");
+	// 		break;
+	// 	}
+	// 	length += mylen;
+	// }
 	
-	kprintf("[reader]: string-- %s\r\n", mybuf);
+	// kprintf("[reader]: string-- %s\r\n", mybuf);
 	return;
 }

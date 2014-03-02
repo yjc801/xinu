@@ -27,6 +27,8 @@ int32	pipwrite(pipid32 pipid, char *buf, uint32 len)
 		return SYSERR;
 	}
 
+	kprintf("I'm the writer\r\n");
+
 	// check if buffer is full, if yes, put on the semaphor
 	// if (piptr->buffcount >= PIPE_SIZE){
 	// }
@@ -52,7 +54,7 @@ int32	pipwrite(pipid32 pipid, char *buf, uint32 len)
 	// signal read if it is waiting
 
 	// ready
-
+	kprintf("Finish reading\r\n");
 	restore(mask);
 	return count;
 }
