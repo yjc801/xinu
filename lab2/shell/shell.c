@@ -124,7 +124,6 @@ process	shell (
 
 		if (ntok == SYSERR) {
 			fprintf(dev,"%s\n", SHELL_SYNERRMSG);
-			fprintf(dev,"Check1\n");
 			continue;
 		}
 
@@ -188,6 +187,14 @@ process	shell (
 			tlen = tok[ntok] - 1;
 		}
 
+		if (ntok == 3 && toktyp[1] == SH_TOK_PIPE){
+			inname = &tokbuf[tok[0]];
+			outname = &tokbuf[tok[2]];
+			fprintf(stderr, "%s\n", inname);
+			fprintf(stderr, "%s\n", outname);
+			ntok -= 2;
+		}
+
 		/* Verify remaining tokens are type "other" */
 
 		for (i=0; i<ntok; i++) {
@@ -198,6 +205,8 @@ process	shell (
 		if ((ntok == 0) || (i < ntok)) {
 			fprintf(dev, SHELL_SYNERRMSG);
 			fprintf(dev,"Check2\n");
+			fprintf(dev,"%d\n",ntok);
+			fprintf(dev,"%d\n",i);
 			continue;
 		}
 
@@ -258,12 +267,9 @@ process	shell (
 
 		// if "gen | search"
 
-		if (ntok == 3 && toktyp[1] == SH_TOK_PIPE){
+		// if (ntok == 3 && toktyp[1] == SH_TOK_PIPE){
 
-			inname = &tokbuf[tok[0]];
-			outname = &tokbuf[tok[2]];
-			fprintf(stderr, "%s\n", inname);
-			fprintf(stderr, "%s\n", outname);
+
 			// pipid32 pip;
 			// pid32 wrpid, repid;
 
@@ -281,8 +287,8 @@ process	shell (
 			// kprintf("[main]: Pipe connected!\r\n");
 			// resume(wrpid);
 			// resume(repid);
-			continue;
-		}
+			// continue;
+		// }
 
 		child = create(cmdtab[j].cfunc,
 			SHELL_CMDSTK, SHELL_CMDPRIO,
