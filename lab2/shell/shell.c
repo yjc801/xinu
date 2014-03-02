@@ -124,6 +124,7 @@ process	shell (
 
 		if (ntok == SYSERR) {
 			fprintf(dev,"%s\n", SHELL_SYNERRMSG);
+			fprintf(dev,"Check1\n");
 			continue;
 		}
 
@@ -196,6 +197,7 @@ process	shell (
 		}
 		if ((ntok == 0) || (i < ntok)) {
 			fprintf(dev, SHELL_SYNERRMSG);
+			fprintf(dev,"Check2\n");
 			continue;
 		}
 
