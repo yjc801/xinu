@@ -23,7 +23,7 @@ const	struct	cmdent	cmdtab[] = {
 	{"uptime",	FALSE,	xsh_uptime},
 	{"?",		FALSE,	xsh_help},
 	{"gen",		FALSE,	xsh_gen},
-	{"search",		FALSE,	xsh_search}
+	{"search",	FALSE,	xsh_search}
 };
 
 uint32	ncmd = sizeof(cmdtab) / sizeof(struct cmdent);
@@ -253,6 +253,34 @@ process	shell (
 		}
 
 		/* Spawn child thread for non-built-in commands */
+
+		// if "gen | search"
+
+		if (ntok == 3 && toktyp[1] == SH_TOK_PIPE){
+
+			inname = &tokbuf[tok[0]];
+			outname = &tokbuf[tok[2]];
+			fprintf(stderr, "%s\n", inname);
+			fprintf(stderr, "%s\n", outname);
+			// pipid32 pip;
+			// pid32 wrpid, repid;
+
+			// pip = pipcreate();
+			// if (SYSERR == pip){
+			// 	fprintf(dev, "Unable to create pipeline\n");
+			// 	continue;
+			// }
+			// wrpid = create(xsh_gen, 2048, 20, "gen", 1, pip);
+			// repid = create(xsh_search, 2048, 20, "search", 1, pip);
+			// if (SYSERR == pipconnect(pip, wrpid, repid)) {
+			// 	fprintf(dev, "Unable to connect\n");
+			// 	continue;
+			// }
+			// kprintf("[main]: Pipe connected!\r\n");
+			// resume(wrpid);
+			// resume(repid);
+			continue;
+		}
 
 		child = create(cmdtab[j].cfunc,
 			SHELL_CMDSTK, SHELL_CMDPRIO,

@@ -25,57 +25,20 @@ shellcmd xsh_gen(int nargs, char *args[]) {
 	//}
 	char word[5];
 	int i;
+	pipid32 pip;
+
+	pip = args[1];
 
 	for (i = 0; i < 5; i++){
 		word[i] = words[rand() % 2048][i];
 	}
 
 	fprintf(stderr, "%s\n", word);
-	fprintf(stderr, "%d\n", nargs);
-	// if (nargs == 2 && strncmp(args[1], "--help", 7) == 0) {
-	// 	printf("Usage: %s PID\n\n", args[0]);
-	// 	printf("Description:\n");
-	// 	printf("\tterminates a process\n");
-	// 	printf("Options:\n");
-	// 	printf("\tPID \tthe ID of a process to terminate\n");
-	// 	printf("\t--help\tdisplay this help and exit\n");
-	// 	return OK;
-	// }
 
-	// /* Check argument count */
+	if (SYSERR == pipwrite(pip, word, 5){
+		fprintf(stderr, "Unable to write into the pipeline\n");
+		return SYSERR;
+	}
 
-	// if (nargs != 2) {
-	// 	fprintf(stderr, "%s: incorrect argument\n", args[0]);
-	// 	fprintf(stderr, "Try '%s --help' for more information\n",
-	// 		args[0]);
-	// 	return SYSERR;
-	// }
-
-	// // compute process ID from argument string 
-
-	// chptr = args[1];
-	// ch = *chptr++;
-	// pid = 0;
-	// while(ch != NULLCH) {
-	// 	if ( (ch < '0') || (ch > '9') ) {
-	// 		fprintf(stderr, "%s: non-digit in process ID\n",
-	// 			args[0]);
-	// 		return 1;
-	// 	}
-	// 	pid = 10*pid + (ch - '0');
-	// 	ch = *chptr++;
-	// }
-	// if (pid == 0) {
-	// 	fprintf(stderr, "%s: cannot kill the null process\n",
-	// 		args[0]);
-	// 	return 1;
-	// }
-
-	// retval = kill(pid);
-	// if (retval == SYSERR) {
-	// 	fprintf(stderr, "%s: cannot kill process %d\n",
-	// 		args[0], pid);
-	// 	return 1;
-	// }
 	return 0;
 }

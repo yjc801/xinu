@@ -90,6 +90,13 @@ int32	lexan (
 					p++;
 					continue;
 
+		    case SH_PIPE:	toktyp[ntok] = SH_TOK_PIPE;
+					tokbuf[tbindex++] = ch;
+					tokbuf[tbindex++] = NULLCH;
+					ntok++;
+					p++;
+					continue;
+
 		    default:		toktyp[ntok] = SH_TOK_OTHER;
 		};
 

@@ -46,6 +46,7 @@
 #define	SH_DQUOTE	'"'		/* double quote character	*/
 #define	SH_LESS		'<'		/* less-than character	*/
 #define	SH_GREATER	'>'		/* greater-than character	*/
+#define	SH_PIPE	'|'		/* PIPE character	*/
 
 /* Token types */
 
@@ -53,6 +54,8 @@
 #define	SH_TOK_LESS	1		/* less-than token		*/
 #define	SH_TOK_GREATER	2		/* greater-than token		*/
 #define	SH_TOK_OTHER	3		/* token other than those	*/
+#define	SH_TOK_PIPE	4		/* PIPE token	*/
+
 					/*   listed above (e.g., an	*/
 					/*   alphanumeric string)	*/
 
