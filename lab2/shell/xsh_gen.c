@@ -3,7 +3,7 @@
 #include <xinu.h>
 #include <string.h>
 #include <stdio.h>
-#include <wordlist.h>
+// #include <wordlist.h>
 
 /*------------------------------------------------------------------------
  * xsh_gen - generate words
