@@ -294,18 +294,11 @@ process	shell (
 			SHELL_CMDSTK, SHELL_CMDPRIO,
 			cmdtab[j].cname, 2, ntok, &tmparg);
 		
-		pid32 child2;
-		child2 = 1;
-		if (cmp2 != NULL){
-			child2 = create(cmdtab[k].cfunc,
-				SHELL_CMDSTK, SHELL_CMDPRIO,
-				cmdtab[k].cname, 2, 1, pip);
-		}
+
 		
 		/* If creation or argument copy fails, report error */
 
 		if ((child == SYSERR) ||
-			(child2 == SYSERR) ||
 		    (addargs(child, ntok, tok, tlen, tokbuf, &tmparg)
 							== SYSERR) ) {
 			fprintf(dev, SHELL_CREATMSG);
@@ -328,7 +321,16 @@ process	shell (
 
 		// if has "|", spawn the second command
 		if (cmp2 != NULL){
+			pid32 child2;
 			pipid32 pip;
+
+			child2 = create(cmdtab[k].cfunc, SHELL_CMDSTK, SHELL_CMDPRIO, cmdtab[k].cname, 2, 1, pip);
+			
+			if (child == SYSERR) {
+				fprintf(dev, SHELL_CREATMSG);
+				continue;
+			}
+
 			pip = pipcreate();
 
 			if (SYSERR == pip){
