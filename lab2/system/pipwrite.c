@@ -45,13 +45,7 @@ int32	pipwrite(pipid32 pipid, char *buf, uint32 len)
 	
 	// if reader is in other state? (killed, other state)
 	// signal read if it is waiting
-//	int i;
 
-//	for (i = 0; i < len; i++){
-//		kprintf("********* %c *********\r\n",piptr->buffer[i]);
-//	}
-	// ready
-	//kprintf("Finish writing! I have written %d letters.\r\n",count);
 	restore(mask);
 	return count;
 }

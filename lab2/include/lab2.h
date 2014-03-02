@@ -2,7 +2,7 @@
 #define NPIPE 10
 #endif
 
-#define PIPE_SIZE 2
+#define PIPE_SIZE 256
 
 #define PIPE_WRITER 0
 #define PIPE_READER 1
