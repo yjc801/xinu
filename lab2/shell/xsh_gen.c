@@ -11,10 +11,10 @@
  */
 shellcmd xsh_gen(int nargs, char *args[]) {
 
-	int32	retval;			/* return value			*/
-	pid32	pid;			/* ID of process to kill	*/
-	char	ch;			/* next character of argument	*/
-	char	*chptr;			/* walks along argument string	*/
+	// int32	retval;			/* return value			*/
+	// pid32	pid;			/* ID of process to kill	*/
+	// char	ch;			/* next character of argument	*/
+	// char	*chptr;			/* walks along argument string	*/
 
 	/* Output info for '--help' argument */
 	if (nargs < 2){
