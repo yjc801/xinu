@@ -24,7 +24,7 @@ shellcmd xsh_gen(int nargs, char *args[]) {
 	//	return SYSERR;
 	//}
 	char word[5];
-	// int i;
+	int i;
 	// pipid32 pip;
 
 	// pip = args[1];
