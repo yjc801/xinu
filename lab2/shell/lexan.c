@@ -133,7 +133,7 @@ int32	lexan (
 			&& (ch != SH_LESS)  && (ch != SH_GREATER)
 			&& (ch != SH_BLANK) && (ch != SH_TAB)
 			&& (ch != SH_AMPER) && (ch != SH_SQUOTE)
-			&& (ch != SH_DQUOTE) )	{
+			&& (ch != SH_DQUOTE) && (ch != SH_PIPE) )	{
 				tokbuf[tbindex++] = ch;
 				p++;
 		}
@@ -141,7 +141,7 @@ int32	lexan (
 		/* Report error if other token is appended */
 
 		if (       (ch == SH_SQUOTE) || (ch == SH_DQUOTE)
-			|| (ch == SH_LESS)   || (ch == SH_GREATER) ) {
+			|| (ch == SH_LESS)   || (ch == SH_GREATER) || (ch == SH_PIPE)) {
 			return SYSERR;
 		}
 
