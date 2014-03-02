@@ -74,7 +74,7 @@ process	shell (
 	int32	tmparg;			/* address of this var is used	*/
 					/*   when first creating child	*/
 					/*   process, but is replaced	*/
-	char	*src, *cmp;		/* ptrs using during name	*/
+	char	*src, *cmp, *cmp2;		/* ptrs using during name	*/
 					/*   comparison			*/
 	bool8	diff;			/* was difference found during	*/
 					/*   comparison			*/
