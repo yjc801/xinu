@@ -119,7 +119,7 @@ process	shell (
 		/* Parse input line and divide into tokens */
 
 		ntok = lexan(buf, len, tokbuf, &tlen, tok, toktyp);
-
+		
 		/* Handle parsing error */
 
 		if (ntok == SYSERR) {
@@ -287,3 +287,4 @@ process	shell (
     fprintf(dev,SHELL_EXITMSG);
     return OK;
 }
+
