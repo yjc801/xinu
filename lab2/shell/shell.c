@@ -237,9 +237,11 @@ process	shell (
 
 		// if has a second command
 		if (cmp2 != NULL){
-			fprintf(dev, "%s\n", cmp2);
-			for (j = 0; j < ncmd; j++) {
-				src = cmdtab[j].cname;
+			int32 k;
+			char *temp = cmp2;
+			for (k = 0; k < ncmd; k++) {
+				src = cmdtab[k].cname;
+				cmp2 = temp;
 				diff = FALSE;
 				while (*src != NULLCH) {
 					if (*cmp2 != *src) {
@@ -256,7 +258,7 @@ process	shell (
 				}
 			}
 
-			if (j >= ncmd) {
+			if (k >= ncmd) {
 				fprintf(dev, "command %s not found\n", cmp2);
 				continue;
 			}
@@ -317,6 +319,18 @@ process	shell (
 			SHELL_CMDSTK, SHELL_CMDPRIO,
 			cmdtab[j].cname, 2, ntok, &tmparg);
 
+		// if has "|", spawn the second command
+		if (cmp2 != NULL){
+		pid32 child2;
+		child2 = create(cmdtab[k].cfunc,
+			SHELL_CMDSTK, SHELL_CMDPRIO,
+			cmdtab[k].cname, 2, ntok, &tmparg);
+		// create a pipe
+
+		// connect two process
+		
+		}
+		
 		/* If creation or argument copy fails, report error */
 
 		if ((child == SYSERR) ||
