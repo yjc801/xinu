@@ -290,50 +290,22 @@ process	shell (
 
 		/* Spawn child thread for non-built-in commands */
 
-		// if "gen | search"
-
-		// if (ntok == 3 && toktyp[1] == SH_TOK_PIPE){
-
-
-			// pipid32 pip;
-			// pid32 wrpid, repid;
-
-			// pip = pipcreate();
-			// if (SYSERR == pip){
-			// 	fprintf(dev, "Unable to create pipeline\n");
-			// 	continue;
-			// }
-			// wrpid = create(xsh_gen, 2048, 20, "gen", 1, pip);
-			// repid = create(xsh_search, 2048, 20, "search", 1, pip);
-			// if (SYSERR == pipconnect(pip, wrpid, repid)) {
-			// 	fprintf(dev, "Unable to connect\n");
-			// 	continue;
-			// }
-			// kprintf("[main]: Pipe connected!\r\n");
-			// resume(wrpid);
-			// resume(repid);
-			// continue;
-		// }
-
 		child = create(cmdtab[j].cfunc,
 			SHELL_CMDSTK, SHELL_CMDPRIO,
 			cmdtab[j].cname, 2, ntok, &tmparg);
-
-		// if has "|", spawn the second command
-		if (cmp2 != NULL){
-		pid32 child2;
-		child2 = create(cmdtab[k].cfunc,
-			SHELL_CMDSTK, SHELL_CMDPRIO,
-			cmdtab[k].cname, 2, ntok, &tmparg);
-		// create a pipe
-
-		// connect two process
 		
+		pid32 child2;
+		child2 = 1;
+		if (cmp2 != NULL){
+			child2 = create(cmdtab[k].cfunc,
+				SHELL_CMDSTK, SHELL_CMDPRIO,
+				cmdtab[k].cname, 2, 1, pip);
 		}
 		
 		/* If creation or argument copy fails, report error */
 
 		if ((child == SYSERR) ||
+			(child2 == SYSERR) ||
 		    (addargs(child, ntok, tok, tlen, tokbuf, &tmparg)
 							== SYSERR) ) {
 			fprintf(dev, SHELL_CREATMSG);
@@ -352,6 +324,26 @@ process	shell (
 			while (msg != child) {
 				msg = receive();
 			}
+		}
+
+		// if has "|", spawn the second command
+		if (cmp2 != NULL){
+			pipid32 pip;
+			pip = pipcreate();
+
+			if (SYSERR == pip){
+				fprintf(dev, "Unable to create pipeline\n");
+				continue;
+			}
+
+			if (SYSERR == pipconnect(pip, child, child2)) {
+				fprintf(dev, "Unable to connect\n");
+				continue;
+			}
+
+			fprintf(dev,"[main]: Pipe connected!\r\n");
+			resume(child2);
+			continue;
 		}
     }
 
