@@ -30,7 +30,7 @@ int32	pipread(pipid32 pipid, char *buf, uint32 len)
 	int32 count;
 	count = 0;
 
-	while (count != len){
+	while (count != len && piptr->buffer[count] != '\0'){
 	
 		wait(sem_full);
 		if (piptr->pstate != PIPE_CONNECTED) {

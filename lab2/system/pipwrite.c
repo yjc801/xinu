@@ -35,7 +35,7 @@ int32	pipwrite(pipid32 pipid, char *buf, uint32 len)
 	count = 0;
 	// start = piptr->buffcount + 1;
 
-	while (count != len){
+	while (count != len && buf[count] != '\0'){
 	
 		wait(sem_empty);
 		if (piptr->pstate != PIPE_CONNECTED) {

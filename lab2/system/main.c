@@ -8,58 +8,66 @@
 /* main - main program for testing Xinu					*/
 /*									*/
 /************************************************************************/
-void prchP(char, char);
-void prchT(char, char);
-int prA, prB;
-int round;
+void writer(pipid32, int);
+void reader(pipid32, int);
+char words[20] = "Hello world!";
 
 int main(int argc, char **argv)
 {
-//	umsg32 retval;
-	round = 10;
-	pipid32 pipid;
+	pipid32 pip;
+	pid32 wrpid;
+	pid32 repid;
+
+	pip = pipcreate();
 	
-	pipid = pipcreate();
-	kprintf("Pipe ID is %d\r\n", pipid);
-	kprintf("number of pipes %d\r\n", pipcount);
-//	pipdelete(pipid);
-//	kprintf("number of pipes %d\r\n", pipcount);
-	prA = create(prchP, 2000, 1, "proc A", 2, 'A', 'A');
-	prB = create(prchT, 2000, 1, "proc B", 2, 'B', 'B');
-	printf("Connected? %d\r\n",pipconnect(pipid,prA,prB));
-	// resume(prA);
-	// resume(prB);
-
-	/* Creating a shell process */
-
-	// resume(create(shell, 4096, 1, "shell", 1, CONSOLE));
-
-	// retval = recvclr();
-	// while (TRUE) {
-		// retval = receive();
-		// kprintf("\n\n\rMain process recreating shell\n\n\r");
-		// resume(create(shell, 4096, 1, "shell", 1, CONSOLE));
-	// }
-
+	if (SYSERR == pip)
+		return 1;
+	
+	wrpid = create(writer, 2048, 20, "writer", 2, pip, 5);
+	repid = create(reader, 2048, 20, "reader", 2, pip, 5);
+	
+	if (SYSERR == pipconnect(pip, wrpid, repid)) {
+		return 1;
+	}
+	
+	kprintf("[main]: Pipe connected!\r\n");
+	resume(wrpid);
+	resume(repid);
+	sleepms(1000);
+	// kprintf("the string: %s\r\n", words);
+	while(1) {
+		sleep(100);
+	}
 	return OK;
 }
 
-void prchP(char c, char d){
-	kprintf("Proc %c starts!\r\n", c);
-	int i;
-	//chprio(getpid(),10);
-	for(i=0; i<round; i++){
-		kprintf("%c", d);
+void writer(pipid32 pip, int len){
+	kprintf("[wr]: wr %d chars\r\n", len);
+	if (SYSERR == pipwrite(pip, words, 7500)) {
+		kprintf("[wr]: Sucks!\r\n");
 	}
-	kprintf("Proc %c ends! \r\n", c);
+
+	if (SYSERR == pipdisconnect(pip)) {
+		kprintf("[wr]: disc suck\r\n");
+	}
+	return;
 }
 
-void prchT(char c, char d){
-	kprintf("Proc %c starts!\r\n", c);
-	int i;
-	//chprio(getpid(),10);
-	for(i=0; i<round; i++){
-		kprintf("%c", d);
+void reader(pipid32 pip, int len) {
+	kprintf("[Rd]: rd %d chars\r\n", len);
+	int length = 0;
+	char mybuf[7500];
+	int mylen;
+	
+	while (length < 7500) {
+		mylen = pipread(pip, &mybuf[length], 7500-length);
+		if (SYSERR == mylen) {
+			kprintf("[rd]: Sucks!\r\n");
+		break;
+		}
+		length += mylen;
 	}
-	kprintf("Proc %c ends! \r\n", c);
+	
+	kprintf("[reader]: string-- %s\r\n", mybuf);
+	return;
 }
