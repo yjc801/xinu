@@ -239,7 +239,6 @@ process	shell (
 		if (cmp2 != NULL){
 			for (j = 0; j < ncmd; j++) {
 				src = cmdtab[j].cname;
-				cmp2 = tokbuf;
 				diff = FALSE;
 				while (*src != NULLCH) {
 					if (*cmp2 != *src) {
@@ -255,12 +254,13 @@ process	shell (
 					break;
 				}
 			}
+
+			if (j >= ncmd) {
+				fprintf(dev, "command %s not found\n", cmp2);
+				continue;
+			}
 		}
 
-		if (j >= ncmd) {
-			fprintf(dev, "command %s not found\n", tokbuf);
-			continue;
-		}
 
 		/* Handle built-in command */
 
