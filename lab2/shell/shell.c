@@ -187,11 +187,9 @@ process	shell (
 			tlen = tok[ntok] - 1;
 		}
 
+		cmp2 = NULL;
 		if (ntok == 3 && toktyp[1] == SH_TOK_PIPE){
-			inname = &tokbuf[tok[0]];
-			outname = &tokbuf[tok[2]];
-			fprintf(stderr, "%s\n", inname);
-			fprintf(stderr, "%s\n", outname);
+			cmp2 = &tokbuf[tok[2]];
 			ntok -= 2;
 		}
 
@@ -204,9 +202,6 @@ process	shell (
 		}
 		if ((ntok == 0) || (i < ntok)) {
 			fprintf(dev, SHELL_SYNERRMSG);
-			fprintf(dev,"Check2\n");
-			fprintf(dev,"%d\n",ntok);
-			fprintf(dev,"%d\n",i);
 			continue;
 		}
 
@@ -234,6 +229,33 @@ process	shell (
 		}
 
 		/* Handle command not found */
+
+		if (j >= ncmd) {
+			fprintf(dev, "command %s not found\n", tokbuf);
+			continue;
+		}
+
+		// if has a second command
+		if (cmp2 != NULL){
+			for (j = 0; j < ncmd; j++) {
+				src = cmdtab[j].cname;
+				cmp2 = tokbuf;
+				diff = FALSE;
+				while (*src != NULLCH) {
+					if (*cmp2 != *src) {
+						diff = TRUE;
+						break;
+					}
+					src++;
+					cmp2++;
+				}
+				if (diff || (*cmp2 != NULLCH)) {
+					continue;
+				} else {
+					break;
+				}
+			}
+		}
 
 		if (j >= ncmd) {
 			fprintf(dev, "command %s not found\n", tokbuf);
