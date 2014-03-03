@@ -305,20 +305,6 @@ process	shell (
 			continue;
 		}
 
-		/* Set stdinput and stdoutput in child to redirect I/O */
-
-		proctab[child].prdesc[0] = stdinput;
-		proctab[child].prdesc[1] = stdoutput;
-
-		msg = recvclr();
-		resume(child);
-		if (! backgnd) {
-			msg = receive();
-			while (msg != child) {
-				msg = receive();
-			}
-		}
-
 		// if has "|", spawn the second command
 		if (cmp2 != NULL){
 			pid32 child2;
@@ -345,7 +331,20 @@ process	shell (
 
 			fprintf(dev,"[main]: Pipe connected!\r\n");
 			resume(child2);
-			continue;
+		}
+
+		/* Set stdinput and stdoutput in child to redirect I/O */
+
+		proctab[child].prdesc[0] = stdinput;
+		proctab[child].prdesc[1] = stdoutput;
+
+		msg = recvclr();
+		resume(child);
+		if (! backgnd) {
+			msg = receive();
+			while (msg != child) {
+				msg = receive();
+			}
 		}
     }
 
