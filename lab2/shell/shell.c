@@ -69,6 +69,7 @@ process	shell (
 					/*   input and output		*/
 	int32	i;			/* index into array of tokens	*/
 	int32	j;			/* index into array of commands	*/
+	int32	k;			/* index into array of commands	*/
 	int32	msg;			/* message from receive() for	*/
 					/*   child termination		*/
 	int32	tmparg;			/* address of this var is used	*/
@@ -237,7 +238,6 @@ process	shell (
 
 		// if has a second command
 		if (cmp2 != NULL){
-			int32 k;
 			char *temp = cmp2;
 			for (k = 0; k < ncmd; k++) {
 				src = cmdtab[k].cname;
@@ -337,7 +337,7 @@ process	shell (
 				fprintf(dev, "Unable to create pipeline\n");
 				continue;
 			}
-
+			fprintf(dev,"pip %d child %d child2 %d\n",pip, child,child2);
 			if (SYSERR == pipconnect(pip, child, child2)) {
 				fprintf(dev, "Unable to connect\n");
 				continue;
