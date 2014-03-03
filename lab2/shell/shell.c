@@ -299,9 +299,8 @@ process	shell (
 				fprintf(dev, "Unable to create pipeline\n");
 				continue;
 			}
-			
-			child = create(cmdtab[j].cfunc, SHELL_CMDSTK, SHELL_CMDPRIO, cmdtab[j].cname, 1, pip);
-			child2 = create(cmdtab[k].cfunc, SHELL_CMDSTK, SHELL_CMDPRIO, cmdtab[k].cname, 1, pip);
+			child = create(cmdtab[k].cfunc, SHELL_CMDSTK, SHELL_CMDPRIO, cmdtab[k].cname, 2, 1, pip);
+			child2 = create(cmdtab[j].cfunc, SHELL_CMDSTK, SHELL_CMDPRIO, cmdtab[j].cname, 2, 1, pip);
 
 			if (SYSERR == pipconnect(pip, child, child2)) {
 				fprintf(dev, "Unable to connect\n");
@@ -311,8 +310,7 @@ process	shell (
 			fprintf(dev,"[main]: Pipe connected!\r\n");
 			resume(child);
 			resume(child2);
-			continue;
-		}
+		}else{
 
 		/* Spawn child thread for non-built-in commands */
 
@@ -344,6 +342,7 @@ process	shell (
 				msg = receive();
 			}
 		}
+	}
     }
 
     /* Close shell */
