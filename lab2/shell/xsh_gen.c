@@ -30,8 +30,7 @@ shellcmd xsh_gen(int nargs, char *args[]) {
 //	pip = (pipid32)args[0];
 
 	fprintf(stderr, "%d\n", nargs);
-	fprintf(stderr, "%s\n", args[0]);
-	fprintf(stderr, "%s\n", args[1]);
+//	fprintf(stderr, "%s\n", args[1]);
 
 	for (i = 0; i < 5; i++){
 		word[i] = words[rand() % 2048][i];

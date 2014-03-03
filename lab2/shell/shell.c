@@ -75,7 +75,7 @@ process	shell (
 	int32	tmparg;			/* address of this var is used	*/
 					/*   when first creating child	*/
 					/*   process, but is replaced	*/
-	char	*src, *cmp, *cmp2;		/* ptrs using during name	*/
+	char	*src, *cmp, *cmp2, *temp;		/* ptrs using during name	*/
 					/*   comparison			*/
 	bool8	diff;			/* was difference found during	*/
 					/*   comparison			*/
@@ -238,7 +238,7 @@ process	shell (
 
 		// if has a second command
 		if (cmp2 != NULL){
-			char *temp = cmp2;
+			temp = cmp2;
 			for (k = 0; k < ncmd; k++) {
 				src = cmdtab[k].cname;
 				cmp2 = temp;
@@ -259,7 +259,7 @@ process	shell (
 			}
 
 			if (k >= ncmd) {
-				fprintf(dev, "command %s not found\n", cmp2);
+				fprintf(dev, "command %s not found\n", temp);
 				continue;
 			}
 		}
@@ -299,18 +299,22 @@ process	shell (
 				fprintf(dev, "Unable to create pipeline\n");
 				continue;
 			}
-			child = create(cmdtab[k].cfunc, SHELL_CMDSTK, SHELL_CMDPRIO, cmdtab[k].cname, 2, 1, pip);
-			child2 = create(cmdtab[j].cfunc, SHELL_CMDSTK, SHELL_CMDPRIO, cmdtab[j].cname, 2, 1, pip);
-
+			
+			child = create(cmdtab[j].cfunc, SHELL_CMDSTK, SHELL_CMDPRIO, cmdtab[j].cname, 2, 1, pip);
+			child2 = create(cmdtab[k].cfunc, SHELL_CMDSTK, SHELL_CMDPRIO, cmdtab[k].cname, 2, 1, pip);
+			
 			if (SYSERR == pipconnect(pip, child, child2)) {
 				fprintf(dev, "Unable to connect\n");
 				continue;
 			}
 
 			fprintf(dev,"[main]: Pipe connected!\r\n");
-			// resume(child);
-			// resume(child2);
-		}else{
+			
+			resume(child);
+			resume(child2);
+			continue;
+		}
+
 
 		/* Spawn child thread for non-built-in commands */
 
@@ -342,7 +346,6 @@ process	shell (
 				msg = receive();
 			}
 		}
-	}
     }
 
     /* Close shell */
