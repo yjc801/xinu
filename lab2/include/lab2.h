@@ -35,4 +35,5 @@ extern	struct	pipentry piptab[];
 extern int32 pipcount;   // number of pipes in use
 extern sid32 sem_empty;
 extern sid32 sem_full;
+extern sid32 mutex;
 
