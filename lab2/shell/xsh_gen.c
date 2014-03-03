@@ -10,38 +10,24 @@
  * xsh_gen - generate words
  *------------------------------------------------------------------------
  */
-shellcmd xsh_gen(int nargs, char *args[]) {
+shellcmd xsh_gen(int32 pip) {
 
-	// int32	retval;			/* return value			*/
-	// pid32	pid;			/* ID of process to kill	*/
-	// char	ch;			/* next character of argument	*/
-	// char	*chptr;			/* walks along argument string	*/
-
-	/* Output info for '--help' argument */
-	//if (nargs != 1){
-	//	fprintf(stderr, "%s: incorrect argument\n", args[0]);
-		// fprintf(stderr, "Try '%s --help' for more information\n", args[0]);
-	//	return SYSERR;
-	//}
 	char word[5];
-	int i;
-//	pipid32 pip;
+	int32 i;
 	
-//	pip = (pipid32)args[0];
-
-	fprintf(stderr, "%d\n", nargs);
-//	fprintf(stderr, "%s\n", args[1]);
-
+	if (pipcount < 1){
+		fprintf(stderr, "No pipeline.\n");
+		return SYSERR;
+	}
+	
 	for (i = 0; i < 5; i++){
 		word[i] = words[rand() % 2048][i];
 	}
+	
+	fprintf(stderr,"writer: %s\n",word);
 
-	fprintf(stderr, "%s\n", word);
-	
-//	fprintf(stderr, "pip %d\n", pip);
-	
 //	if (SYSERR == pipwrite(pip, word, 5)){
-//		fprintf(stderr, "Unable to write into the pipeline\n");
+//		fprintf(stderr, "Unable to write into the pipeline.\n");
 //	 	return SYSERR;
 //	}
 

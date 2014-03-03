@@ -299,20 +299,24 @@ process	shell (
 				fprintf(dev, "Unable to create pipeline\n");
 				continue;
 			}
-			
-			// child = create(cmdtab[j].cfunc, SHELL_CMDSTK, SHELL_CMDPRIO, cmdtab[j].cname, 2, 1, pip);
-			// child2 = create(cmdtab[k].cfunc, SHELL_CMDSTK, SHELL_CMDPRIO, cmdtab[k].cname, 2, 1, pip);
-			
-			// if (SYSERR == pipconnect(pip, child, child2)) {
-			// 	fprintf(dev, "Unable to connect\n");
-			// 	continue;
-			// }
+			//fprintf(dev,"%s",cmdtab[j].cname);
+			//fprintf(dev,"%s",cmdtab[k].cname);
+			//fprintf(dev,"%s",tokbuf[ntok]);
+			//ntok+=1;
 
-			// fprintf(dev,"[main]: Pipe connected!\r\n");
+			child = create(cmdtab[j].cfunc, SHELL_CMDSTK, SHELL_CMDPRIO, cmdtab[j].cname, 1,pip);
+			child2 = create(cmdtab[k].cfunc, SHELL_CMDSTK, SHELL_CMDPRIO, cmdtab[k].cname, 1,pip);
 			
-			// resume(child);
-			// resume(child2);
-			// continue;
+			if (SYSERR == pipconnect(pip, child, child2)) {
+			 	fprintf(dev, "Unable to connect\n");
+			 	continue;
+			 }
+
+			fprintf(dev,"[main]: Pipe connected!\r\n");
+			
+			resume(child);
+			resume(child2);
+			continue;
 		}
 
 
