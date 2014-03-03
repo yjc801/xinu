@@ -323,7 +323,6 @@ process	shell (
 				fprintf(dev, "Unable to create pipeline\n");
 				continue;
 			}
-			fprintf(dev,"pip %d child %d child2 %d\n",pip, child,child2);
 			if (SYSERR == pipconnect(pip, child, child2)) {
 				fprintf(dev, "Unable to connect\n");
 				continue;
