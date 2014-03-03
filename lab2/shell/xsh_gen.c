@@ -14,22 +14,24 @@ shellcmd xsh_gen(int32 pip) {
 
 	char word[5];
 	int32 i;
-	
+	int j = 0;
+
 	if (pipcount < 1){
 		fprintf(stderr, "No pipeline.\n");
 		return SYSERR;
 	}
-	
+while (j < 5){
+	j++;
 	for (i = 0; i < 5; i++){
 		word[i] = words[rand() % 2048][i];
 	}
 	
 	fprintf(stderr,"writer: %s\n",word);
 
-//	if (SYSERR == pipwrite(pip, word, 5)){
-//		fprintf(stderr, "Unable to write into the pipeline.\n");
-//	 	return SYSERR;
-//	}
-
+	if (SYSERR == pipwrite(pip, word, 5)){
+		fprintf(stderr, "Unable to write into the pipeline.\n");
+	 	return SYSERR;
+	}
+}
 	return 0;
 }
