@@ -329,7 +329,9 @@ process	shell (
 			}
 
 			fprintf(dev,"[main]: Pipe connected!\r\n");
+			resume(child);
 			resume(child2);
+			continue
 		}
 
 		/* Set stdinput and stdoutput in child to redirect I/O */

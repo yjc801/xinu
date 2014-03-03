@@ -27,8 +27,15 @@ shellcmd xsh_search(int nargs, char *args[]) {
 	int32 len;
 
 	pip = (pipid32) args[1];
+	
 	len = pipread(pip, &buf[0], 5);
-	fprintf(stderr,"%s",buf);
+
+	if (SYSERR == len) {
+		fprintf(stderr,"Unable to read from pipeline\n");
+		return SYSERR;
+	}else{
+		fprintf(stderr,"%s",buf);
+	}
 	// if (nargs == 2 && strncmp(args[1], "--help", 7) == 0) {
 	// 	printf("Usage: %s PID\n\n", args[0]);
 	// 	printf("Description:\n");
