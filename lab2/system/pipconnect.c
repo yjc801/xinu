@@ -19,6 +19,7 @@ int	pipconnect(pipid32 pipid, pid32 writer, pid32 reader)
 		|| isbadpid(writer) 
 		|| isbadpid(reader)
 		|| (writer == reader)){
+		kprintf("Check1\n");
 		restore(mask);
 		return SYSERR;
 	}
@@ -31,6 +32,7 @@ int	pipconnect(pipid32 pipid, pid32 writer, pid32 reader)
 	if (piptr->pstate != PIPE_USED 
 		|| piptr->pwriter != INIT_PID
 		|| piptr->preader != INIT_PID) {
+		kprintf("Check2\n");
 		restore(mask);
 		return SYSERR;
 	}
@@ -39,6 +41,7 @@ int	pipconnect(pipid32 pipid, pid32 writer, pid32 reader)
 
 	if (prptr_writer->prpipside != -1
 		|| prptr_reader->prpipside != -1) {
+		kprintf("Check3\n");
 		restore(mask);
 		return SYSERR;
 	}
