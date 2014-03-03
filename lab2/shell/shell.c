@@ -300,19 +300,19 @@ process	shell (
 				continue;
 			}
 			
-			child = create(cmdtab[j].cfunc, SHELL_CMDSTK, SHELL_CMDPRIO, cmdtab[j].cname, 2, 1, pip);
-			child2 = create(cmdtab[k].cfunc, SHELL_CMDSTK, SHELL_CMDPRIO, cmdtab[k].cname, 2, 1, pip);
+			// child = create(cmdtab[j].cfunc, SHELL_CMDSTK, SHELL_CMDPRIO, cmdtab[j].cname, 2, 1, pip);
+			// child2 = create(cmdtab[k].cfunc, SHELL_CMDSTK, SHELL_CMDPRIO, cmdtab[k].cname, 2, 1, pip);
 			
-			if (SYSERR == pipconnect(pip, child, child2)) {
-				fprintf(dev, "Unable to connect\n");
-				continue;
-			}
+			// if (SYSERR == pipconnect(pip, child, child2)) {
+			// 	fprintf(dev, "Unable to connect\n");
+			// 	continue;
+			// }
 
-			fprintf(dev,"[main]: Pipe connected!\r\n");
+			// fprintf(dev,"[main]: Pipe connected!\r\n");
 			
-			resume(child);
-			resume(child2);
-			continue;
+			// resume(child);
+			// resume(child2);
+			// continue;
 		}
 
 
