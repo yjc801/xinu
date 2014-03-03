@@ -308,8 +308,8 @@ process	shell (
 			}
 
 			fprintf(dev,"[main]: Pipe connected!\r\n");
-			resume(child);
-			resume(child2);
+			// resume(child);
+			// resume(child2);
 		}else{
 
 		/* Spawn child thread for non-built-in commands */
