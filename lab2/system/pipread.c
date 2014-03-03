@@ -34,8 +34,10 @@ int32	pipread(pipid32 pipid, char *buf, uint32 len)
 	
 		wait(sem_full);
 		temp = count % PIPE_SIZE;
+		wait(mutex);
 		buf[count] = piptr->buffer[temp];
 		//kprintf("Reading %d letter: %c \r\n",count,piptr->buffer[count]);
+		signal(mutex);
 		count++;
 		signal(sem_empty);
 	
