@@ -25,20 +25,26 @@ shellcmd xsh_gen(int nargs, char *args[]) {
 	//}
 	char word[5];
 	int i;
-	pipid32 pip;
+//	pipid32 pip;
 	
-	pip = (pipid32)args[1];
+//	pip = (pipid32)args[0];
+
+	fprintf(stderr, "%d\n", nargs);
+	fprintf(stderr, "%s\n", args[0]);
+	fprintf(stderr, "%s\n", args[1]);
 
 	for (i = 0; i < 5; i++){
 		word[i] = words[rand() % 2048][i];
 	}
 
 	fprintf(stderr, "%s\n", word);
-
-	if (SYSERR == pipwrite(pip, word, 5)){
-		fprintf(stderr, "Unable to write into the pipeline\n");
-	 	return SYSERR;
-	}
+	
+//	fprintf(stderr, "pip %d\n", pip);
+	
+//	if (SYSERR == pipwrite(pip, word, 5)){
+//		fprintf(stderr, "Unable to write into the pipeline\n");
+//	 	return SYSERR;
+//	}
 
 	return 0;
 }

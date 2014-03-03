@@ -293,20 +293,16 @@ process	shell (
 			pid32 child2;
 			pipid32 pip;
 
-			child = create(cmdtab[j].cfunc, SHELL_CMDSTK, SHELL_CMDPRIO, cmdtab[j].cname, 2, 1, pip);
-			child2 = create(cmdtab[k].cfunc, SHELL_CMDSTK, SHELL_CMDPRIO, cmdtab[k].cname, 2, 1, pip);
-			
-			if (child == SYSERR) {
-				fprintf(dev, SHELL_CREATMSG);
-				continue;
-			}
-
 			pip = pipcreate();
-
+			
 			if (SYSERR == pip){
 				fprintf(dev, "Unable to create pipeline\n");
 				continue;
 			}
+			
+			child = create(cmdtab[j].cfunc, SHELL_CMDSTK, SHELL_CMDPRIO, cmdtab[j].cname, 1, pip);
+			child2 = create(cmdtab[k].cfunc, SHELL_CMDSTK, SHELL_CMDPRIO, cmdtab[k].cname, 1, pip);
+
 			if (SYSERR == pipconnect(pip, child, child2)) {
 				fprintf(dev, "Unable to connect\n");
 				continue;
