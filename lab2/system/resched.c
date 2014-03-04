@@ -21,7 +21,6 @@ void	resched(void)		/* assumes interrupts are disabled	*/
 	/* Point to process table entry for the current (old) process */
 
 	ptold = &proctab[currpid];
-	//kprintf("%s\r\n",ptold->prname);
 	if (ptold->prstate == PR_CURR) {  /* process remains running */
 		if (ptold->prprio > firstkey(readylist)) {
 			return;

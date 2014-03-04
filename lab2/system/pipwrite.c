@@ -31,20 +31,21 @@ int32	pipwrite(pipid32 pipid, char *buf, uint32 len)
 	// if (piptr->buffcount >= PIPE_SIZE){
 	// }
 
-	int32 count, temp, start;
+	int32 count;
+	int32 temp;
+	//int32 start;
 	count = 0;
-	start = piptr->buffcount;
+//	count = piptr->buffcount;
 
 	while (count < len){
 		wait(sem_empty);
-		temp = (count + start) % PIPE_SIZE;
-		wait(mutex);
+		temp = count % PIPE_SIZE;
 		piptr->buffer[temp] = buf[count];
-		piptr->buffcount++;
-		signal(mutex);
+//		piptr->buffcount++;
 		count++;
 		signal(sem_full);
 	}
+	//piptr->buffcount+=count;
 	
 	// if reader is in other state? (killed, other state)
 	// signal read if it is waiting

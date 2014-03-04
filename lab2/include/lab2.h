@@ -28,6 +28,7 @@ struct	pipentry	{
 	pipid32 preader;
 	bool8	piphasmsg;
 	int32	buffcount;
+	int32   start;
 	char	buffer[PIPE_SIZE];
 };
 

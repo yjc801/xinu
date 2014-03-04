@@ -28,21 +28,23 @@ int32	pipread(pipid32 pipid, char *buf, uint32 len)
 
 	// check if buffer is full, if yes, put on the semaphor
 	int32 count, temp;
+	//int32 start;
 	count = 0;
+	//start = piptr->start;
 	
 	while (count < len){
 	
 		wait(sem_full);
-		temp = count % PIPE_SIZE;
-		wait(mutex);
+		temp = (count) % PIPE_SIZE;
 		buf[count] = piptr->buffer[temp];
-		piptr->buffcount--;
+		//piptr->start++;
 		//kprintf("Reading %d letter: %c \r\n",count,piptr->buffer[count]);
-		signal(mutex);
 		count++;
 		signal(sem_empty);
 	
 	}
+	//piptr->start+=count;
+
 	buf[count] = '\0';
 	restore(mask);
 	return count;
