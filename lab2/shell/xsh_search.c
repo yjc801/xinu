@@ -6,35 +6,39 @@
 #include <stdlib.h>
 
 /*------------------------------------------------------------------------
- * xsh_gen - generate words
+ * xsh_search - search words
  *------------------------------------------------------------------------
  */
 shellcmd xsh_search(int32 pip) {
 
-	char buf[];
-	int32 mylen, length;
-	length = 0;
-//	int32 countA, countE, countI, countO, countU;
+	umsg32 len;
+	int32 mylen,length;
+//	int32 init_time = clktim;
 
-while(TRUE){
-	
-	mylen = pipread(pip, &buf[length],5);
-	
-	if (SYSERR == len) {
-		fprintf(stderr,"Unable to read from pipeline\n");
-		return SYSERR;
+//	while(TRUE){
+		length = 0;
+		len = receive();
+		char buf[len];
+		while(length < len){
+			mylen = pipread(pip, &buf[length],len-length);
+			if (SYSERR == mylen) {
+				fprintf(stderr,"Unable to read from pipeline\n");
+				break;
+			}
+			length += mylen;
+			
+		}
+//	}
+	int32 i;
+	for (i = 0; i < length; i++){
+		fprintf(stderr,"%c\n",buf[i]);
+		//if (buf[i]== 'A'){
+		//	countA++;
+		//}
 	}
 
-	length += mylen;
-
-	fprintf(stderr,"reader: %s\n",buf);
-}
-/*	
-	if (SYSERR == pipdisconnect(pip)){
-		fprintf(stderr,"Uable to disconnect the pipeline\n");
-	}
-
-	switch(buf[0]){
+/*
+	switch(buf[i]){
 	case 'A': 
 		countA++;
 		break;
@@ -53,12 +57,15 @@ while(TRUE){
 	default:
 		break;
 	}
-
-	fprintf(stderr,"A: %d\n",countA);
-	fprintf(stderr,"E: %d\n",countE);
-	fprintf(stderr,"I: %d\n",countI);
-	fprintf(stderr,"O: %d\n",countO);
-	fprintf(stderr,"U: %d\n",countU);
-*/	
+	if ((clktime-init_time) == 10){
+		fprintf(stderr,"A: %d\n",countA);
+		fprintf(stderr,"E: %d\n",countE);
+		fprintf(stderr,"I: %d\n",countI);
+		fprintf(stderr,"O: %d\n",countO);
+		fprintf(stderr,"U: %d\n",countU);
+		init_time = clktime;
+		countA = countE = countI = countO = countU = 0;
+	}	*/
 	return 0;
 }
+

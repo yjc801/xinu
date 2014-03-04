@@ -12,30 +12,45 @@
  */
 shellcmd xsh_gen(int32 pip) {
 
-	char word[5];
 	int32 i;
+	umsg32 len;
 	int32 mylen;
-	int j = 0;
+	struct pipentry *piptr;
+	pid32 preader;
+	uint32 init_time;
+	int32 nwords;
 
 	if (pipcount < 1){
 		fprintf(stderr, "No pipeline.\n");
 		return SYSERR;
 	}
-while (j < 5){
-	j++;
-	for (i = 0; i < 5; i++){
-		word[i] = words[rand() % 2048][i];
-	}
 	
-	fprintf(stderr,"writer: %s\n",word);
-
-	mylen = pipwrite(pip, word, 7500);
-
-	if (SYSERR == len){
-		fprintf(stderr, "Unable to write into the pipeline.\n");
-	 	return SYSERR;
-	}
-
-}
+	piptr = &piptab[pip];
+	preader = piptr->preader;
+	
+	nwords = 0;
+	len = 0;
+	init_time = clktime;
+	char word[5];
+	char wordlist[5000];
+//	while (clktime < init_time + 5){
+		
+		for (i = 0; i < 5; i++){
+			word[i] = words[rand() % 2048][i];
+			wordlist[len] = word[i];
+			len++;
+		}
+		nwords+=1;
+		if (len >= 5){
+			send(preader,len);
+			mylen = pipwrite(pip, word, len);
+			len = 0;
+			if (SYSERR == mylen){
+				fprintf(stderr, "Unable to write into the pipeline.\n");
+	 			return SYSERR;
+			}
+		}
+//	}
+	fprintf(stderr,"Number of generated words: %d\n",nwords);
 	return 0;
 }
