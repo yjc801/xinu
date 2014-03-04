@@ -34,7 +34,7 @@ shellcmd xsh_gen(int32 pip) {
 	char word[5];
 	char wordlist[5000];
 //	while (clktime < init_time + 5){
-		
+	while (nwords < 20){		
 		for (i = 0; i < 5; i++){
 			word[i] = words[rand() % 2048][i];
 			wordlist[len] = word[i];
@@ -43,6 +43,7 @@ shellcmd xsh_gen(int32 pip) {
 		nwords+=1;
 		if (len >= 5){
 			send(preader,len);
+			fprintf(stderr,"%s\n",word);
 			mylen = pipwrite(pip, word, len);
 			len = 0;
 			if (SYSERR == mylen){
@@ -50,7 +51,7 @@ shellcmd xsh_gen(int32 pip) {
 	 			return SYSERR;
 			}
 		}
-//	}
+	}
 	fprintf(stderr,"Number of generated words: %d\n",nwords);
 	return 0;
 }

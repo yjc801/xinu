@@ -28,14 +28,16 @@ shellcmd xsh_search(int32 pip) {
 			length += mylen;
 			
 		}
+
+		fprintf(stderr,"========  %s =========\n",buf);
 //	}
-	int32 i;
-	for (i = 0; i < length; i++){
-		fprintf(stderr,"%c\n",buf[i]);
+	//int32 i;
+	//for (i = 0; i < length; i++){
+	//	fprintf(stderr,"%c\n",buf[i]);
 		//if (buf[i]== 'A'){
 		//	countA++;
 		//}
-	}
+	//}
 
 /*
 	switch(buf[i]){
