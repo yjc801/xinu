@@ -14,6 +14,7 @@ shellcmd xsh_gen(int32 pip) {
 
 	char word[5];
 	int32 i;
+	int32 mylen;
 	int j = 0;
 
 	if (pipcount < 1){
@@ -28,10 +29,13 @@ while (j < 5){
 	
 	fprintf(stderr,"writer: %s\n",word);
 
-	if (SYSERR == pipwrite(pip, word, 5)){
+	mylen = pipwrite(pip, word, 7500);
+
+	if (SYSERR == len){
 		fprintf(stderr, "Unable to write into the pipeline.\n");
 	 	return SYSERR;
 	}
+
 }
 	return 0;
 }

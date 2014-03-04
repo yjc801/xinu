@@ -11,16 +11,21 @@
  */
 shellcmd xsh_search(int32 pip) {
 
-	char buf[256];
-	int32 len;
+	char buf[];
+	int32 mylen, length;
+	length = 0;
 //	int32 countA, countE, countI, countO, countU;
+
 while(TRUE){
-	len = pipread(pip, &buf[0],5);
+	
+	mylen = pipread(pip, &buf[length],5);
 	
 	if (SYSERR == len) {
 		fprintf(stderr,"Unable to read from pipeline\n");
 		return SYSERR;
 	}
+
+	length += mylen;
 
 	fprintf(stderr,"reader: %s\n",buf);
 }
