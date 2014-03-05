@@ -11,7 +11,7 @@ int32	pipwrite(pipid32 pipid, char *buf, uint32 len)
 	intmask	mask;			/* saved interrupt mask		*/
 	int32 count;
 	int32 temp;
-	// int32 start;
+	int32 start;
 	struct pipentry *piptr;
 
 	if (isbadpip(pipid)
