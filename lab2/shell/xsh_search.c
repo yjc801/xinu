@@ -16,12 +16,18 @@ shellcmd xsh_search(int32 pip) {
 	char buf[5];
 	int32 countA, countE, countI, countO, countU;
 	int32 init;
-	countA = countE = countI = countO = countU = 0;
+	struct pipentry *piptr;
 	
+	piptr = &piptab[pip];
+
+	if (piptr->pstate != PIPE_CONNECTED){
+		fprintf(stderr, "No pipeline\n");
+		return SYSERR;
+	}
+
+	countA = countE = countI = countO = countU = 0;
 	init = clktime;
 
-	fprintf(stderr, "Start searching\n");
-	
 	while(1){
 
 		mylen = pipread(pip, &buf[0],5);
@@ -29,8 +35,6 @@ shellcmd xsh_search(int32 pip) {
 		 	fprintf(stderr,"Unable to read from pipeline\n");
 			return SYSERR;
 		}
-
-		// for (i = 0; i < 256; i+=5){
 
 			switch(buf[0]){
 			case 'A': 
@@ -51,7 +55,6 @@ shellcmd xsh_search(int32 pip) {
 			default:
 				break;
 			}
-		// }
 
 		if (clktime - init > 10){
 		 	fprintf(stderr,"A: %d\n",countA);

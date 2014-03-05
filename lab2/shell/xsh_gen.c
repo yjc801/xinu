@@ -17,15 +17,16 @@ shellcmd xsh_gen(int32 pip) {
 	int32 nwords;
 	int32 init;
 	char wordlist[5];
+	struct pipentry *piptr;
 	int32 value;
 	
-	if (pipcount < 1){
-		fprintf(stderr, "No pipeline.\n");
+	piptr = &piptab[pip];
+
+	if (piptr->pstate != PIPE_CONNECTED){
+		fprintf(stderr, "No pipeline\n");
 		return SYSERR;
 	}
 	
-	fprintf(stderr, "Start generating\n");
-
 	nwords = 0;
 	init = clktime;
 
