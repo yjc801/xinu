@@ -312,7 +312,7 @@ process	shell (
 			 	continue;
 			 }
 
-			fprintf(dev,"[main]: Pipe connected!\r\n");
+			//fprintf(dev,"[main]: Pipe connected!\r\n");
 			
 			resume(child);
 			resume(child2);
