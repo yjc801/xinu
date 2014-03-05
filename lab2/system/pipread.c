@@ -27,15 +27,14 @@ int32	pipread(pipid32 pipid, char *buf, uint32 len)
 	}
 
 	// check if buffer is full, if yes, put on the semaphor
-	int32 count, temp;
+	int32 count;
 	count = 0;
 	
 	while (count < len){
 	
 		wait(sem_full);
-		temp = (count) % PIPE_SIZE;
 		wait(mutex);
-		buf[count] = piptr->buffer[temp];
+		buf[count] = piptr->buffer[count];
 		signal(mutex);
 		count++;
 		signal(sem_empty);
