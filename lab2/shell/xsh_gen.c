@@ -14,7 +14,6 @@ shellcmd xsh_gen(int32 pip) {
 
 	int32 i;
 	int32 len;
-	int32 mylen;
 	int32 nwords;
 	int32 init;
 	char wordlist[5];
@@ -29,7 +28,7 @@ shellcmd xsh_gen(int32 pip) {
 	init = clktime;
 
 	while(1){
-		// while (len < 5){		
+	// 
 		len = 0;
 		value = rand() % 2048;
 		for (i = 0; i < 5; i++){
@@ -37,12 +36,10 @@ shellcmd xsh_gen(int32 pip) {
 			len++;
 		}
 		nwords+=1;
-		// }
-	//	fprintf(stderr, "%s\n", wordlist);
-		// len = 0;
-		mylen = pipwrite(pip, wordlist, 5);
+
+		fprintf(CONSOLE, "%s\n", wordlist);
 		
-		if (SYSERR == mylen){
+		if (SYSERR == pipwrite(pip, wordlist, 5)){
 			fprintf(stderr, "Unable to write into the pipeline.\n");
 	 		return SYSERR;
 		}
