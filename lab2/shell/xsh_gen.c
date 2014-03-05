@@ -3,7 +3,6 @@
 #include <xinu.h>
 #include <string.h>
 #include <stdio.h>
-#include <stdlib.h>
 #include <wordlist.h>
 
 /*------------------------------------------------------------------------
@@ -24,12 +23,9 @@ shellcmd xsh_gen(int32 pip) {
 		fprintf(stderr, "No pipeline.\n");
 		return SYSERR;
 	}
-	
-	
+		
 	nwords = 0;
 	init = clktime;
-
-	kprintf("Start generating\n");
 
 	while(1){
 		// while (len < 5){		

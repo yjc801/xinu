@@ -3,7 +3,6 @@
 #include <xinu.h>
 #include <string.h>
 #include <stdio.h>
-#include <stdlib.h>
 
 /*------------------------------------------------------------------------
  * xsh_search - search words
@@ -19,8 +18,6 @@ shellcmd xsh_search(int32 pip) {
 	countA = countE = countI = countO = countU = 0;
 	
 	init = clktime;
-
-	kprintf("Start searching..\n");
 	
 	while(1){
 
