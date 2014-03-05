@@ -31,7 +31,7 @@ shellcmd xsh_gen(int32 pip) {
 
 	fprintf(stdout,"Start generating\n");
 
-	while(clktime < 10){
+	// while(TRUE){
 		if (clktime - init > 1){
 			kprintf("Number of generated words: %d\n",nwords);
 			nwords = 0;
@@ -55,7 +55,7 @@ shellcmd xsh_gen(int32 pip) {
 			fprintf(stderr, "Unable to write into the pipeline.\n");
 	 		return SYSERR;
 		}
-	}
+	// }
 	return 0;
 }
 
