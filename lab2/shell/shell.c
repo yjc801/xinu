@@ -322,8 +322,8 @@ process	shell (
 			
 			resume(child);
 			resume(child2);
-			continue;
-		}
+			
+		}else{
 
 
 		/* Spawn child thread for non-built-in commands */
@@ -350,6 +350,8 @@ process	shell (
 
 		msg = recvclr();
 		resume(child);
+	}
+	
 		if (! backgnd) {
 			msg = receive();
 			while (msg != child) {
