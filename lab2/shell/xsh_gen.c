@@ -29,7 +29,7 @@ shellcmd xsh_gen(int32 pip) {
 	nwords = 0;
 	init = clktime;
 
-	printf("Start generating\n");
+	fprintf(stdout,"Start generating\n");
 
 	while(nwords < 10000){
 		if (clktime - init > 1){
