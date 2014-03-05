@@ -27,7 +27,7 @@ shellcmd xsh_gen(int32 pip) {
 		return 0;
 	}
 	
-	// fprintf(stderr, "Start generating\n");
+	fprintf(stderr, "Start generating\n");
 
 	nwords = 0;
 	init = clktime;

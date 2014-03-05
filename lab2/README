@@ -1,0 +1,29 @@
+1. pipcreate
+
+A pipe table waas created when the system was initialized. So when we need a new pip, we can get one from the table and then initialize the state and values. we can add a state in the process table to identify the pipe. 
+
+2. pipdelete
+
+To delete the pipe, we can reset its state and values, and then reset the count of semaphores that were used.
+
+3. pipconnect
+
+To connect the processes with pipe, we can set the processes' IDs to the pipe table, and change the pipe's state to connected.
+
+4. pipdisconnect
+
+To disconnect the pipe, we can reset the values of pipe. Different from deleting pipe, we do not reset the semaphores. Because we want the reader to finish the buffer.
+
+5. pipwrite
+6. pipread
+
+Two semaphores are used when writing and reading the pipe. One semaphore is called sem_empty, whose initial count is set to PIPE_SIZE. Another one is called sem_full, whose initial count is set to 0. Each time we write something into the buffer, the sem_empty will decrease. Once the buffer is full, the count of sem_empty reaches 0, therfore the process will wait. Similarly, the sem_full will increase, therefore allows the reader to read from the buffer.
+
+7. xsh_gen
+8. xsh_search
+
+First, I added a new token type called SH_TOK_PIPE in the lexan. Then I changed the shell.c accordingly to identify the "|". By recognizing the "|", we can separate the two commands. Then we check if both commands are valid. If so, we create two child processes, one is for generating and another is for searching.
+
+In generating process, it randomly chooses a word from the list, and then write in the pipe. Also, we recorded the start time. Once the substraction of clktime and start time is greater than 5. Then it prints the number of generated words.
+
+In searching process, it reads the words from the pipe. Then it compares the first character with "A", "E", "I", "O", "U", and increases the counter correspondly. Similarly, it recorded and reset the start time, and prints the number of words with certain vowls every 10s.
