@@ -11,7 +11,7 @@
  */
 shellcmd xsh_search(int32 pip) {
 
-	int32 i;
+	// int32 i;
 	int32 mylen;
 	int32 init_time;
 	char buf[256];
