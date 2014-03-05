@@ -32,11 +32,10 @@ shellcmd xsh_gen(int32 pip) {
 
 	while(TRUE){
 
-		if ((clktime - init_time) > 5){
+		if (clktime % 5 == 0){
 			fprintf(stderr,"Number of generated words: %d\n",nwords);
-			init_time = clktime;
 			nwords = 0;
-		} 
+		}
 
 		while (len < 256){		
 			value = rand() % 2048;

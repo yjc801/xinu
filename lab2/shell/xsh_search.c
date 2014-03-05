@@ -22,19 +22,22 @@ shellcmd xsh_search(int32 pip) {
 	
 	while(TRUE){
 
-		if ((clktime-init_time) > 10){
-			fprintf(stderr,"A: %d\n",countA);
-			fprintf(stderr,"E: %d\n",countE);
-			fprintf(stderr,"I: %d\n",countI);
-			fprintf(stderr,"O: %d\n",countO);
-			fprintf(stderr,"U: %d\n",countU);
-			init_time = clktime;
-			countA = countE = countI = countO = countU = 0;
-		}
+		// if ((clktime-init_time) > 10){
+		// 	fprintf(stderr,"A: %d\n",countA);
+		// 	fprintf(stderr,"E: %d\n",countE);
+		// 	fprintf(stderr,"I: %d\n",countI);
+		// 	fprintf(stderr,"O: %d\n",countO);
+		// 	fprintf(stderr,"U: %d\n",countU);
+		// 	init_time = clktime;
+		// 	countA = countE = countI = countO = countU = 0;
+		// }
 
 		mylen = pipread(pip, &buf[0],256);
-		// fprintf(stderr,"Finish reading\n");
 		
+		if (clktime % 10 == 0){
+			fprintf(stderr,"Finish reading\n");
+		}
+
 		if (SYSERR == mylen) {
 			fprintf(stderr,"Unable to read from pipeline\n");
 			return SYSERR;
