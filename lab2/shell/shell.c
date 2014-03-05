@@ -314,6 +314,7 @@ process	shell (
 
 			
 			fprintf(dev,"[main]: Pipe connected!\r\n");
+			
 			proctab[child].prdesc[0] = stdinput;
 			proctab[child].prdesc[1] = stdoutput;
 			
