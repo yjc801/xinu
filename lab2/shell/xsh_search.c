@@ -20,7 +20,7 @@ shellcmd xsh_search(int32 pip) {
 	
 	init = clktime;
 
-	fprintf(CONSOLE,"Start searching..\n");
+	kprintf("Start searching..\n");
 	
 	while(1){
 
@@ -30,27 +30,26 @@ shellcmd xsh_search(int32 pip) {
 			return SYSERR;
 		}
 
-		
 		for (i = 0; i < 256; i+=5){
 
 			switch(buf[i]){
 			case 'A': 
 				countA++;
-				continue;
+				break;
 			case 'E': 
 				countE++;
-				continue;
+				break;
 			case 'I': 
 				countI++;
-				continue;
+				break;
 			case 'O': 
 				countO++;
-				continue;
+				break;
 			case 'U': 
 				countU++;
-				continue;
+				break;
 			default:
-				continue;
+				break;
 			}
 		}
 
