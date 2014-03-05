@@ -315,7 +315,7 @@ process	shell (
 			proctab[child2].prdesc[1] = stdoutput;
 			
 			resume(child);
-			// resume(child2);
+			resume(child2);
 
 		}else{
 
