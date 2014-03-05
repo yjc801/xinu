@@ -13,7 +13,6 @@ shellcmd xsh_search(int32 pip) {
 
 	// int32 i;
 	int32 mylen;
-	int32 init_time;
 	char buf[256];
 	int32 countA, countE, countI, countO, countU;
 
