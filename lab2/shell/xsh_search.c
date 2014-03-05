@@ -23,16 +23,7 @@ shellcmd xsh_search(int32 pip) {
 	fprintf(CONSOLE,"Start searching..\n");
 	
 	while(1){
-		if (clktime - init > 5){
-		 	fprintf(CONSOLE,"A: %d\n",countA);
-			fprintf(CONSOLE,"E: %d\n",countE);
-			fprintf(CONSOLE,"I: %d\n",countI);
-			fprintf(CONSOLE,"O: %d\n",countO);
-			fprintf(CONSOLE,"U: %d\n",countU);
-		 	init = clktime;
-		 	countA = countE = countI = countO = countU = 0;
-		}
-		
+
 		mylen = pipread(pip, &buf[0],256);
 		if (SYSERR == mylen) {
 		 	fprintf(stderr,"Unable to read from pipeline\n");
@@ -62,6 +53,17 @@ shellcmd xsh_search(int32 pip) {
 				continue;
 			}
 		}
+
+		if (clktime - init > 5){
+		 	fprintf(CONSOLE,"A: %d\n",countA);
+			fprintf(CONSOLE,"E: %d\n",countE);
+			fprintf(CONSOLE,"I: %d\n",countI);
+			fprintf(CONSOLE,"O: %d\n",countO);
+			fprintf(CONSOLE,"U: %d\n",countU);
+		 	init = clktime;
+		 	countA = countE = countI = countO = countU = 0;
+		}
+		
 	}
 	return 0;
 }

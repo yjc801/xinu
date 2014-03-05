@@ -29,15 +29,9 @@ shellcmd xsh_gen(int32 pip) {
 	nwords = 0;
 	init = clktime;
 
-	fprintf(stderr,"Start generating\n");
+	fprintf(CONSOLE,"Start generating\n");
 
 	while(1){
-		if (clktime - init > 1){
-			fprintf(stderr,"Number of generated words: %d\n",nwords);
-			nwords = 0;
-			init = clktime;
-		}
-
 		// while (len < 5){		
 		len = 0;
 		value = rand() % 2048;
@@ -54,6 +48,12 @@ shellcmd xsh_gen(int32 pip) {
 		if (SYSERR == mylen){
 			fprintf(stderr, "Unable to write into the pipeline.\n");
 	 		return SYSERR;
+		}
+
+		if (clktime - init > 1){
+			fprintf(CONSOLE,"Number of generated words: %d\n",nwords);
+			nwords = 0;
+			init = clktime;
 		}
 	}
 	return 0;

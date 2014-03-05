@@ -9,7 +9,9 @@
 int32	pipwrite(pipid32 pipid, char *buf, uint32 len)
 {
 	intmask	mask;			/* saved interrupt mask		*/
-	//int i;
+	int32 count;
+	int32 temp;
+	int32 start;
 	struct pipentry *piptr;
 
 	if (isbadpip(pipid)
@@ -20,20 +22,12 @@ int32	pipwrite(pipid32 pipid, char *buf, uint32 len)
 	
 	piptr = &piptab[pipid];
 
-	// check if the process is the writer
 	if (piptr->pwriter != currpid
 		|| piptr->pstate != PIPE_CONNECTED){
 		restore(mask);
 		return SYSERR;
 	}
 
-	// check if buffer is full, if yes, put on the semaphor
-	// if (piptr->buffcount >= PIPE_SIZE){
-	// }
-
-	int32 count;
-	int32 temp;
-	int32 start;
 	count = 0;
 	start = piptr->buffcount;
 
@@ -47,9 +41,6 @@ int32	pipwrite(pipid32 pipid, char *buf, uint32 len)
 		signal(sem_full);
 	}
 	piptr->buffcount = temp + 1;
-
-	// if reader is in other state? (killed, other state)
-	// signal read if it is waiting
 
 	restore(mask);
 	return count;

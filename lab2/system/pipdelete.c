@@ -38,6 +38,10 @@ int	pipdelete(
 	piptr->preader = INIT_PID;
 	piptr->buffcount = 0;
 
+	semreset(sem_empty,PIPE_SIZE);
+	semreset(sem_full,0);
+	semreset(mutex,1);
+
 	// clear the buffer
 	for (i = 0; i < PIPE_SIZE; i++){
 		piptr->buffer[i] = '\0';
