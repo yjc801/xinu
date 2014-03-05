@@ -18,12 +18,19 @@ shellcmd xsh_gen(int32 pip) {
 	int32 init;
 	char wordlist[5];
 	int32 value;
+	struct pipentry *piptr;
 	
 	if (pipcount < 1){
 		fprintf(stderr, "No pipeline.\n");
 		return SYSERR;
 	}
-		
+
+	piptr = &piptab[pip];
+
+	preader = piptr->preader;
+	
+	resume(preader);
+
 	nwords = 0;
 	init = clktime;
 

@@ -19,6 +19,8 @@ shellcmd xsh_search(int32 pip) {
 	countA = countE = countI = countO = countU = 0;
 	
 	init = clktime;
+
+	fprintf(CONSOLE, "Start searching\n");
 	
 	while(1){
 
