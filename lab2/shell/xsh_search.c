@@ -21,6 +21,7 @@ shellcmd xsh_search(int32 pip) {
 	init_time = clktime;
 	
 	while(TRUE){
+
 		if ((clktime-init_time) > 10){
 			fprintf(stderr,"A: %d\n",countA);
 			fprintf(stderr,"E: %d\n",countE);
@@ -32,6 +33,7 @@ shellcmd xsh_search(int32 pip) {
 		}
 
 		mylen = pipread(pip, &buf[0],256);
+		fprintf(stderr,"Finish reading\n");
 		
 		if (SYSERR == mylen) {
 			fprintf(stderr,"Unable to read from pipeline\n");
@@ -39,11 +41,11 @@ shellcmd xsh_search(int32 pip) {
 		}
 
 		
-		for (i = 0; i < 256; i+=5){
-			if (buf[i]== 'A'){
-				countA++;
-			}
-		}
+		// for (i = 0; i < 256; i+=5){
+		// 	if (buf[i]== 'A'){
+		// 		countA++;
+		// 	}
+		// }
 
 /*
 	switch(buf[i]){
