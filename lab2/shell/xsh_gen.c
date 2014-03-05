@@ -37,7 +37,7 @@ shellcmd xsh_gen(int32 pip) {
 		}
 		nwords+=1;
 
-		// fprintf(CONSOLE, "%s\n", wordlist);
+		fprintf(CONSOLE, "");
 		
 		if (SYSERR == pipwrite(pip, wordlist, 5)){
 			fprintf(stderr, "Unable to write into the pipeline.\n");
