@@ -62,6 +62,8 @@ process	shell (
 	int32	toktyp[SHELL_MAXTOK];	/* type of each token in tokbuf	*/
 	int32	ntok;			/* number of tokens on line	*/
 	pid32	child;			/* process ID of spawned child	*/
+	pid32   child2;
+	pipid32 pip;
 	bool8	backgnd;		/* run command in background?	*/
 	char	*outname, *inname;	/* ptrs to strings for file	*/
 					/*   names that follow > and <	*/
@@ -290,8 +292,6 @@ process	shell (
 
 		// if has "|", spawn the second command
 		if (cmp2 != NULL){
-			pid32 child2;
-			pipid32 pip;
 
 			pip = pipcreate();
 			
@@ -326,36 +326,36 @@ process	shell (
 		}else{
 
 
-		/* Spawn child thread for non-built-in commands */
+			/* Spawn child thread for non-built-in commands */
 
-		child = create(cmdtab[j].cfunc,
-			SHELL_CMDSTK, SHELL_CMDPRIO,
-			cmdtab[j].cname, 2, ntok, &tmparg);
-		
+			child = create(cmdtab[j].cfunc,
+				SHELL_CMDSTK, SHELL_CMDPRIO,
+				cmdtab[j].cname, 2, ntok, &tmparg);
+			
 
-		
-		/* If creation or argument copy fails, report error */
+			
+			/* If creation or argument copy fails, report error */
 
-		if ((child == SYSERR) ||
-		    (addargs(child, ntok, tok, tlen, tokbuf, &tmparg)
-							== SYSERR) ) {
-			fprintf(dev, SHELL_CREATMSG);
-			continue;
-		}
+			if ((child == SYSERR) ||
+			    (addargs(child, ntok, tok, tlen, tokbuf, &tmparg)
+								== SYSERR) ) {
+				fprintf(dev, SHELL_CREATMSG);
+				continue;
+			}
 
-		/* Set stdinput and stdoutput in child to redirect I/O */
+			/* Set stdinput and stdoutput in child to redirect I/O */
 
-		proctab[child].prdesc[0] = stdinput;
-		proctab[child].prdesc[1] = stdoutput;
+			proctab[child].prdesc[0] = stdinput;
+			proctab[child].prdesc[1] = stdoutput;
 
-		msg = recvclr();
-		resume(child);
-	}
-	
-		if (! backgnd) {
-			msg = receive();
-			while (msg != child) {
+			msg = recvclr();
+			resume(child);
+
+			if (! backgnd) {
 				msg = receive();
+				while (msg != child) {
+					msg = receive();
+				}
 			}
 		}
     }
