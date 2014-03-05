@@ -13,7 +13,7 @@ shellcmd xsh_search(int32 pip) {
 
 	int32 i;
 	int32 mylen;
-	char buf[256];
+	char buf[10000];
 	int32 countA, countE, countI, countO, countU;
 	int32 init;
 	countA = countE = countI = countO = countU = 0;
@@ -22,13 +22,13 @@ shellcmd xsh_search(int32 pip) {
 	
 	while(1){
 
-		mylen = pipread(pip, &buf[0],256);
+		mylen = pipread(pip, &buf[0],10000);
 		if (SYSERR == mylen) {
 		 	fprintf(stderr,"Unable to read from pipeline\n");
 			return SYSERR;
 		}
 
-		for (i = 0; i < 256; i+=5){
+		for (i = 0; i < 10000; i+=5){
 
 			switch(buf[i]){
 			case 'A': 
