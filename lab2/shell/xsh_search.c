@@ -20,7 +20,7 @@ shellcmd xsh_search(int32 pip) {
 	
 	init = clktime;
 
-	fprintf(stdout,"Start searching..\n");
+	printf("Start searching..\n");
 	
 	// while(TRUE){
 		if (clktime - init > 5){
