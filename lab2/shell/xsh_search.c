@@ -22,7 +22,7 @@ shellcmd xsh_search(int32 pip) {
 
 	fprintf(CONSOLE,"Start searching..\n");
 	
-	while(TRUE){
+	while(1){
 		if (clktime - init > 5){
 		 	fprintf(CONSOLE,"A: %d\n",countA);
 			fprintf(CONSOLE,"E: %d\n",countE);
