@@ -32,7 +32,7 @@ shellcmd xsh_search(int32 pip) {
 
 		mylen = pipread(pip, &buf[0],256);
 		
-		if (clktime % 10 == 0){
+		if ((clktime + 1) % 10 == 0){
 			fprintf(stderr,"Finish reading\n");
 		}
 
