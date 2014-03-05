@@ -22,12 +22,14 @@ shellcmd xsh_search(int32 pip) {
 
 	if (piptr->pstate != PIPE_CONNECTED){
 		fprintf(stderr, "No pipeline\n");
-		return SYSERR;
+		return 0;
 	}
 
 	countA = countE = countI = countO = countU = 0;
 	init = clktime;
 
+	fprintf(stderr, "Start searching\n");
+	
 	while(1){
 
 		mylen = pipread(pip, &buf[0],5);
