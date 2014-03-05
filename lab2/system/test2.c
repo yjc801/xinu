@@ -23,8 +23,8 @@ int main(int argc, char **argv)
 	if (SYSERR == pip)
 		return 1;
 	
-	wrpid = create(writer, 2048, 20, "writer", 2, pip, 11);
-	repid = create(reader, 2048, 20, "reader", 2, pip, 11);
+	wrpid = create(writer, 2048, 20, "writer", 2, pip, 10);
+	repid = create(reader, 2048, 20, "reader", 2, pip, 20);
 	
 	if (SYSERR == pipconnect(pip, wrpid, repid)) {
 		return 1;
@@ -46,7 +46,9 @@ void writer(pipid32 pip, int len){
 	if (SYSERR == pipwrite(pip, words, len)) {
 		kprintf("[wr]: Sucks!\r\n");
 	}
-	
+	if (SYSERR == pipwrite(pip, words, len)) {
+		kprintf("[wr]: Sucks!\r\n");
+	}
 	kprintf("Disconnecting writer\r\n");
 
 	if (SYSERR == pipdisconnect(pip)) {
