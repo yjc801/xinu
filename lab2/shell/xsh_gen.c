@@ -27,7 +27,7 @@ shellcmd xsh_gen(int32 pip) {
 
 	piptr = &piptab[pip];
 
-	preader = piptr->preader;
+	pid32 preader = piptr->preader;
 	
 	resume(preader);
 
