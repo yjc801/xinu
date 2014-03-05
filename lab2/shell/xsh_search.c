@@ -33,8 +33,8 @@ shellcmd xsh_search(int32 pip) {
 		 	countA = countE = countI = countO = countU = 0;
 		}
 		
-		// mylen = pipread(pip, &buf[0],256);
-		printf("%d\n", mylen);
+		mylen = pipread(pip, &buf[0],256);
+		fprintf(CONSOLE,"%d\n", mylen);
 		if (SYSERR == mylen) {
 		 	fprintf(stderr,"Unable to read from pipeline\n");
 			return SYSERR;
