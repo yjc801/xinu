@@ -31,7 +31,7 @@ shellcmd xsh_gen(int32 pip) {
 
 	fprintf(stdout,"Start generating\n");
 
-	while(TRUE){
+	while(clktime < 10){
 		if (clktime - init > 1){
 			kprintf("Number of generated words: %d\n",nwords);
 			nwords = 0;
