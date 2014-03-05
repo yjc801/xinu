@@ -33,7 +33,7 @@ shellcmd xsh_search(int32 pip) {
 		}
 
 		mylen = pipread(pip, &buf[0],256);
-		fprintf(stderr,"Finish reading\n");
+		// fprintf(stderr,"Finish reading\n");
 		
 		if (SYSERR == mylen) {
 			fprintf(stderr,"Unable to read from pipeline\n");
