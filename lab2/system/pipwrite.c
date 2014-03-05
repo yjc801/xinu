@@ -46,7 +46,7 @@ int32	pipwrite(pipid32 pipid, char *buf, uint32 len)
 		count++;
 		signal(sem_full);
 	}
-	piptr->buffcount=temp;
+	piptr->buffcount=temp+1;
 	
 	// if reader is in other state? (killed, other state)
 	// signal read if it is waiting
