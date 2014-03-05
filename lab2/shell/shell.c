@@ -299,10 +299,6 @@ process	shell (
 				fprintf(dev, "Unable to create pipeline\n");
 				continue;
 			}
-			//fprintf(dev,"%s",cmdtab[j].cname);
-			//fprintf(dev,"%s",cmdtab[k].cname);
-			//fprintf(dev,"%s",tokbuf[ntok]);
-			//ntok+=1;
 
 			child = create(cmdtab[j].cfunc, SHELL_CMDSTK, SHELL_CMDPRIO, cmdtab[j].cname, 1,pip);
 			child2 = create(cmdtab[k].cfunc, SHELL_CMDSTK, SHELL_CMDPRIO, cmdtab[k].cname, 1,pip);
@@ -311,9 +307,6 @@ process	shell (
 			 	fprintf(dev, "Unable to connect\n");
 			 	continue;
 			 }
-
-			
-			kprintf("[main]: Pipe connected!\r\n");
 
 			proctab[child].prdesc[0] = stdinput;
 			proctab[child].prdesc[1] = stdoutput;

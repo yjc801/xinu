@@ -29,11 +29,11 @@ shellcmd xsh_gen(int32 pip) {
 	nwords = 0;
 	init = clktime;
 
-	kprintf("Start generating\n");
+	printf("Start generating\n");
 
 	while(TRUE){
 		if (clktime - init > 5){
-			kprintf("Number of generated words: %d\n",nwords);
+			printf("Number of generated words: %d\n",nwords);
 			nwords = 0;
 			init = clktime;
 		}
