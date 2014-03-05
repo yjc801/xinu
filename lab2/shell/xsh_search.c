@@ -43,21 +43,21 @@ shellcmd xsh_search(int32 pip) {
 			switch(buf[i]){
 			case 'A': 
 				countA++;
-				continue;
+				break;
 			case 'E': 
 				countE++;
-				continue;
+				break;
 			case 'I': 
 				countI++;
-				continue;
+				break;
 			case 'O': 
 				countO++;
-				continue;
+				break;
 			case 'U': 
 				countU++;
-				continue;
+				break;
 			default:
-				continue;
+				break;
 			}
 		}
 	}
