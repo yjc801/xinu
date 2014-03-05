@@ -15,7 +15,6 @@ shellcmd xsh_gen(int32 pip) {
 	int32 i;
 	int32 len;
 	int32 mylen;
-	uint32 init_time;
 	int32 nwords;
 
 	if (pipcount < 1){
@@ -26,7 +25,6 @@ shellcmd xsh_gen(int32 pip) {
 	
 	nwords = 0;
 	len = 0;
-	init_time = clktime;
 	char wordlist[256];
 	int32 value;
 
