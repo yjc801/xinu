@@ -13,7 +13,7 @@ shellcmd xsh_search(int32 pip) {
 
 	// int32 i;
 	int32 mylen;
-	char buf[1000];
+	char buf[5];
 	int32 countA, countE, countI, countO, countU;
 
 	countA = countE = countI = countO = countU = 0;
@@ -30,7 +30,7 @@ shellcmd xsh_search(int32 pip) {
 		// 	countA = countE = countI = countO = countU = 0;
 		// }
 
-		mylen = pipread(pip, &buf[0],1000);
+		mylen = pipread(pip, &buf[0],5);
 		
 		if ((clktime + 1) % 10 == 0){
 			fprintf(stderr,"Finish reading\n");
