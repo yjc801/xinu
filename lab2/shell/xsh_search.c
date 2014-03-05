@@ -22,13 +22,13 @@ shellcmd xsh_search(int32 pip) {
 
 	fprintf(CONSOLE,"Start searching..\n");
 	
-	// while(TRUE){
+	while(TRUE){
 		if (clktime - init > 5){
-		 	fprintf(stdout,"A: %d\n",countA);
-			fprintf(stdout,"E: %d\n",countE);
-			fprintf(stdout,"I: %d\n",countI);
-			fprintf(stdout,"O: %d\n",countO);
-			fprintf(stdout,"U: %d\n",countU);
+		 	fprintf(CONSOLE,"A: %d\n",countA);
+			fprintf(CONSOLE,"E: %d\n",countE);
+			fprintf(CONSOLE,"I: %d\n",countI);
+			fprintf(CONSOLE,"O: %d\n",countO);
+			fprintf(CONSOLE,"U: %d\n",countU);
 		 	init = clktime;
 		 	countA = countE = countI = countO = countU = 0;
 		}
@@ -63,7 +63,7 @@ shellcmd xsh_search(int32 pip) {
 				continue;
 			}
 		}
-	// }
+	}
 	return 0;
 }
 
