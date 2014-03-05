@@ -34,8 +34,9 @@ shellcmd xsh_gen(int32 pip) {
 	nwords = 0;
 	init = clktime;
 
+	fprintf(CONSOLE, "Start generating\n");
+
 	while(1){
-	// 
 		len = 0;
 		value = rand() % 2048;
 		for (i = 0; i < 5; i++){
@@ -50,7 +51,7 @@ shellcmd xsh_gen(int32 pip) {
 		}
 
 		if (clktime - init > 5){
-			fprintf(CONSOLE,"Number of generated words: %d\n",nwords);
+			kprintf("Number of generated words: %d\n",nwords);
 			nwords = 0;
 			init = clktime;
 		}
