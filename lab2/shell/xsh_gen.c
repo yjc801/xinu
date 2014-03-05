@@ -44,7 +44,7 @@ shellcmd xsh_gen(int32 pip) {
 	 		return SYSERR;
 		}
 
-		if (clktime % 10 == 0){
+		if (clktime - init > 5){
 			fprintf(CONSOLE,"Number of generated words: %d\n",nwords);
 			nwords = 0;
 			init = clktime;
