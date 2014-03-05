@@ -24,12 +24,12 @@ shellcmd xsh_gen(int32 pip) {
 	
 	
 	nwords = 0;
-	len = 0;
+	
 	char wordlist[5];
 	int32 value;
 
 	while(nwords < 20){
-
+		len = 0;
 		// if (clktime % 5 == 0){
 			// fprintf(stderr,"Number of generated words: %d\n",nwords);
 			// nwords = 0;
