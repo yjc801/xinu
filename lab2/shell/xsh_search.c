@@ -20,15 +20,15 @@ shellcmd xsh_search(int32 pip) {
 	
 	init = clktime;
 
-	printf("Start searching..\n");
+	fprintf(stdout,"Start searching..\n");
 	
 	while(TRUE){
 		if (clktime - init > 5){
-		 	printf("A: %d\n",countA);
-			printf("E: %d\n",countE);
-			printf("I: %d\n",countI);
-			printf("O: %d\n",countO);
-			printf("U: %d\n",countU);
+		 	fprintf(stdout,"A: %d\n",countA);
+			fprintf(stdout,"E: %d\n",countE);
+			fprintf(stdout,"I: %d\n",countI);
+			fprintf(stdout,"O: %d\n",countO);
+			fprintf(stdout,"U: %d\n",countU);
 		 	init = clktime;
 		 	countA = countE = countI = countO = countU = 0;
 		}
