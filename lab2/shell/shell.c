@@ -312,7 +312,13 @@ process	shell (
 			 	continue;
 			 }
 
+			
 			//fprintf(dev,"[main]: Pipe connected!\r\n");
+			proctab[child].prdesc[0] = stdinput;
+			proctab[child].prdesc[1] = stdoutput;
+			
+			proctab[child2].prdesc[0] = stdinput;
+			proctab[child2].prdesc[1] = stdoutput;
 			
 			resume(child);
 			resume(child2);
