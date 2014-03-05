@@ -12,11 +12,9 @@
  */
 shellcmd xsh_gen(int32 pip) {
 
-	//int32 i;
+	int32 i;
 	int32 len;
 	int32 mylen;
-	//struct pipentry *piptr;
-	//pid32 preader;
 	uint32 init_time;
 	int32 nwords;
 
@@ -25,8 +23,6 @@ shellcmd xsh_gen(int32 pip) {
 		return SYSERR;
 	}
 	
-	//piptr = &piptab[pip];
-	//preader = piptr->preader;
 	
 	nwords = 0;
 	len = 0;
