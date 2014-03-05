@@ -52,6 +52,9 @@ syscall	kill(
 
 	default:
 		prptr->prstate = PR_FREE;
+		if (prptr->prpipid != -1){
+			pipdelete(prptr->prpipid);
+		}
 	}
 
 	restore(mask);

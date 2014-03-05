@@ -51,7 +51,7 @@ shellcmd xsh_search(int32 pip) {
 			}
 		}
 
-		if (clktime - init > 5){
+		if (clktime % 5 == 0){
 		 	fprintf(CONSOLE,"A: %d\n",countA);
 			fprintf(CONSOLE,"E: %d\n",countE);
 			fprintf(CONSOLE,"I: %d\n",countI);
