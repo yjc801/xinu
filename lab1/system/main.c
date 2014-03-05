@@ -1,45 +1,53 @@
 #include <xinu.h>
- 
-void prchP(char, char);
-void prchT(char, char);
-int prA, prB, prC, prD;
+
+int prchcpu(char c, char d, int s);
+int prchio(char c, char d, int s);
+
+int prA,  prB,  prC, prD;
+
 int round;
-unsigned long ctr100;
 
-int main(void){
-	round = 1000;
-	resume( prA = create(prchP, 2000, PROPORTIONALSHARE, 30, "proc A", 2, 'A', 'A') );
-	resume( prB = create(prchP, 2000, PROPORTIONALSHARE, 50, "proc B", 2, 'B', 'B') );
-	resume( prC = create(prchT, 2000, TSSCHED, 15, "proc C", 2, 'C', 'C') );
-	//chgprio(TSSCHED,20);
-	// resume( prD = create(prchT, 2000, TSSCHED, 20, "proc D", 2, 'D', 'D'));
 
-while (1) {
-	sleepms(100); 
-	}
-	return OK;
+int main(int argc, char **argv){
+		round = 3000;
+		
+		kprintf("\n\nPS TEST:\n");
+		resume( create(prchcpu, 2000, TSSCHED, 20, "proc A", 3, 'A', 'a', 100) );
+		resume( create(prchcpu, 2000, TSSCHED, 20, "proc B", 3, 'B', 'b', 100) );
+		resume( create(prchio, 2000, TSSCHED, 20, "proc C", 3, 'C', 'c', 50) );
+		resume( create(prchio, 2000, TSSCHED, 20,  "proc D", 3, 'D', 'd', 100) );
+		
+		while (1) {
+			sleep(1);					
+		}
+		return OK;
 }
 
-void prchP(char c, char d){
-	sleepms(500);
-	kprintf("Proc %c starts!\r\n", c);
-	int i;
-	//chprio(getpid(),10);
-	for(i=0; i<round; i++){
+int prchcpu(char c, char d, int s){
+//		sleepms(s);
 		kprintf("%c", d);
-	}
-	kprintf("Proc %c ends! \r\n", c);
-}
-
-void prchT(char c, char d){
-	sleepms(500);
-	kprintf("Proc %c starts!\r\n", c);
-	int i;
-	for(i=0; i<round; i++){
+		int i;
+		for(i=0; i<round; i++){
+			kprintf("%d",  proctab[currpid].prprio);
+			kprintf("%c",  c);
+		}
 		kprintf("%c", d);
-		if (i%50==0) sleep(1);
-	}
-	kprintf("Proc %c ends! \r\n", c);
+		return 0;
 }
 
+int prchio(char c, char d, int s){
+//		sleepms(s);
+		kprintf("%c", d);
+		int i, j;
+		int innerr = 3;
+		int outerr = round/innerr;
+		for(i=0; i<outerr; i++){
+			kprintf("%d", proctab[currpid].prprio);
+			for(j=0; j<innerr; j++)
+				kprintf("%c",  c);
+			sleepms(s);
+		}
+		kprintf("%c", d);
+		return 0;
+}
 

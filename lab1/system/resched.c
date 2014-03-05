@@ -51,7 +51,7 @@ void	resched(void)		/* assumes interrupts are disabled	*/
 	if(ptold->prgroup == TSSCHED && currpid != NULLPROC){
 		
 		tsprio = INITGPPRIO_TS;
-		if (preempt < QUANTUM && ptold->prstate != PR_CURR){
+		if (preempt == QUANTUM && ptold->prstate != PR_CURR){
 			ptold->prprio += 1;
 		}
 
