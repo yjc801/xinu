@@ -29,12 +29,12 @@ shellcmd xsh_gen(int32 pip) {
 
 	pid32 preader = piptr->preader;
 	
+	fprintf(stderr, "Start generating\n");
 	resume(preader);
 
 	nwords = 0;
 	init = clktime;
 
-	fprintf(CONSOLE, "Start generating\n");
 
 	while(1){
 		len = 0;
@@ -51,7 +51,7 @@ shellcmd xsh_gen(int32 pip) {
 		}
 
 		if (clktime - init > 5){
-			kprintf("Number of generated words: %d\n",nwords);
+			fprintf(stderr,"Number of generated words: %d\n",nwords);
 			nwords = 0;
 			init = clktime;
 		}

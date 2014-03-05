@@ -20,7 +20,7 @@ shellcmd xsh_search(int32 pip) {
 	
 	init = clktime;
 
-	fprintf(CONSOLE, "Start searching\n");
+	fprintf(stderr, "Start searching\n");
 	
 	while(1){
 
@@ -54,11 +54,11 @@ shellcmd xsh_search(int32 pip) {
 		}
 
 		if (clktime - init > 10){
-		 	fprintf(CONSOLE,"A: %d\n",countA);
-			fprintf(CONSOLE,"E: %d\n",countE);
-			fprintf(CONSOLE,"I: %d\n",countI);
-			fprintf(CONSOLE,"O: %d\n",countO);
-			fprintf(CONSOLE,"U: %d\n",countU);
+		 	fprintf(stderr,"A: %d\n",countA);
+			fprintf(stderr,"E: %d\n",countE);
+			fprintf(stderr,"I: %d\n",countI);
+			fprintf(stderr,"O: %d\n",countO);
+			fprintf(stderr,"U: %d\n",countU);
 		 	init = clktime;
 		 	countA = countE = countI = countO = countU = 0;
 		}
