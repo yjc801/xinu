@@ -31,33 +31,33 @@ shellcmd xsh_gen(int32 pip) {
 	nwords = 0;
 	len = 0;
 	init_time = clktime;
-	//char word[5];
 	char wordlist[256];
 	int32 value;
-	//fprintf(stderr,"init_time %d\n",init_time);
-	//while (clktime - init_time < 5){
+
 	while(TRUE){
-	//	fprintf(stderr,"clk_time %d\n",clktime);
-		while (len < 256){		
-			value = rand() % 2048;
-			//for (i = 0; i < 5; i++){
-				wordlist[len] = words[value][0];
-			//	wordlist[len] = word[i];
-				len++;
-			//}
-			nwords+=1;
-		}
-		len = 0;
-		mylen = pipwrite(pip, wordlist, 256);
-		if (SYSERR == mylen){
-			fprintf(stderr, "Unable to write into the pipeline.\n");
-	 		return SYSERR;
-		}
+
 		if ((clktime - init_time) > 5){
 			fprintf(stderr,"Number of generated words: %d\n",nwords);
 			init_time = clktime;
 			nwords = 0;
 		} 
+
+		while (len < 256){		
+			value = rand() % 2048;
+			for (i = 0; i < 5; i++){
+				wordlist[len] = words[value][i];
+				len++;
+			}
+			nwords+=1;
+		}
+
+		len = 0;
+		mylen = pipwrite(pip, wordlist, 256);
+
+		if (SYSERR == mylen){
+			fprintf(stderr, "Unable to write into the pipeline.\n");
+	 		return SYSERR;
+		}
 	}
 	return 0;
 }

@@ -11,6 +11,7 @@
  */
 shellcmd xsh_search(int32 pip) {
 
+	int32 i;
 	int32 mylen;
 	int32 init_time;
 	char buf[256];
@@ -19,13 +20,25 @@ shellcmd xsh_search(int32 pip) {
 	countA = countE = countI = countO = countU = 0;
 	init_time = clktime;
 	
-	while(TRUE){	
+	while(TRUE){
+		if ((clktime-init_time) > 10){
+			fprintf(stderr,"A: %d\n",countA);
+			fprintf(stderr,"E: %d\n",countE);
+			fprintf(stderr,"I: %d\n",countI);
+			fprintf(stderr,"O: %d\n",countO);
+			fprintf(stderr,"U: %d\n",countU);
+			init_time = clktime;
+			countA = countE = countI = countO = countU = 0;
+		}
+
 		mylen = pipread(pip, &buf[0],256);
+		
 		if (SYSERR == mylen) {
 			fprintf(stderr,"Unable to read from pipeline\n");
 			return SYSERR;
 		}
-		int32 i;
+
+		
 		for (i = 0; i < 256; i+=5){
 			if (buf[i]== 'A'){
 				countA++;
@@ -53,15 +66,6 @@ shellcmd xsh_search(int32 pip) {
 		break;
 	}
 	*/
-		if ((clktime-init_time) > 10){
-			fprintf(stderr,"A: %d\n",countA);
-			fprintf(stderr,"E: %d\n",countE);
-			fprintf(stderr,"I: %d\n",countI);
-			fprintf(stderr,"O: %d\n",countO);
-			fprintf(stderr,"U: %d\n",countU);
-			init_time = clktime;
-			countA = countE = countI = countO = countU = 0;
-		}
 	}
 	return 0;
 }
