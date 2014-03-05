@@ -19,7 +19,7 @@ shellcmd xsh_search(int32 pip) {
 	countA = countE = countI = countO = countU = 0;
 	
 	init = clktime;
-	sleepms(10);
+
 	while(TRUE){
 		if (clktime - init > 5){
 		 	fprintf(stderr,"A: %d\n",countA);

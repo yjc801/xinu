@@ -322,7 +322,7 @@ process	shell (
 			
 			resume(child);
 			resume(child2);
-			
+			break;
 		}else{
 
 
