@@ -25,8 +25,17 @@ syscall	send(
 		restore(mask);
 		return SYSERR;
 	}
+	
+    int16 end = (prptr->prmsg.start + prptr->prmsg.count) % prptr->prmsg.size;
+    prptr->prmsg.elems[end] = msg;
 
-	writebuff(prptr->prmsg, msg);
+    if (prptr->prmsg.count == prptr->prmsg.size){
+        prptr->prmsg.start = (prptr->prmsg.start + 1) % prptr->prmsg.size;
+    }else{
+        ++ prptr->prmsg.count;
+	}
+
+	// writebuff(prptr->prmsg, msg);
 	// prptr->prmsg.elems[0] = msg;
 	prptr->prhasmsg = TRUE;		/* indicate message is waiting	*/
 
