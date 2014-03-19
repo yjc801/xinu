@@ -16,7 +16,7 @@ umsg32	receiveb(void)
 	mask = disable();
 	prptr = &proctab[currpid];
 	if (prptr->prhasmsg == FALSE) {
-		prptr->prstate = PR_RECV;
+		prptr->prstate = PR_RECVB;
 		resched();		/* block until message arrives	*/
 	}
 	msg = readbuff(&prptr->prmsg);

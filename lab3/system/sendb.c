@@ -31,7 +31,7 @@ syscall	sendb(
 	prptr->prhasmsg = TRUE;		/* indicate message is waiting	*/
 	/* If recipient waiting or in timed-wait make it ready */
 
-	if (prptr->prstate == PR_RECV) {
+	if (prptr->prstate == PR_RECVB) {
 		ready(pid, RESCHED_YES);
 	} else if (prptr->prstate == PR_RECTIM) {
 		unsleep(pid);
