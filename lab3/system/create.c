@@ -58,6 +58,8 @@ pid32	create(
     prptr->prmsg.start = 0;
     prptr->prmsg.count = 0;
 
+    for (i=0; i<prptr->prmsg.size; i++) prptr->prmsg.elems[i] = 0;
+
 	/* Set up initial device descriptors for the shell		*/
 
 	prptr->prdesc[0] = CONSOLE;	/* stdin  is CONSOLE device	*/
