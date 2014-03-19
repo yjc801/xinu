@@ -8,11 +8,12 @@ void	writebuff(
 	)
 {
 	intmask	mask;			/* saved interrupt mask		*/
-	// int16 end;
+	int16 end;
 	
 	mask = disable();
 
-    // end = (buffer->start + buffer->count) % buffer->size;
+    end = (buffer->start + buffer->count) % buffer->size;
+    kprintf("End is %d\n",end);
     buffer->elems[0] = msg;
 
  //    if (buffer.count == buffer.size){
