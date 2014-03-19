@@ -34,7 +34,7 @@ void	resched(void)		/* assumes interrupts are disabled	*/
 	ptold = &proctab[currpid];
 
 	// group A is set to the initial priority if the current process belongs to group A
-
+	
 	if(ptold->prgroup == PROPORTIONALSHARE && currpid != NULLPROC)
 	{
 		propprio = INITGPPRIO_PROP;
@@ -46,12 +46,10 @@ void	resched(void)		/* assumes interrupts are disabled	*/
 		ptold->prprio = MAXINT - Pi;
 	}
 
-	// kprintf("Priority of %s is %d.\r\n",ptold->prname,ptold->prprio);
-
-	if(ptold->prgroup == TSSCHED && currpid != NULLPROC){
+	if(ptold->prgroup == TSSCHED && currpid != NULLPROC){   
 		
 		tsprio = INITGPPRIO_TS;
-		if (preempt == QUANTUM && ptold->prstate != PR_CURR){
+		if (preempt == QUANTUM && ptold->prstate != PR_CURR){  // Junchao Yan modified, where it was preempt < QUANTUM
 			ptold->prprio += 1;
 		}
 

@@ -49,6 +49,7 @@ pid32	create(
 	prptr->prgroup = group;
 
 	if (group == PROPORTIONALSHARE){
+		kprintf("Rate_SUM = %d; Priority = %d \r\n",rate_sum, priority);
 		if (isbadrate(priority) || (priority+rate_sum)>100){
 			restore(mask);
 			return SYSERR;
