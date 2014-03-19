@@ -8,7 +8,7 @@ void	writebuff(
 	)
 {
 	intmask	mask;			/* saved interrupt mask		*/
-	// int16 end;
+	int16 end;
 	
 	mask = disable();
 
