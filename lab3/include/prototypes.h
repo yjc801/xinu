@@ -131,7 +131,7 @@ extern	syscall	putc(did32, char);
 /* in file read.c */
 extern	syscall	read(did32, char *, uint32);
 
-extern	umsg32	readbuff(buff);
+extern	umsg32	readbuff(buff *);
 
 /* in file ready.c */
 extern	status	ready(pid32, bool8);
