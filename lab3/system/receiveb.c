@@ -22,7 +22,10 @@ umsg32	receiveb(void)
 	msg = readbuff(&prptr->prmsg);
 	
 	semptr = &semtab[prptr->prbuffsem];
-	if (semptr->scount < 0) {
+	
+	//kprintf("scount %d\r\n",semptr->scount);
+	
+	if (semptr->scount <= 0) {
 		signal(prptr->prbuffsem);
 	}
 	
