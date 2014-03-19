@@ -25,7 +25,7 @@ syscall	send(
 		restore(mask);
 		return SYSERR;
 	}
-	prptr->prmsg = msg;		/* deliver message		*/
+	prptr->prmsg[0] = msg;		/* deliver message		*/
 	prptr->prhasmsg = TRUE;		/* indicate message is waiting	*/
 
 	/* If recipient waiting or in timed-wait make it ready */

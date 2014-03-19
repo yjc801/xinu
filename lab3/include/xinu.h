@@ -2,6 +2,7 @@
 
 #include <kernel.h>
 #include <conf.h>
+#include <lab3.h>
 #include <process.h>
 #include <queue.h>
 #include <sched.h>
