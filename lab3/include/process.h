@@ -54,7 +54,7 @@ struct procent {		/* entry in the process table		*/
 	char	prname[PNMLEN];	/* process name				*/
 	uint32	prsem;		/* semaphore on which process waits	*/
 	pid32	prparent;	/* id of the creating process		*/
-	umsg32	prmsg;		/* message sent to this process		*/
+	umsg32	prmsg[MSGSIZE];		/* message sent to this process		*/
 	bool8	prhasmsg;	/* nonzero iff msg is valid		*/
 	int16	prdesc[NDESC];	/* device descriptors for process	*/
 };
