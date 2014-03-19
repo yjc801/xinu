@@ -18,7 +18,7 @@ umsg32	receiveb(void)
 		prptr->prstate = PR_RECV;
 		resched();		/* block until message arrives	*/
 	}
-	msg = readbuff(prptr->prmsg);
+	msg = readbuff(&prptr->prmsg);
 	prptr->prhasmsg = FALSE;	/* reset message flag		*/
 	restore(mask);
 	return msg;
