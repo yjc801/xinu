@@ -14,7 +14,7 @@ void	writebuff(
 
     end = (buffer->start + buffer->count) % buffer->size;
     // kprintf("End is %d\n",end);
-    (buffer->elems)[end] = msg;
+    buffer->elems[end] = msg;
 
  //    if (buffer.count == buffer.size){
  //        buffer.start = (buffer.start + 1) % buffer.size;
