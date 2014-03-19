@@ -10,6 +10,7 @@ umsg32	receiveb(void)
 {
 	intmask	mask;			/* saved interrupt mask		*/
 	struct	procent *prptr;		/* ptr to process' table entry	*/
+	struct  sentry	*semptr;
 	umsg32	msg;			/* message to return		*/
 
 	mask = disable();
@@ -19,6 +20,12 @@ umsg32	receiveb(void)
 		resched();		/* block until message arrives	*/
 	}
 	msg = readbuff(&prptr->prmsg);
+	
+	semptr = &semtab[prptr->prbuffsem];
+	if (semptr->scount < 0) {
+		signal(prptr->prbuffsem);
+	}
+	
 	prptr->prhasmsg = FALSE;	/* reset message flag		*/
 	restore(mask);
 	return msg;
