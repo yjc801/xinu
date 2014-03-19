@@ -19,6 +19,7 @@ umsg32	receiveb(void)
 		prptr->prstate = PR_RECVB;
 		resched();		/* block until message arrives	*/
 	}
+	
 	msg = readbuff(&prptr->prmsg);
 	
 	semptr = &semtab[prptr->prbuffsem];

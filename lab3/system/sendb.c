@@ -21,10 +21,15 @@ syscall	sendb(
 	}
 
 	prptr = &proctab[pid];
-	if ((prptr->prstate == PR_FREE) || prptr->prhasmsg) {
+
+	if ((prptr->prstate == PR_FREE)
+	//|| prptr->prhasmsg 
+	){
 		restore(mask);
 		return SYSERR;
 	}
+//	struct sentry *semptr;
+//	semptr = &semtab[prptr->prbuffsem];
 	wait(prptr->prbuffsem);
 	writebuff(&prptr->prmsg, msg);
 
