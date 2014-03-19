@@ -13,7 +13,7 @@ void	writebuff(
 	mask = disable();
 
     end = (buffer.start + buffer.count) % buffer.size;
-    buffer.elems[end] = msg;
+    buffer.elems[0] = msg;
 
  //    if (buffer.count == buffer.size){
  //        buffer.start = (buffer.start + 1) % buffer.size;
