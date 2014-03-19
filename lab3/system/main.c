@@ -19,7 +19,7 @@ int main(int argc, char **argv)
 	
 	resume(repid = create(reader, 2048, 20, "reader", 0));
 	resume(wrpid = create(sender, 2048, 20, "sender", 2, repid, msg));
-	
+	sleepms(1000);	
 	return OK;
 }
 

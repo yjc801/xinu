@@ -10,10 +10,11 @@ umsg32	readbuff(
 	umsg32 msg;
 
 	mask = disable();
-
-    msg = buffer->elems[buffer->start];
-    buffer->start = (buffer->start + 1) % buffer->size;
-    -- buffer->count;
+	
+	int16 start = buffer->start;
+	msg = buffer->elems[start];
+	buffer->start = (start + 1) % buffer->size;
+	-- buffer->count;
 
 	restore(mask);
 	return msg;

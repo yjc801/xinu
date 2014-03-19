@@ -29,7 +29,6 @@ syscall	send(
 	writebuff(&prptr->prmsg, msg);
 	// prptr->prmsg.elems[0] = msg;
 	prptr->prhasmsg = TRUE;		/* indicate message is waiting	*/
-
 	/* If recipient waiting or in timed-wait make it ready */
 
 	if (prptr->prstate == PR_RECV) {
