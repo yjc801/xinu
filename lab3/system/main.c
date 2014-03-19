@@ -24,11 +24,15 @@ int main(int argc, char **argv)
 }
 
 void sender(pid32 pid, umsg32 msg){
-	send(pid, msg);
+	while (1){
+		send(pid, msg);
+	}
 }
 
 void reader(void) {
 	umsg32 msg;
-	msg = receive();
-	kprintf("%d",msg);
+	while (1) {
+		msg = receive();
+		kprintf("%d",msg);
+	}
 }

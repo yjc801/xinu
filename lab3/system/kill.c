@@ -51,6 +51,7 @@ syscall	kill(
 		/* fall through */
 
 	default:
+		semdelete(prptr->prsem);
 		prptr->prstate = PR_FREE;
 	}
 
