@@ -3,7 +3,7 @@
 #include <xinu.h>
 
 void	writebuff(
-	  buff	*buffer,
+	  buff	buffer,
 	  umsg32 msg
 	)
 {
@@ -11,12 +11,12 @@ void	writebuff(
 	
 	mask = disable();
 
-    int16 end = (buffer->start + buffer->count) % buffer->size;
-    buffer->elems[end] = msg;
-    if (buffer->count == buffer->size)
-        buffer->start = (buffer->start + 1) % buffer->size; /* full, overwrite */
+    int16 end = (buffer.start + buffer.count) % buffer.size;
+    buffer.elems[end] = msg;
+    if (buffer.count == buffer.size)
+        buffer.start = (buffer.start + 1) % buffer.size; /* full, overwrite */
     else
-        ++ buffer->count;
+        ++ buffer.count;
 
 	restore(mask);
 	// return msg;

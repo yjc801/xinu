@@ -131,7 +131,7 @@ extern	syscall	putc(did32, char);
 /* in file read.c */
 extern	syscall	read(did32, char *, uint32);
 
-extern	umsg32	readbuff(buff *);
+extern	umsg32	readbuff(buff);
 
 /* in file ready.c */
 extern	status	ready(pid32, bool8);
@@ -236,7 +236,7 @@ extern	void	wakeup(void);
 /* in file write.c */
 extern	syscall	write(did32, char *, uint32);
 
-extern	void	writebuff(buff *, umsg32);
+extern	void	writebuff(buff, umsg32);
 
 /* in file xdone.c */
 extern	void	xdone(void);
