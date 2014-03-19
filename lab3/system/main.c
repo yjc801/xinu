@@ -28,7 +28,7 @@ void sender(pid32 pid, umsg32 msg){
 }
 
 void reader(void) {
-	umsg32;
+	umsg32 msg;
 	msg = receive();
 	kprintf("%d",msg);
 }
