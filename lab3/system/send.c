@@ -26,7 +26,7 @@ syscall	send(
 		return SYSERR;
 	}
 
-	writebuff(prptr->prmsg, msg);
+	writebuff(&prptr->prmsg, msg);
 	// prptr->prmsg.elems[0] = msg;
 	prptr->prhasmsg = TRUE;		/* indicate message is waiting	*/
 

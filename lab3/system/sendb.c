@@ -26,7 +26,7 @@ syscall	sendb(
 		return SYSERR;
 	}
 	
-	writebuff(prptr->prmsg, msg);
+	writebuff(&prptr->prmsg, msg);
 	prptr->prhasmsg = TRUE;		/* indicate message is waiting	*/
 
 	/* If recipient waiting or in timed-wait make it ready */

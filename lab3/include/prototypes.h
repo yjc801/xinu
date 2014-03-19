@@ -236,7 +236,7 @@ extern	void	wakeup(void);
 /* in file write.c */
 extern	syscall	write(did32, char *, uint32);
 
-extern	void	writebuff(buff, umsg32);
+extern	void	writebuff(buff *, umsg32);
 
 /* in file xdone.c */
 extern	void	xdone(void);
