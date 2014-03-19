@@ -54,6 +54,10 @@ pid32	create(
 	prptr->prparent = (pid32)getpid();
 	prptr->prhasmsg = FALSE;
 
+    prptr->prmsg->size  = MSGSIZE;
+    prptr->prmsg->start = 0;
+    prptr->prmsg->count = 0;
+
 	/* Set up initial device descriptors for the shell		*/
 
 	prptr->prdesc[0] = CONSOLE;	/* stdin  is CONSOLE device	*/

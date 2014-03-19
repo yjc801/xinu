@@ -45,12 +45,12 @@
 
 /* Definition of the process table (multiple of 32 bits) */
 
-typedef struct buffer{
+typedef struct buff{
     int16		size;   /* maximum number of elements           */
     int16		start;  /* index of oldest element              */
     int16		count;    /* index at which to write new element  */
-    umsg32		*elems;  /* vector of elements                   */
-}buffer;
+    umsg32		elems[MSGSIZE];  /* vector of elements                   */
+}buff;
 
 struct procent {		/* entry in the process table		*/
 	uint16	prstate;	/* process state: PR_CURR, etc.		*/
@@ -61,7 +61,7 @@ struct procent {		/* entry in the process table		*/
 	char	prname[PNMLEN];	/* process name				*/
 	uint32	prsem;		/* semaphore on which process waits	*/
 	pid32	prparent;	/* id of the creating process		*/
-	buffer	prmsg;		/* message sent to this process		*/
+	buff	*prmsg;		/* message sent to this process		*/
 	bool8	prhasmsg;	/* nonzero iff msg is valid		*/
 	int16	prdesc[NDESC];	/* device descriptors for process	*/
 };

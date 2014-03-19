@@ -6,7 +6,7 @@
  *  send  -  pass a message to a process and start recipient if waiting
  *------------------------------------------------------------------------
  */
-syscall	send(
+syscall	sendb(
 	  pid32		pid,		/* ID of recipient process	*/
 	  umsg32	msg		/* contents of message		*/
 	)
@@ -25,7 +25,8 @@ syscall	send(
 		restore(mask);
 		return SYSERR;
 	}
-	prptr->prmsg = msg;		/* deliver message		*/
+	
+	writebuff(prptr->prmsg, msg);
 	prptr->prhasmsg = TRUE;		/* indicate message is waiting	*/
 
 	/* If recipient waiting or in timed-wait make it ready */

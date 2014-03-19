@@ -34,7 +34,7 @@ umsg32	recvtime(
 	/* Either message arrived or timer expired */
 
 	if (prptr->prhasmsg) {
-		msg = prptr->prmsg[0];	/* retrieve message		*/
+		msg = readbuff(prptr->prmsg);
 		prptr->prhasmsg = FALSE;/* reset message indicator	*/
 	} else {
 		msg = TIMEOUT;
