@@ -8,24 +8,25 @@
 /* main - main program for testing Xinu					*/
 /*									*/
 /************************************************************************/
-void sender(pid32, umsg32);
+void sender(pid32);
 void reader(void);
 
 int main(int argc, char **argv)
 {
 	pid32 wrpid;
 	pid32 repid;
-	umsg32 msg = 1;
 	
 	resume(repid = create(reader, 2048, 20, "reader", 0));
-	resume(wrpid = create(sender, 2048, 20, "sender", 2, repid, msg));
-	sleepms(1000);	
+	resume(wrpid = create(sender, 2048, 20, "sender", 1, repid));
+	sleep(100);	
 	return OK;
 }
 
-void sender(pid32 pid, umsg32 msg){
+void sender(pid32 pid){
+	umsg32 i;
 	while (1){
-		sendb(pid, msg);
+		for (i=0; i<100; i++) 
+			sendb(pid, i);
 	}
 }
 

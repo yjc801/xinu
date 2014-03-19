@@ -25,8 +25,7 @@ syscall	sendb(
 		restore(mask);
 		return SYSERR;
 	}
-	
-	wait(prptr->prsem);
+	wait(prptr->prbuffsem);
 	writebuff(&prptr->prmsg, msg);
 
 	prptr->prhasmsg = TRUE;		/* indicate message is waiting	*/
