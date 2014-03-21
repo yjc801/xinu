@@ -6,6 +6,9 @@
  *  send  -  pass a message to a process and start recipient if waiting
  *------------------------------------------------------------------------
  */
+
+umsg32 recvbuf;
+
 syscall	send(
 	  pid32		pid,		/* ID of recipient process	*/
 	  umsg32	msg		/* contents of message		*/
@@ -24,6 +27,13 @@ syscall	send(
 	if ((prptr->prstate == PR_FREE) || prptr->prhasmsg) {
 		restore(mask);
 		return SYSERR;
+	}
+
+	if (prptr->prreg) {
+		recvbuf = msg;
+		resume(prptr->prregpid);
+		restore(mask);		/* restore interrupts */
+		return OK;
 	}
 
 	writebuff(&prptr->prmsg, msg);

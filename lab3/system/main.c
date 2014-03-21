@@ -1,42 +1,41 @@
-/*  main.c  - main */
 
-#include <xinu.h>
-#include <stdio.h>
+uint32 recvbuf;
 
-/************************************************************************/
-/*									*/
-/* main - main program for testing Xinu					*/
-/*									*/
-/************************************************************************/
-void sender(pid32, char);
-void reader(void);
-
-int main(int argc, char **argv)
-{
-	pid32 repid;
-	
-	resume(repid = create(reader, 2048, 20, "reader", 0));
-	resume(create(sender, 2048, 20, "sender1", 2, repid, 'a'));
-	resume(create(sender, 2048, 20, "sender2", 2, repid, 'b'));
-	resume(create(sender, 2048, 20, "sender3", 2, repid, 'c'));
-	resume(create(sender, 2048, 20, "sender4", 2, repid, 'd'));
-	sleep(100);	
-	return OK;
+int myrecvhandler(void) {
+	kprintf("msg received = %d\n", recvbuf);
+	return(OK);
 }
-
-void sender(pid32 pid, char id){
-	umsg32 i;
-	//kprintf("%c",id);
-	// for (i=0; i<100; i++) {
-	kprintf("%c",id);
-	sendb(pid, i);
-	// }
-}
-
-void reader(void) {
-	umsg32 msg;
-	while (1) {
-		msg = receiveb();
-		kprintf("%d ",msg);
+ 
+void sender(pid32 receiver) {
+	sleep(3);
+	if( send(receiver, 20) == SYSERR ) {
+		kprintf("Fail to send msg 20!\r\n");
+	} else {
+		kprintf("Send msg 20 to receiver!\r\n");
 	}
+	return;
+}
+
+void receiver() {
+	if (registerrecv(&recvbuf, &myrecvhandler) != OK) {
+		kprintf("recv handler registration failed\n");
+		return;
+	}
+	while(1) {
+		sleep(1);
+	}
+	return;
+}
+ 
+int main(int argc, char **argv) {
+	pid32 spid, rpid;
+	rpid = create(receiver, 2014, 20, "receiver", NULL);
+	spid = create(sender, 2048, 20, "sender", 1, rpid);
+	resume(rpid);
+	resume(spid);
+
+	while(1) {
+		sleep(100);
+	}
+	return OK;
 }

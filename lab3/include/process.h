@@ -64,6 +64,8 @@ struct procent {		/* entry in the process table		*/
 	pid32	prparent;	/* id of the creating process		*/
 	buff	prmsg;		/* message sent to this process		*/
 	sid32	prbuffsem;
+	bool8	prreg;
+	pid32	prregpid;
 	bool8	prhasmsg;	/* nonzero iff msg is valid		*/
 	int16	prdesc[NDESC];	/* device descriptors for process	*/
 };

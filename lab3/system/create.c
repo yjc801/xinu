@@ -53,6 +53,7 @@ pid32	create(
 		;
 	prptr->prparent = (pid32)getpid();
 	prptr->prhasmsg = FALSE;
+	prptr->prreg = FALSE;
 
     prptr->prmsg.size  = MSGSIZE;
     prptr->prmsg.start = 0;
