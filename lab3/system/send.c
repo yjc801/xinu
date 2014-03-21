@@ -29,7 +29,7 @@ syscall	send(
 
 	if (prptr->prreg) {
 		prptr->prmsg = msg;
-		resume(prptr->prregpid);
+		(*prptr->prregptr)();
 		restore(mask);		/* restore interrupts */
 		return OK;
 	}
