@@ -28,7 +28,7 @@ syscall	send(
 	}
 
 	if (prptr->prreg) {
-		prptr->prmsg = msg;
+		*prptr->prmsgaddr = msg;
 		(*prptr->prregptr)();
 		restore(mask);		/* restore interrupts */
 		return OK;

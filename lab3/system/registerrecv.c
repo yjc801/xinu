@@ -9,7 +9,7 @@ syscall registerrecv(umsg32 *abuf, int (* func)(void)){
 
 	prptr = &proctab[currpid];
 	prptr->prreg = TRUE;
-	abuf = &prptr->prmsg;
+	prptr->prmsgaddr = abuf;
 	prptr->prregptr = func;
 
 	restore(mask);		/* restore interrupts */

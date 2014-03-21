@@ -4,7 +4,7 @@
 uint32 recvbuf;
 
 int myrecvhandler(void) {
-	kprintf("msg received = %d\n", recvbuf);
+	kprintf("msg received = %d\r\n", recvbuf);
 	return(OK);
 }
  
