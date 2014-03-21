@@ -1,3 +1,5 @@
+#include <xinu.h>
+#include <stdio.h>
 
 uint32 recvbuf;
 
