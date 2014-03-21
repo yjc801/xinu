@@ -31,7 +31,7 @@ syscall	sendb(
 //	struct sentry *semptr;
 //	semptr = &semtab[prptr->prbuffsem];
 	wait(prptr->prbuffsem);
-	writebuff(&prptr->prmsg, msg);
+	writebuff(&prptr->prbuffer, msg);
 
 	prptr->prhasmsg = TRUE;		/* indicate message is waiting	*/
 	/* If recipient waiting or in timed-wait make it ready */
