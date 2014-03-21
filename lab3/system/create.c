@@ -55,9 +55,9 @@ pid32	create(
 	prptr->prhasmsg = FALSE;
 	prptr->prreg = FALSE;
 
-    prptr->prmsg.size  = MSGSIZE;
-    prptr->prmsg.start = 0;
-    prptr->prmsg.count = 0;
+    prptr->prbuffer.size  = MSGSIZE;
+    prptr->prbuffer.start = 0;
+    prptr->prbuffer.count = 0;
 
     prptr->prbuffsem = semcreate(MSGSIZE);
 

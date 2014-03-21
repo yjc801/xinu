@@ -20,7 +20,7 @@ umsg32	receiveb(void)
 		resched();		/* block until message arrives	*/
 	}
 	
-	msg = readbuff(&prptr->prmsg);
+	msg = readbuff(&prptr->prbuffer);
 	
 	semptr = &semtab[prptr->prbuffsem];
 	

@@ -12,10 +12,10 @@ syscall registerrecv(umsg32 *abuf, int (* func)(void)){
 		restore(mask);		/* restore interrupts */
 		return SYSERR;
 	}
-	abuf = &recvbuf;
 
 	prptr = &proctab[pid];
 	prptr->prreg = TRUE;
+	abuf = &prptr->prmsg;
 	prptr->prregpid = pid;
 
 	restore(mask);		/* restore interrupts */
