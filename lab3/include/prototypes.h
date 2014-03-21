@@ -147,6 +147,8 @@ extern	umsg32	recvclr(void);
 /* in file recvtime.c */
 extern	umsg32	recvtime(int32);
 
+extern syscall registerrecv(umsg32 *, int (* func)(void));
+
 /* in file resched.c */
 extern	void	resched(void);
 
