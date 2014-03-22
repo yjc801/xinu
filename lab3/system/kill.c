@@ -13,6 +13,7 @@ syscall	kill(
 	intmask	mask;			/* saved interrupt mask		*/
 	struct	procent *prptr;		/* ptr to process' table entry	*/
 	int32	i;			/* index into descriptors	*/
+	struct	memblk	*curr;
 
 	mask = disable();
 	if (isbadpid(pid) || (pid == NULLPROC)
@@ -51,6 +52,14 @@ syscall	kill(
 		/* fall through */
 
 	default:
+		if (prptr->prgcflag){
+			curr = &memlist;
+			while (curr != NULL){
+				if (curr->gcflag)
+					freememb((char *)curr, curr->mlength);
+				curr = curr->mnext;
+			}
+		}
 		semdelete(prptr->prsem);
 		prptr->prstate = PR_FREE;
 	}

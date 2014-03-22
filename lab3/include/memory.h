@@ -22,6 +22,8 @@
 struct	memblk	{			/* see roundmb & truncmb	*/
 	struct	memblk	*mnext;		/* ptr to next free memory blk	*/
 	uint32	mlength;		/* size of blk (includes memblk)*/
+	bool8	gcflag;
+	pid32	gcpid;
 	};
 extern	struct	memblk	memlist;	/* head of free memory list	*/
 extern	void	*maxheap;		/* max free memory address	*/
