@@ -9,6 +9,7 @@
 void sender(pid32 receiver) {
 	uint32 i;
 	for(i=0; i<15; i++) {
+		kprintf("sender %d\r\n",i);
 		if( sendb(receiver, i) == SYSERR ) {
 			kprintf("Fail to send msg %d!\r\n", i);
 		} else {
