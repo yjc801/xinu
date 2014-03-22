@@ -22,18 +22,15 @@ syscall	sendb(
 
 	prptr = &proctab[pid];
 
-	if ((prptr->prstate == PR_FREE)
-	//|| prptr->prhasmsg 
-	){
+	if (prptr->prstate == PR_FREE)
+	{
 		restore(mask);
 		return SYSERR;
 	}
-//	struct sentry *semptr;
-//	semptr = &semtab[prptr->prbuffsem];
+	
 	wait(prptr->prbuffsem);
 	writebuff(&prptr->prbuffer, msg);
 
-	prptr->prhasmsg = TRUE;		/* indicate message is waiting	*/
 	/* If recipient waiting or in timed-wait make it ready */
 
 	if (prptr->prstate == PR_RECVB) {

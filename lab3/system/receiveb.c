@@ -15,7 +15,9 @@ umsg32	receiveb(void)
 
 	mask = disable();
 	prptr = &proctab[currpid];
-	if (prptr->prhasmsg == FALSE) {
+	semptr = &semtab[prptr->prbuffsem];
+	
+	if (semptr->scount == MSGSIZE){
 		prptr->prstate = PR_RECVB;
 		resched();		/* block until message arrives	*/
 	}
@@ -25,11 +27,7 @@ umsg32	receiveb(void)
 	semptr = &semtab[prptr->prbuffsem];
 	
 	//kprintf("scount %d\r\n",semptr->scount);
-	
-	if (semptr->scount <= 0) {
-		signal(prptr->prbuffsem);
-		prptr->prhasmsg = FALSE;	/* reset message flag		*/
-	}
+	signal(prptr->prbuffsem);
 	
 	restore(mask);
 	return msg;
