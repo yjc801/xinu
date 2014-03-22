@@ -28,9 +28,9 @@ umsg32	receiveb(void)
 	
 	if (semptr->scount <= 0) {
 		signal(prptr->prbuffsem);
+		prptr->prhasmsg = FALSE;	/* reset message flag		*/
 	}
 	
-	prptr->prhasmsg = FALSE;	/* reset message flag		*/
 	restore(mask);
 	return msg;
 }
