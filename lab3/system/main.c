@@ -1,34 +1,33 @@
 #include <xinu.h>
 #include <stdio.h>
-#include <string.h>
-/************************************************************************/
-/* */
-/* main - main program for testing Xinu */
-/* */
-/************************************************************************/
+
+uint32 recvbuf;
+
+int myrecvhandler(void) {
+	kprintf("msg received = %d\n", recvbuf);
+	return(OK);
+}
+ 
 void sender(pid32 receiver) {
-	uint32 i;
-	for(i=0; i<15; i++) {
-		if( sendb(receiver, i) == SYSERR ) {
-			kprintf("Fail to send msg %d!\r\n", i);
-		} else {
-			kprintf("Send msg %d to receiver!\r\n", i);
-		}
+	sleep(3);
+	int i;
+	for (i = 0; i < 20; i++){
+	if( send(receiver, 20) == SYSERR ) {
+		kprintf("Fail to send msg 20!\r\n");
+	} else {
+		kprintf("Send msg 20 to receiver!\r\n");
+	}
 	}
 	return;
 }
 
 void receiver(void) {
-	int i;
-	uint32 msg;
-	for(i=0; i<18; i++) {
-		msg = receiveb();
-		if( msg == SYSERR ) {
-			kprintf("Fail to recieve msg!\r\n");
-		} else {
-			kprintf("Recieve msg %d from sender!\r\n", msg);
-		}
-	sleep(1);
+	if (registerrecv(&recvbuf, &myrecvhandler) != OK) {
+		kprintf("recv handler registration failed\n");
+		return;
+	}
+	while(1) {
+		sleep(1);
 	}
 	return;
 }

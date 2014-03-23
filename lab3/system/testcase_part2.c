@@ -1,3 +1,6 @@
+#include <xinu.h>
+#include <stdio.h>
+#include <string.h>
 
 uint32 recvbuf;
 
@@ -16,7 +19,7 @@ void sender(pid32 receiver) {
 	return;
 }
 
-void receiver() {
+void receiver(void) {
 	if (registerrecv(&recvbuf, &myrecvhandler) != OK) {
 		kprintf("recv handler registration failed\n");
 		return;
