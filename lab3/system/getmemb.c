@@ -46,6 +46,7 @@ char  	*getmemb(
 			memlist.mlength -= nbytes;
 			curr->gcpid = currpid;
 			curr->gcflag = FALSE;
+			curr->mlength = nbytes;
 			prptr->prgcflag = TRUE;
 			restore(mask);
 			return (char *)(curr);

@@ -3,29 +3,43 @@
 
 uint32 recvbuf;
 
-int myrecvhandler(void) {
-	kprintf("msg received = %d\n", recvbuf);
+int myrecvhandler1(void) {
+	kprintf("Handler1: msg received = %d\r\n", recvbuf);
+	sleep(2);
 	return(OK);
 }
  
+int myrecvhandler2(void) {
+	kprintf("Handler2: msg received = %d\r\n", recvbuf);
+	return(OK);
+}
+
 void sender(pid32 receiver) {
 	sleep(3);
 	int i;
-	for (i = 0; i < 20; i++){
-	if( send(receiver, 20) == SYSERR ) {
-		kprintf("Fail to send msg 20!\r\n");
+	for (i=0;i<5;i++){
+	if( send(receiver, i) == SYSERR ) {
+		kprintf("Fail to send msg %d!\r\n",i);
 	} else {
-		kprintf("Send msg 20 to receiver!\r\n");
+		kprintf("Send msg %d\r\n",i);
 	}
+	sleepms(10);
 	}
 	return;
 }
 
 void receiver(void) {
-	if (registerrecv(&recvbuf, &myrecvhandler) != OK) {
+//	kprintf("receive() %d\r\n",receive());
+	if (registerrecv(&recvbuf, &myrecvhandler1) != OK) {
 		kprintf("recv handler registration failed\n");
 		return;
 	}
+	sleep(5);
+	if (registerrecv(&recvbuf, &myrecvhandler2) != OK) {
+		kprintf("recv handler registration failed\n");
+	//	return;
+	}
+
 	while(1) {
 		sleep(1);
 	}
@@ -33,11 +47,13 @@ void receiver(void) {
 }
  
 int main(int argc, char **argv) {
-	pid32 spid, rpid;
+	pid32 spid1, rpid;
 	rpid = create(receiver, 2014, 20, "receiver", NULL);
-	spid = create(sender, 2048, 20, "sender", 1, rpid);
+	spid1 = create(sender, 2048, 20, "sender1", 1, rpid);
+	//spid2 = create(sender, 2048, 20, "sender2", 1, rpid);
 	resume(rpid);
-	resume(spid);
+	resume(spid1);
+	//resume(spid2);
 
 	while(1) {
 		sleep(100);

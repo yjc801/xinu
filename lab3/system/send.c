@@ -22,10 +22,11 @@ syscall	send(
 	}
 
 	prptr = &proctab[pid];
-	
 	if ((prptr->prreg) && (prptr->prstate != PR_FREE)) {
 		*prptr->prmsgaddr = msg;
+		prptr->prhandling = TRUE; 
 		(*prptr->prregptr)();
+		prptr->prhandling = FALSE;
 		restore(mask);		/* restore interrupts */
 		return OK;
 	}
