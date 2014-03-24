@@ -53,14 +53,16 @@ pid32	create(
 		;
 	prptr->prparent = (pid32)getpid();
 	prptr->prhasmsg = FALSE;
-	prptr->prreg = FALSE;
 
+	// part 1
+    prptr->prbuffull = FALSE;
+    prptr->prwait = newqueue();
     prptr->prbuffer.size  = MSGSIZE;
     prptr->prbuffer.start = 0;
     prptr->prbuffer.count = 0;
-    prptr->prwait = newqueue();
 
-    //for (i=0; i<prptr->prmsg.size; i++) prptr->prmsg.elems[i] = 0;
+    // part 2
+	prptr->prreg = FALSE;
 
 	/* Set up initial device descriptors for the shell		*/
 
