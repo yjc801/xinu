@@ -58,8 +58,7 @@ pid32	create(
     prptr->prbuffer.size  = MSGSIZE;
     prptr->prbuffer.start = 0;
     prptr->prbuffer.count = 0;
-
-    prptr->prbuffsem = semcreate(MSGSIZE);
+    prptr->prwait = newqueue();
 
     //for (i=0; i<prptr->prmsg.size; i++) prptr->prmsg.elems[i] = 0;
 

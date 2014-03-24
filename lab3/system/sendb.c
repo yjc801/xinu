@@ -13,6 +13,7 @@ syscall	sendb(
 {
 	intmask	mask;			/* saved interrupt mask		*/
 	struct	procent *prptr;		/* ptr to process' table entry	*/
+	struct  procent *curr;
 
 	mask = disable();
 	if (isbadpid(pid)) {
@@ -28,8 +29,16 @@ syscall	sendb(
 		return SYSERR;
 	}
 	
-	wait(prptr->prbuffsem);
+	while(prptr->prbuffull){
+		curr->prstate = PRSND;
+		enqueue(currpid,prptr->prwait);
+		resched();
+	}
+
 	writebuff(&prptr->prbuffer, msg);
+	if (prptr->prbuffer.size >= MSGSIZE){
+		prptr->prbuffull = TRUE;
+	}
 
 	/* If recipient waiting or in timed-wait make it ready */
 

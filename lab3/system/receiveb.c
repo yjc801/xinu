@@ -10,24 +10,21 @@ umsg32	receiveb(void)
 {
 	intmask	mask;			/* saved interrupt mask		*/
 	struct	procent *prptr;		/* ptr to process' table entry	*/
-	struct  sentry	*semptr;
 	umsg32	msg;			/* message to return		*/
 
 	mask = disable();
 	prptr = &proctab[currpid];
-	semptr = &semtab[prptr->prbuffsem];
 	
-	if (semptr->scount == MSGSIZE){
+	if (prptr->prbuffer.size <= 0){
 		prptr->prstate = PR_RECVB;
-		resched();		/* block until message arrives	*/
+		resched();		 
 	}
 	
 	msg = readbuff(&prptr->prbuffer);
 	
-	semptr = &semtab[prptr->prbuffsem];
-	
-	//kprintf("scount %d\r\n",semptr->scount);
-	signal(prptr->prbuffsem);
+	if(nonempty(prptr->prwait)){
+		ready(dequeue(prptr->prwait), RESCHED_YES);
+	}
 	
 	restore(mask);
 	return msg;

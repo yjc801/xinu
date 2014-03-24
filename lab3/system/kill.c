@@ -52,6 +52,11 @@ syscall	kill(
 		/* fall through */
 
 	default:
+		
+		while(nonempty(prptr->prwait)){
+			ready(dequeue(prptr->prwait),RESCHED_NO);	
+		}
+
 		if (prptr->prgcflag){
 			curr = &memlist;
 			while (curr != NULL){
@@ -60,7 +65,6 @@ syscall	kill(
 				curr = curr->mnext;
 			}
 		}
-		semdelete(prptr->prsem);
 		prptr->prstate = PR_FREE;
 	}
 

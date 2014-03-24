@@ -17,6 +17,7 @@
 #define	PR_WAIT		6	/* process is on semaphore queue	*/
 #define	PR_RECTIM	7	/* process is receiving with timeout	*/
 #define	PR_RECVB	8
+#define	PRSND		9
 
 /* Miscellaneous process definitions */
 
@@ -65,7 +66,8 @@ struct procent {		/* entry in the process table		*/
 	umsg32	prmsg;		/* message sent to this process		*/
 	umsg32 *prmsgaddr;
 	buff	prbuffer;		/* message sent to this process		*/
-	sid32	prbuffsem;
+	bool8 	prbuffull;
+	qid16	prwait;
 	bool8	prreg;
 	bool8	prgcflag;
 	int		(*prregptr)(void);
