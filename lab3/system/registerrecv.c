@@ -6,7 +6,6 @@ syscall registerrecv(umsg32 *abuf, int (* func)(void)){
 	struct	procent *prptr;		/* ptr to process' table entry	*/
 
 	mask = disable();
-
 	prptr = &proctab[currpid];
 	prptr->prreg = TRUE;
 	prptr->prmsgaddr = abuf;

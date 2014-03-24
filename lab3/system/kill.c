@@ -60,7 +60,7 @@ syscall	kill(
 		if (prptr->prgcflag){
 			curr = &memlist;
 			while (curr != NULL){
-				if (curr->gcflag)
+				if (curr->gcflag == TRUE && curr->gcpid == currpid)
 					freememb((char *)curr, curr->mlength);
 				curr = curr->mnext;
 			}
