@@ -15,13 +15,13 @@ umsg32	receiveb(void)
 	mask = disable();
 	prptr = &proctab[currpid];
 	
-	if (prptr->prbuffer.size <= 0){
+	if (prptr->prbuffer.count <= 0){
 		prptr->prstate = PR_RECVB;
 		resched();		 
 	}
 	
 	msg = readbuff(&prptr->prbuffer);
-	
+	prptr->prbuffull = FALSE;
 	if(nonempty(prptr->prwait)){
 		ready(dequeue(prptr->prwait), RESCHED_YES);
 	}

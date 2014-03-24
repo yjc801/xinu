@@ -8,6 +8,7 @@
 /************************************************************************/
 void sender(pid32 receiver) {
 	uint32 i;
+	kprintf("sender\r\n");
 	for(i=0; i<15; i++) {
 		if( sendb(receiver, i) == SYSERR ) {
 			kprintf("Fail to send msg %d!\r\n", i);
@@ -21,7 +22,8 @@ void sender(pid32 receiver) {
 void receiver(void) {
 	int i;
 	uint32 msg;
-	for(i=0; i<18; i++) {
+	kprintf("receiver\r\n");
+	for(i=0; i<15; i++) {
 		msg = receiveb();
 		if( msg == SYSERR ) {
 			kprintf("Fail to recieve msg!\r\n");

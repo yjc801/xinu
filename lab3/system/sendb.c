@@ -22,13 +22,12 @@ syscall	sendb(
 	}
 
 	prptr = &proctab[pid];
-
+	curr = &proctab[currpid];
 	if (prptr->prstate == PR_FREE)
 	{
 		restore(mask);
 		return SYSERR;
 	}
-	
 	while(prptr->prbuffull){
 		curr->prstate = PRSND;
 		enqueue(currpid,prptr->prwait);
@@ -36,7 +35,7 @@ syscall	sendb(
 	}
 
 	writebuff(&prptr->prbuffer, msg);
-	if (prptr->prbuffer.size >= MSGSIZE){
+	if (prptr->prbuffer.count >= MSGSIZE){
 		prptr->prbuffull = TRUE;
 	}
 
