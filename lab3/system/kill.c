@@ -29,7 +29,7 @@ syscall	kill(
 	// part 3
 	curr =  prptr->prblock;
     while(curr!= NULL){
-		freemem(curr->blkaddr,curr->length);
+		freememb(curr->blkaddr,curr->length);
 		curr = curr->next;
 	}
 

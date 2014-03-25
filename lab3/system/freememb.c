@@ -75,6 +75,7 @@ syscall	freememb(
 		temp = curr->next;
 		if (temp->blkaddr == blkaddr){
 			curr->next = temp->next;
+			numbytes-=nbytes;
 		}
 		curr = curr->next;
 	}
