@@ -24,7 +24,7 @@ syscall	freememb(
 		return SYSERR;
 	}
 
-	blkaddr += + sizeof(tracklist);
+	blkaddr -=  sizeof(tracklist);
 	nbytes = (uint32) roundmb(nbytes) + sizeof(tracklist);	/* use memblk multiples	*/
 	block = (struct memblk *)blkaddr;
 
