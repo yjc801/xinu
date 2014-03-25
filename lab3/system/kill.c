@@ -13,7 +13,7 @@ syscall	kill(
 	intmask	mask;			/* saved interrupt mask		*/
 	struct	procent *prptr;		/* ptr to process' table entry	*/
 	int32	i;			/* index into descriptors	*/
-	struct	memblk	*curr;
+	struct tracklist *curr;
 
 	mask = disable();
 	if (isbadpid(pid) || (pid == NULLPROC)
@@ -21,6 +21,18 @@ syscall	kill(
 		restore(mask);
 		return SYSERR;
 	}
+
+	// part 1
+	while(nonempty(prptr->prwait)){
+		ready(dequeue(prptr->prwait),RESCHED_NO);	
+	}
+	// part 3
+	curr =  prptr->prblock;
+    while(curr!= NULL){
+		freemem(curr->blkaddr,curr->length);
+		curr = curr->next;
+	}
+
 
 	if (--prcount <= 1) {		/* last user process completes	*/
 		xdone();
@@ -52,19 +64,6 @@ syscall	kill(
 		/* fall through */
 
 	default:
-		
-		while(nonempty(prptr->prwait)){
-			ready(dequeue(prptr->prwait),RESCHED_NO);	
-		}
-
-		if (prptr->prgcflag){
-			curr = &memlist;
-			while (curr != NULL){
-				if (curr->gcflag == TRUE && curr->gcpid == currpid)
-					freememb((char *)curr, curr->mlength);
-				curr = curr->mnext;
-			}
-		}
 		prptr->prstate = PR_FREE;
 	}
 

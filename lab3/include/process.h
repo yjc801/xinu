@@ -54,6 +54,12 @@ typedef struct buff{
     umsg32		elems[MSGSIZE];  /* vector of elements                   */
 }buff;
 
+typedef struct tracklist{
+	char	*blkaddr;	
+	uint32	length;
+	struct tracklist *next;
+}tracklist;
+
 struct procent {		/* entry in the process table		*/
 	uint16	prstate;	/* process state: PR_CURR, etc.		*/
 	pri16	prprio;		/* process priority			*/
@@ -64,15 +70,15 @@ struct procent {		/* entry in the process table		*/
 	uint32	prsem;		/* semaphore on which process waits	*/
 	pid32	prparent;	/* id of the creating process		*/
 	umsg32	prmsg;		/* message sent to this process		*/
-	umsg32 *prmsgaddr;
-	buff	prbuffer;		/* message sent to this process		*/
+	bool8	prhasmsg;	/* nonzero iff msg is valid		*/
+	int16	prdesc[NDESC];	/* device descriptors for process	*/
+	buff	prbuffer;
 	bool8 	prbuffull;
 	qid16	prwait;
 	bool8	prreg;
-	bool8	prgcflag;
+	umsg32 *prmsgaddr;
 	int		(*prregptr)(void);
-	bool8	prhasmsg;	/* nonzero iff msg is valid		*/
-	int16	prdesc[NDESC];	/* device descriptors for process	*/
+	tracklist	*prblock;
 };
 
 /* Marker for the top of a process stack (used to help detect overflow)	*/

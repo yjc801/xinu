@@ -13,6 +13,7 @@ char  	*getmemb(
 	intmask	mask;			/* saved interrupt mask		*/
 	struct	memblk	*prev, *curr, *leftover;
 	struct  procent	*prptr;
+	struct 	tracklist	*temp;
 
 	mask = disable();
 	if (nbytes == 0) {
@@ -31,9 +32,10 @@ char  	*getmemb(
 		if (curr->mlength == nbytes) {	/* block is exact match	*/
 			prev->mnext = curr->mnext;
 			memlist.mlength -= nbytes;
-			curr->gcpid = currpid;
-			curr->gcflag = FALSE;
-			prptr->prgcflag = TRUE;
+			temp->length = nbytes;
+			temp->blkaddr = (char *)curr;
+			temp->next = prptr->prblock;
+			prptr->prblock = temp;
 			restore(mask);
 			return (char *)(curr);
 
@@ -44,10 +46,10 @@ char  	*getmemb(
 			leftover->mnext = curr->mnext;
 			leftover->mlength = curr->mlength - nbytes;
 			memlist.mlength -= nbytes;
-			curr->gcpid = currpid;
-			curr->gcflag = FALSE;
-			curr->mlength = nbytes;
-			prptr->prgcflag = TRUE;
+			temp->length = nbytes;
+			temp->blkaddr = (char *)curr;
+			temp->next = prptr->prblock;
+			prptr->prblock = temp;
 			restore(mask);
 			return (char *)(curr);
 		} else {			/* move to next block	*/

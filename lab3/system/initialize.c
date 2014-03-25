@@ -24,7 +24,7 @@ struct	memblk	memlist;	/* List of free memory blocks		*/
 
 int	prcount;		/* Total number of live processes	*/
 pid32	currpid;		/* ID of currently executing process	*/
-
+uint32 numbytes = 0;
 /* Memory bounds set by startup.S */
 
 void	*minheap;		/* start of heap			*/

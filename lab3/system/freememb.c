@@ -14,6 +14,8 @@ syscall	freememb(
 	intmask	mask;			/* saved interrupt mask		*/
 	struct	memblk	*next, *prev, *block;
 	uint32	top;
+	struct 	procent	*prptr;
+	struct 	tracklist *curr, *temp;
 
 	mask = disable();
 	if ((nbytes == 0) || ((uint32) blkaddr < (uint32) minheap)
@@ -53,12 +55,10 @@ syscall	freememb(
 	if (top == (uint32) block) { 	/* coalesce with previous block	*/
 		prev->mlength += nbytes;
 		block = prev;
-		block->gcflag = FALSE;
 	} else {			/* link into list as new node	*/
 		block->mnext = next;
 		block->mlength = nbytes;
 		prev->mnext = block;
-		block->gcflag = FALSE;
 	}
 
 	/* Coalesce with next block if adjacent */
@@ -67,6 +67,18 @@ syscall	freememb(
 		block->mlength += next->mlength;
 		block->mnext = next->mnext;
 	}
+
+	//update tracklist
+	prptr = &proctab[currpid];
+	curr = prptr->prblock;
+	while (curr != NULL){
+		temp = curr->next;
+		if (temp->blkaddr == blkaddr){
+			curr->next = temp->next;
+		}
+		curr = curr->next;
+	}
+
 	restore(mask);
 	return OK;
 }

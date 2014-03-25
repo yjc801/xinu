@@ -6,44 +6,21 @@
 /* main - main program for testing Xinu */
 /* */
 /************************************************************************/
-void sender(pid32 receiver) {
-	uint32 i;
-	kprintf("sender\r\n");
-	for(i=0; i<15; i++) {
-		if( sendb(receiver, i) == SYSERR ) {
-			kprintf("Fail to send msg %d!\r\n", i);
-		} else {
-			kprintf("Send msg %d to receiver!\r\n", i);
-		}
-	}
-	return;
+
+void allocater(void){
+	getmemb(10);
+	kprintf("1. # of bytes %d\r\n",numbytes);
+	getmemb(8);
+	kprintf("2. # of bytes %d\r\n",numbytes);
+	getmemb(13);
+	kprintf("3. # of bytes %d\r\n",numbytes);
 }
 
-void receiver(void) {
-	int i;
-	uint32 msg;
-	kprintf("receiver\r\n");
-	for(i=0; i<15; i++) {
-		msg = receiveb();
-		if( msg == SYSERR ) {
-			kprintf("Fail to recieve msg!\r\n");
-		} else {
-			kprintf("Recieve msg %d from sender!\r\n", msg);
-		}
-	sleep(1);
-	}
-	return;
-}
- 
 int main(int argc, char **argv) {
-	pid32 spid, rpid;
-	rpid = create(receiver, 2014, 20, "receiver", NULL);
-	spid = create(sender, 2048, 20, "sender", 1, rpid);
-	resume(rpid);
-	resume(spid);
-
-	while(1) {
-		sleep(100);
-	}
+	pid32 pid;
+	kprintf("Start: # of bytes %d\r\n",numbytes);
+	pid = resume(create(allocater, 2014, 20, "allocater", NULL));
+	kill(pid);
+	kprintf("End: # of bytes %d\r\n",numbytes);
 	return OK;
 }

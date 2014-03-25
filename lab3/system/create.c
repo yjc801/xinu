@@ -64,6 +64,9 @@ pid32	create(
     // part 2
 	prptr->prreg = FALSE;
 
+	// part 3
+	prptr->prblock = NULL;
+
 	/* Set up initial device descriptors for the shell		*/
 
 	prptr->prdesc[0] = CONSOLE;	/* stdin  is CONSOLE device	*/
