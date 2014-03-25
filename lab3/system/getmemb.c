@@ -32,6 +32,9 @@ char  	*getmemb(
 		if (curr->mlength == nbytes) {	/* block is exact match	*/
 			prev->mnext = curr->mnext;
 			memlist.mlength -= nbytes;
+
+			temp = (tracklist *) curr;
+			curr++;
 			temp->length = nbytes;
 			temp->blkaddr = (char *)curr;
 			temp->next = prptr->prblock;
@@ -46,6 +49,9 @@ char  	*getmemb(
 			leftover->mnext = curr->mnext;
 			leftover->mlength = curr->mlength - nbytes;
 			memlist.mlength -= nbytes;
+
+			temp = (tracklist *) curr;
+			curr++;
 			temp->length = nbytes;
 			temp->blkaddr = (char *)curr;
 			temp->next = prptr->prblock;
