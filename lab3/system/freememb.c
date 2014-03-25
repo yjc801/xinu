@@ -15,7 +15,7 @@ syscall	freememb(
 	struct	memblk	*next, *prev, *block;
 	uint32	top;
 	struct 	procent	*prptr;
-	struct 	tracklist *curr, *temp;
+	struct 	tracklist *curr;
 
 	mask = disable();
 	if ((nbytes == 0) || ((uint32) blkaddr < (uint32) minheap)
@@ -72,16 +72,23 @@ syscall	freememb(
 
 	//update tracklist
 	prptr = &proctab[currpid];
-	temp = prptr->prblock;
-	// kprintf("pid %d\r\n",currpid);	
-	// if (temp == NULL){
-	// 	kprintf("check\r\n");
-	// 	restore(mask);
-	// 	return OK;
-	// } 
-		
-	kprintf("%d,%d,%d\r\n",blkaddr,temp,sizeof(tracklist));
-	curr = temp->next;
+	curr =  prptr->prblock;
+    while(curr!= NULL){
+    	kprintf("%d,%d\r\n",blkaddr,curr);
+    	if ((char *)curr == blkaddr){
+    		if (curr->next == NULL){
+    			curr = curr->next;
+    			numbytes-=nbytes;
+    			break;
+    		}
+    		curr->next = curr->next->next;
+    		numbytes-=nbytes;
+    		curr = curr->next;
+    	}
+	 }
+	
+	// kprintf("%d,%d,%d\r\n",blkaddr,temp,sizeof(tracklist));
+	// curr = temp->next
 	// while (curr != NULL){
 	// 	if ((char *)curr->blkaddr == blkaddr){
 	// 		kprintf("Check\r\n");
