@@ -83,8 +83,8 @@ syscall	freememb(
     		}
     		curr->next = curr->next->next;
     		numbytes-=nbytes;
-    		curr = curr->next;
     	}
+		curr = curr->next;
 	 }
 	
 	// kprintf("%d,%d,%d\r\n",blkaddr,temp,sizeof(tracklist));
