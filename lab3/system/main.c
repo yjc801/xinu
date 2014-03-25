@@ -6,34 +6,42 @@
 /* main - main program for testing Xinu */
 /* */
 /************************************************************************/
-
-void allocater(void){
-	char *p1;
-	char *p2;
-	char *p3;
-
-	p1 = getmemb(10);
-	kprintf("1. %d\r\n",numbytes);
-	sleepms(10);
-	p2 = getmemb(8);
-	kprintf("2. %d\r\n",numbytes);
-	sleepms(10);
-	p3 = getmemb(13);
-	kprintf("3. %d\r\n",numbytes);
-	freememb(p1,10);
-	freememb(p2,8);
-	//freememb(p3,13);
-	sleepms(10);
-	kprintf("4. %d\r\n",numbytes);
+void sender(pid32 receiver) {
+	uint32 i;
+	for(i=0; i<15; i++) {
+		if( sendb(receiver, i) == SYSERR ) {
+			kprintf("Fail to send msg %d!\r\n", i);
+		} else {
+			kprintf("Send msg %d to receiver!\r\n", i);
+		}
+	}
+	return;
 }
 
+void receiver(void) {
+	int i;
+	uint32 msg;
+	for(i=0; i<18; i++) {
+		msg = receiveb();
+		if( msg == SYSERR ) {
+			kprintf("Fail to recieve msg!\r\n");
+		} else {
+			kprintf("Recieve msg %d from sender!\r\n", msg);
+		}
+	sleep(1);
+	}
+	return;
+}
+ 
 int main(int argc, char **argv) {
-	pid32 pid;
-	kprintf("Start: %d\r\n",numbytes);
-	pid = resume(create(allocater, 2014, 20, "allocater", NULL));
-	sleep(1);
-	kill(pid);
-	sleep(1);
-	kprintf("End: %d\r\n",numbytes);
+	pid32 spid, rpid;
+	rpid = create(receiver, 2014, 20, "receiver", NULL);
+	spid = create(sender, 2048, 20, "sender", 1, rpid);
+	resume(rpid);
+	resume(spid);
+
+	while(1) {
+		sleep(100);
+	}
 	return OK;
 }

@@ -34,7 +34,7 @@ char  	*getmemb(
 			memlist.mlength -= nbytes;
 
 			temp = (tracklist *) curr;
-			temp->length = nbytes - sizeof(tracklist);
+			temp->length = nbytes;
 			temp->next = prptr->prblock;
 			prptr->prblock = temp;
 			curr++;
@@ -52,7 +52,7 @@ char  	*getmemb(
 			memlist.mlength -= nbytes;
 
 			temp = (tracklist *) curr;
-			temp->length = nbytes - sizeof(tracklist);
+			temp->length = nbytes;
 			temp->next = prptr->prblock;
 			prptr->prblock = temp;
 			curr++;

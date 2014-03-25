@@ -66,8 +66,6 @@ syscall	freemem(
 		block->mnext = next->mnext;
 	}
 
-	numbytes+=nbytes;
-
 	restore(mask);
 	return OK;
 }
