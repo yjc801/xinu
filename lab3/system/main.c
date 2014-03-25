@@ -12,7 +12,6 @@ void allocater(void){
 	char *p2;
 	char *p3;
 
-	kprintf("pid %d\r\n",currpid);	
 	p1 = getmemb(10);
 	kprintf("1. %d\r\n",numbytes);
 	sleepms(10);
@@ -22,9 +21,10 @@ void allocater(void){
 	p3 = getmemb(13);
 	kprintf("3. %d\r\n",numbytes);
 	freememb(p1,10);
-	freememb(p2,8);
-	freememb(p3,13);
+	// freememb(p2,8);
+	// freememb(p3,13);
 	sleepms(10);
+	kprintf("4. %d\r\n",numbytes);
 }
 
 int main(int argc, char **argv) {

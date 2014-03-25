@@ -27,11 +27,11 @@ syscall	kill(
 		ready(dequeue(prptr->prwait),RESCHED_NO);	
 	}
 	// part 3
-	// curr =  prptr->prblock;
- //    	while(curr!= NULL){
-	// 	freememb(curr->blkaddr,curr->length);
-	// 	curr = curr->next;
-	// }
+	curr =  prptr->prblock;
+    	while(curr!= NULL){
+		freememb(curr,curr->length);
+		curr = curr->next;
+	}
 
 
 	if (--prcount <= 1) {		/* last user process completes	*/
