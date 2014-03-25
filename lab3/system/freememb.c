@@ -80,7 +80,7 @@ syscall	freememb(
 	// } 
 		
 	kprintf("%d,%d,%d\r\n",blkaddr,temp,sizeof(tracklist));
-	// curr = temp->next;
+	curr = temp->next;
 	// while (curr != NULL){
 	// 	if ((char *)curr->blkaddr == blkaddr){
 	// 		kprintf("Check\r\n");
