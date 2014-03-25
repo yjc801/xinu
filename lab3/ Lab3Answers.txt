@@ -18,7 +18,21 @@ prbuffer is used to store the msgs; prbuffull is a flag to indicate whether the 
 
 In queue.h, I modified the number of queue entries to be (3*NPROC + 4 + NSEM + NSEM).
 
+In create.c, I initialized the entries.
+
+    prptr->prbuffull = FALSE;
+    prptr->prwait = newqueue();
+    prptr->prbuffer.size  = MSGSIZE;
+    prptr->prbuffer.start = 0;
+    prptr->prbuffer.count = 0;
+
 The writebuff() and readbuff() perform write and read operations on the buffer.
+
+In kill.c, I added
+
+	while(nonempty(prptr->prwait)){
+		ready(dequeue(prptr->prwait),RESCHED_NO);	
+	}
 
 
 2. Asynchronous Message Receive
@@ -35,6 +49,20 @@ In process table, I added
 	umsg32 *prmsgaddr;
 	int		(*prregptr)(void);
 
+In create.c, I initialized the entries.
+
+	prptr->prreg = FALSE;
+
+In send.c, I added 
+
+	prptr = &proctab[pid];
+	
+	if ((prptr->prreg) && (prptr->prstate != PR_FREE)) {
+		*prptr->prmsgaddr = msg;
+		(*prptr->prregptr)();
+		restore(mask);		/* restore interrupts */
+		return OK;
+	}
 
 
 3. Garbage Collection Support
@@ -50,3 +78,7 @@ When the process is terminated, it checks if there are still unfreed memory bloc
 In process.h, I added a new struct called tracklist, which is used to track the memory block allocated to the process. In process table, I added
 	
 	tracklist	*prblock;
+
+In create.c, I initialized the associated entry.
+
+	prptr->prblock = NULL;
