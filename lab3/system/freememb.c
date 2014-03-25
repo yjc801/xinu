@@ -72,24 +72,24 @@ syscall	freememb(
 	//update tracklist
 	prptr = &proctab[currpid];
 	temp = prptr->prblock;
-	kprintf("pid %d\r\n",currpid);	
-	if (temp == NULL){
-		kprintf("check\r\n");
-		restore(mask);
-		return OK;
-	} 
+	// kprintf("pid %d\r\n",currpid);	
+	// if (temp == NULL){
+	// 	kprintf("check\r\n");
+	// 	restore(mask);
+	// 	return OK;
+	// } 
 		
-	kprintf("%d,%d,%d\r\n",blkaddr,temp->blkaddr,sizeof(tracklist));
-	curr = temp->next;
-	while (curr != NULL){
-		if ((char *)curr->blkaddr == blkaddr){
-			kprintf("Check\r\n");
-			temp->next = curr->next;
-			numbytes-=nbytes;
-	 	}
-		temp = temp->next;
-	 	curr = curr->next;
-	}
+	kprintf("%d,%d,%d\r\n",blkaddr,temp,sizeof(tracklist));
+	// curr = temp->next;
+	// while (curr != NULL){
+	// 	if ((char *)curr->blkaddr == blkaddr){
+	// 		kprintf("Check\r\n");
+	// 		temp->next = curr->next;
+	// 		numbytes-=nbytes;
+	//  	}
+	// 	temp = temp->next;
+	//  	curr = curr->next;
+	// }
 
 	restore(mask);
 	return OK;
