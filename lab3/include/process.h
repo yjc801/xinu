@@ -55,9 +55,8 @@ typedef struct buff{
 }buff;
 
 typedef struct tracklist{
-	char	*blkaddr;	
+	struct	memblk	*next;	
 	uint32	length;
-	struct tracklist *next;
 }tracklist;
 
 struct procent {		/* entry in the process table		*/
