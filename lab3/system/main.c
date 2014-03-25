@@ -21,8 +21,8 @@ void allocater(void){
 	p3 = getmemb(13);
 	kprintf("3. %d\r\n",numbytes);
 	freememb(p1,10);
-	// freememb(p2,8);
-	// freememb(p3,13);
+	freememb(p2,8);
+	//freememb(p3,13);
 	sleepms(10);
 	kprintf("4. %d\r\n",numbytes);
 }
