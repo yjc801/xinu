@@ -13,7 +13,7 @@ syscall	kill(
 	intmask	mask;			/* saved interrupt mask		*/
 	struct	procent *prptr;		/* ptr to process' table entry	*/
 	int32	i;			/* index into descriptors	*/
-	struct tracklist *curr;
+	// struct tracklist *curr;
 
 	mask = disable();
 	if (isbadpid(pid) || (pid == NULLPROC)
@@ -27,11 +27,11 @@ syscall	kill(
 		ready(dequeue(prptr->prwait),RESCHED_NO);	
 	}
 	// part 3
-	curr =  prptr->prblock;
-    	while(curr!= NULL){
-		freememb(curr->blkaddr,curr->length);
-		curr = curr->next;
-	}
+	// curr =  prptr->prblock;
+ //    	while(curr!= NULL){
+	// 	freememb(curr->blkaddr,curr->length);
+	// 	curr = curr->next;
+	// }
 
 
 	if (--prcount <= 1) {		/* last user process completes	*/
