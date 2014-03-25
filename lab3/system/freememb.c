@@ -76,7 +76,7 @@ syscall	freememb(
 	// 	if (temp == NULL){
 	// 		if (curr->blkaddr == blkaddr){
 	// 			curr = NULL;
-	// 			numbytes-=nbytes;				
+				numbytes-=nbytes;				
 	// 		}
 	// 	}
 	// 	if (temp->blkaddr == blkaddr){
