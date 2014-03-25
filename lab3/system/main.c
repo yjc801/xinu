@@ -24,7 +24,7 @@ int main(int argc, char **argv) {
 	kprintf("Start: %d\r\n",numbytes);
 	pid = resume(create(allocater, 2014, 20, "allocater", NULL));
 	kill(pid);
-	sleepms(10);
+	sleep(1);
 	kprintf("End: %d\r\n",numbytes);
 	return OK;
 }

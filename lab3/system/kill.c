@@ -29,7 +29,6 @@ syscall	kill(
 	// part 3
 	curr =  prptr->prblock;
     while(curr!= NULL){
-    	kprintf("check\r\n");
 		freememb(curr->blkaddr,curr->length);
 		curr = curr->next;
 	}
