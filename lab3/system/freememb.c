@@ -45,7 +45,6 @@ syscall	freememb(
 
 	if (((prev != &memlist) && (uint32) block < top)
 	    || ((next != NULL)	&& (uint32) block+nbytes>(uint32)next)) {
-		kprintf("Check\r\n");
 		restore(mask);
 		return SYSERR;
 	}

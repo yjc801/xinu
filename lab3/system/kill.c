@@ -28,7 +28,7 @@ syscall	kill(
 	}
 	// part 3
 	curr =  prptr->prblock;
-    	while(curr!= NULL){
+	while(curr!= NULL){
 		freemem((char *)curr-sizeof(tracklist),curr->length+sizeof(tracklist));
 		curr = curr->next;
 	}
