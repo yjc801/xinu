@@ -73,6 +73,12 @@ syscall	freememb(
 	curr = prptr->prblock;
 	while (curr != NULL){
 		temp = curr->next;
+		if (temp == NULL){
+			if (curr->blkaddr == blkaddr){
+				curr = NULL;
+				numbytes-=nbytes;				
+			}
+		}
 		if (temp->blkaddr == blkaddr){
 			curr->next = temp->next;
 			numbytes-=nbytes;
