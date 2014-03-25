@@ -34,11 +34,14 @@ char  	*getmemb(
 			memlist.mlength -= nbytes;
 
 			temp = (tracklist *) curr;
-			curr++;
 			temp->length = nbytes - sizeof(tracklist);
 			temp->blkaddr = (char *)curr;
 			temp->next = prptr->prblock;
 			prptr->prblock = temp;
+			kprintf("curr %d\r\n",curr);
+			curr+=sizeof(tracklist);
+			kprintf("curr %d\r\n",curr);
+			numbytes += nbytes;
 			restore(mask);
 			return (char *)(curr);
 
@@ -52,10 +55,13 @@ char  	*getmemb(
 
 			temp = (tracklist *) curr;
 			temp->length = nbytes - sizeof(tracklist);
+			//curr++;
 			temp->blkaddr = (char *)curr;
 			temp->next = prptr->prblock;
 			prptr->prblock = temp;
-			curr++;
+			kprintf("curr %d\r\n",curr);
+			curr+=sizeof(tracklist);
+			kprintf("curr %d\r\n",curr);
 			numbytes += nbytes;
 			restore(mask);
 			return (char *)(curr);
