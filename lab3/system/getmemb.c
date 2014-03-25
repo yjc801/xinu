@@ -52,10 +52,10 @@ char  	*getmemb(
 
 			temp = (tracklist *) curr;
 			temp->length = nbytes - sizeof(tracklist);
+			curr++;
 			temp->blkaddr = (char *)curr;
 			temp->next = prptr->prblock;
 			prptr->prblock = temp;
-			curr++;
 			numbytes += nbytes;
 			restore(mask);
 			return (char *)(curr);
