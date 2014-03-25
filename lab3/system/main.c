@@ -31,6 +31,7 @@ int main(int argc, char **argv) {
 	pid32 pid;
 	kprintf("Start: %d\r\n",numbytes);
 	pid = resume(create(allocater, 2014, 20, "allocater", NULL));
+	kill(pid);
 	sleep(1);
 	kprintf("End: %d\r\n",numbytes);
 	return OK;
