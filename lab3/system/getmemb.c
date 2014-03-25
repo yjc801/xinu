@@ -21,7 +21,7 @@ char  	*getmemb(
 		return (char *)SYSERR;
 	}
 
-	nbytes = (uint32) roundmb(nbytes);	/* use memblk multiples	*/
+	nbytes = (uint32) roundmb(nbytes) + sizeof(tracklist);	/* use memblk multiples	*/
 	
 	prptr = &proctab[currpid];
 
@@ -35,7 +35,7 @@ char  	*getmemb(
 
 			temp = (tracklist *) curr;
 			curr++;
-			temp->length = nbytes;
+			temp->length = nbytes - sizeof(tracklist);
 			temp->blkaddr = (char *)curr;
 			temp->next = prptr->prblock;
 			prptr->prblock = temp;
@@ -51,11 +51,12 @@ char  	*getmemb(
 			memlist.mlength -= nbytes;
 
 			temp = (tracklist *) curr;
-			curr++;
-			temp->length = nbytes;
+			temp->length = nbytes - sizeof(tracklist);
 			temp->blkaddr = (char *)curr;
 			temp->next = prptr->prblock;
 			prptr->prblock = temp;
+			curr++;
+			numbytes += nbytes;
 			restore(mask);
 			return (char *)(curr);
 		} else {			/* move to next block	*/
