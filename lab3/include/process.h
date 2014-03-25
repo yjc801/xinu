@@ -55,7 +55,7 @@ typedef struct buff{
 }buff;
 
 typedef struct tracklist{
-	struct	memblk	*next;	
+	struct	tracklist	*next;	
 	uint32	length;
 }tracklist;
 
