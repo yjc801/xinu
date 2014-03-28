@@ -69,7 +69,9 @@ int mylen;
 int success = 1;
 int tlen = strnlen(wordsbs, 8000);
 while (length < tlen) {
+kprintf("Reader: Check4\r\n");
 mylen = pipread(pip, &mybuf[length], tlen-length);
+kprintf("Reader: Check5\r\n");
 if (SYSERR == mylen) {
 kprintf("Reader %c: Fail to read from the pip\r\n", c);
 success = 0;
@@ -82,6 +84,7 @@ kprintf("Reader: Check2\r\n");
 length += mylen;
 sleepms(s);
 }
+kprintf("Reader: Check3\r\n");
 if( success ) {
 kprintf("Reader %c finish characters reading!\r\n");
 int flag = 1;
