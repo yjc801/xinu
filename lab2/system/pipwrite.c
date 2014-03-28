@@ -21,8 +21,7 @@ int32	pipwrite(pipid32 pipid, char *buf, uint32 len)
 	
 	piptr = &piptab[pipid];
 
-	if (piptr->pwriter != currpid
-		|| piptr->pstate != PIPE_CONNECTED){
+	if (piptr->pstate != PIPE_CONNECTED){
 		restore(mask);
 		return SYSERR;
 	}
