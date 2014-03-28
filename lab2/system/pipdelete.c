@@ -38,8 +38,8 @@ int	pipdelete(
 	piptr->preader = INIT_PID;
 	piptr->buffcount = 0;
 
-	semdelete(piptr->sem_empty);
-	semdelete(piptr->sem_full);
+	// semdelete(piptr->sem_empty);
+	// semdelete(piptr->sem_full);
 
 	// clear the buffer
 	for (i = 0; i < PIPE_SIZE; i++){

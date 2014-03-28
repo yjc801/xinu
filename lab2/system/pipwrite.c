@@ -32,11 +32,11 @@ int32	pipwrite(pipid32 pipid, char *buf, uint32 len)
 	// start = piptr->buffcount;
 	// signal(mutex);
 	while (count < len){	
+		wait(sem_empty);
 		temp = count % PIPE_SIZE;
-		wait(piptr->sem_empty);
 		piptr->buffer[temp] = buf[count];
-		signal(piptr->sem_full);
 		count++;
+		signal(sem_full);
 	}
 	// piptr->buffcount = temp + 1;
 

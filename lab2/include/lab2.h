@@ -29,11 +29,13 @@ struct	pipentry	{
 	bool8	piphasmsg;
 	int32	buffcount;
 	char	buffer[PIPE_SIZE];
-	sid32	sem_empty;
-	sid32	sem_full;
+	// sid32	sem_empty;
+	// sid32	sem_full;
 };
 
 extern	struct	pipentry piptab[];
 extern int32 pipcount;   // number of pipes in use
 extern sid32 mutex;
+extern sid32 sem_empty;
+extern sid32 sem_full;
 
