@@ -14,8 +14,8 @@ kprintf("writer: Check1\r\n");
 if (SYSERR == pipwrite(pip, mywords, 75)) {
 kprintf("[wr]: Sucks!\r\n");
 }
-kprintf("writer: Check2\r\n");
 sleepms(100);
+kprintf("writer: Check2\r\n");
 // if (SYSERR == pipdisconnect(pip)) {
 // kprintf("[wr]: disc suck\r\n");
 // }
