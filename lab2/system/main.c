@@ -33,7 +33,7 @@ if (SYSERR == mylen) {
 kprintf("[rd] can't rd 30\r\n");
 }
 kprintf("reader: Check3\r\n");
-// sleepms(200);
+sleepms(200);
 length = 30;
 kprintf("reader: Check4\r\n");
 while (length < 75) {
@@ -76,7 +76,6 @@ resume(rdpid);
 if (SYSERR == pipdelete(pip)) {
 kprintf("[main] delete fail\r\n");
 }
-kprintf("main: Again\r\n");
 sleep(2);
 pip = pipcreate();
 wrpid = create(writer, 2048, 20, "writer", 2, pip, 1000);
@@ -85,6 +84,7 @@ rdpid = create(reader, 2048, 20, "reader", 2, pip, 1000);
 if (SYSERR == pipconnect(pip, wrpid, rdpid)) {
 return 1;
 }
+
 kprintf("[main]: Pipe connected!\r\n");
 resume(wrpid);
 resume(rdpid);
