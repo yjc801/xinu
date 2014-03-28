@@ -82,7 +82,7 @@ kprintf("Reader: Check1, %d, %d\r\n",tlen,prcount);
 }
 kprintf("Reader: Check2\r\n");
 length += mylen;
-sleepms(s);
+// sleepms(s);
 }
 kprintf("Reader: Check3\r\n");
 if( success ) {
