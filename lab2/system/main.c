@@ -33,7 +33,7 @@ if (SYSERR == mylen) {
 kprintf("[rd] can't rd 30\r\n");
 }
 kprintf("reader: Check3\r\n");
-sleepms(200);
+// sleepms(200);
 length = 30;
 kprintf("reader: Check4\r\n");
 while (length < 75) {
