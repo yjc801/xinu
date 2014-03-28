@@ -21,15 +21,17 @@ sleep(2);
 
 tlen = 2000;
 int length = 0;
+kprintf("Check1\r\n");
 while (length < tlen) {
 int mylen = pipwrite(pip, &wordsbs[length], 100);
+kprintf("Check2\r\n");
 if (SYSERR == mylen) {
 kprintf("Writer %c: Fail to write into the pip\r\n", c);
 break;
 } else {
-// wait(sem);
+wait(sem);
 kprintf("Writer %c: write %d bytes to pip total=%d\r\n", c, mylen, length);
-// signal(sem);
+signal(sem);
 }
 length += mylen;
 sleepms(s);
