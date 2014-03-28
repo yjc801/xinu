@@ -184,9 +184,9 @@ repid3 = create(reader, 2048, 20, "reader3", 4, pip[1], 1000, 'c', 100);
 
 resume(wrpid3);
 resume(repid3);
-sleep(2);
-resume(wrpid2);
-resume(repid2);
+// sleep(2);
+// resume(wrpid2);
+// resume(repid2);
 
 while(1) {
 sleep(100);
