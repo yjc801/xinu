@@ -13,7 +13,7 @@ void writer(pipid32 pip, int len) {
 if (SYSERR == pipwrite(pip, mywords, 75)) {
 kprintf("[wr]: Sucks!\r\n");
 }
-// sleepms(100);
+sleepms(100);
 // if (SYSERR == pipdisconnect(pip)) {
 // kprintf("[wr]: disc suck\r\n");
 // }
@@ -28,7 +28,7 @@ mylen = pipread(pip, mybuf, 30);
 if (SYSERR == mylen) {
 kprintf("[rd] can't rd 30\r\n");
 }
-// sleepms(200);
+sleepms(200);
 length = 30;
 while (length < 75) {
 mylen = pipread(pip, &mybuf[length], 30);
@@ -37,7 +37,7 @@ kprintf("[rd] can't rd 45\r\n");
 break;
 }
 length += mylen;
-// sleepms(100);
+sleepms(100);
 }
 mybuf[length] = '\0';
 // if (SYSERR == pipdisconnect(pip)) {
