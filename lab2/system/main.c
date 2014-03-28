@@ -35,15 +35,19 @@ kprintf("[rd] can't rd 30\r\n");
 kprintf("reader: Check3\r\n");
 sleepms(200);
 length = 30;
+kprintf("reader: Check4\r\n");
 while (length < 75) {
 mylen = pipread(pip, &mybuf[length], 30);
+kprintf("reader: Check5\r\n");
 if (SYSERR == mylen) {
 kprintf("[rd] can't rd 45\r\n");
 break;
 }
 length += mylen;
+kprintf("reader: Check6\r\n");
 sleepms(100);
 }
+kprintf("reader: Check7\r\n");
 mybuf[length] = '\0';
 // if (SYSERR == pipdisconnect(pip)) {
 // kprintf("[rd]: disc suck\r\n");
