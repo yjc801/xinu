@@ -20,11 +20,10 @@ int32	pipread(pipid32 pipid, char *buf, uint32 len)
 	piptr = &piptab[pipid];
 
 	// check if the process is the reader
-	// if (piptr->preader != currpid
-	// 	|| piptr->pstate != PIPE_CONNECTED){
-	// 	restore(mask);
-	// 	return SYSERR;
-	// }
+	if (piptr->pstate != PIPE_CONNECTED){
+		restore(mask);
+		return SYSERR;
+	}
 
 	// check if buffer is full, if yes, put on the semaphor
 	int32 count, temp;
