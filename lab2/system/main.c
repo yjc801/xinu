@@ -76,7 +76,7 @@ resume(rdpid);
 if (SYSERR == pipdelete(pip)) {
 kprintf("[main] delete fail\r\n");
 }
-
+kprintf("main: Again\r\n");
 sleep(2);
 pip = pipcreate();
 wrpid = create(writer, 2048, 20, "writer", 2, pip, 1000);
