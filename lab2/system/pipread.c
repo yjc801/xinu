@@ -33,7 +33,7 @@ int32	pipread(pipid32 pipid, char *buf, uint32 len)
 	while (count < len){
 	
 		wait(piptr->sem_full);
-		temp = count % PIPE_SIZE;
+		temp = count;
 		buf[count] = piptr->buffer[temp];
 		count++;
 		signal(piptr->sem_empty);
