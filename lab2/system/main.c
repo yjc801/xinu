@@ -81,6 +81,8 @@ pip = pipcreate();
 wrpid = create(writer, 2048, 20, "writer", 2, pip, 1000);
 rdpid = create(reader, 2048, 20, "reader", 2, pip, 1000);
 
+kprintf("Main: Check1\r\n");
+
 if (SYSERR == pipconnect(pip, wrpid, rdpid)) {
 return 1;
 }
