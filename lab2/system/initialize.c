@@ -26,7 +26,7 @@ struct	pipentry piptab[NPIPE];	/* Pipeline table			*/
 int	prcount;		/* Total number of live processes	*/
 int	pipcount;		/* Total number of live processes	*/
 pid32	currpid;		/* ID of currently executing process	*/
-// sid32 mutex;
+sid32 mutex;
 sid32 sem_empty;
 sid32 sem_full;
 
@@ -175,7 +175,7 @@ static	void	sysinit(void)
 	// Initialize semaphores for pipes
 	sem_empty = semcreate(PIPE_SIZE);
 	sem_full = semcreate(0);
-	// mutex = semcreate(1);
+	mutex = semcreate(1);
 
 	/* Initialize buffer pools */
 
