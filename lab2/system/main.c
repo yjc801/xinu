@@ -76,7 +76,7 @@ success = 0;
 break;
 } else {
 kprintf("Reader %c: read %d bytes from pip\r\n", c, mylen);
-kprintf("Reader: Check1, %d\r\n",length);
+kprintf("Reader: Check1, %d\r\n",tlen);
 }
 length += mylen;
 sleepms(s);
