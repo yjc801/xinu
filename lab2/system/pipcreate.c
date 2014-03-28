@@ -37,6 +37,8 @@ pipid32	pipcreate(void)
 			piptab[pipid].preader = INIT_PID;
 			piptab[pipid].pwriter = INIT_PID;
 			piptab[pipid].buffcount = 0;
+			piptab[pipid].sem_empty = semcreate(PIPE_SIZE);
+			piptab[pipid].sem_full = semcreate(0);
 			for (j = 0; j < PIPE_SIZE; j++){
 				piptab[pipid].buffer[j] = '\0';
 			}
