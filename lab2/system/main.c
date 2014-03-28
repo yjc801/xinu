@@ -80,7 +80,7 @@ kprintf("Reader %c: read %d bytes from pip\r\n", c, mylen);
 length += mylen;
 sleepms(s);
 }
-
+kprintf("Reader: Check1\r\n");
 if( success ) {
 kprintf("Reader %c finish characters reading!\r\n");
 int flag = 1;
