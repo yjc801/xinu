@@ -10,9 +10,11 @@ char mywords[7500] = "WEST LAFAYETTE, Ind. - President Mitch Daniels began a new
 
 void writer(pipid32 pip, int len) {
 // kprintf("[wr]: wr %d chars\r\n", len);
+kprintf("writer: Check1\r\n");
 if (SYSERR == pipwrite(pip, mywords, 75)) {
 kprintf("[wr]: Sucks!\r\n");
 }
+kprintf("writer: Check2\r\n");
 sleepms(100);
 // if (SYSERR == pipdisconnect(pip)) {
 // kprintf("[wr]: disc suck\r\n");
@@ -24,10 +26,13 @@ void reader(pipid32 pip, int len) {
 char mybuf[7500];
 int length;
 int mylen;
+kprintf("reader: Check1\r\n");
 mylen = pipread(pip, mybuf, 30);
+kprintf("reader: Check2\r\n");
 if (SYSERR == mylen) {
 kprintf("[rd] can't rd 30\r\n");
 }
+kprintf("reader: Check3\r\n");
 sleepms(200);
 length = 30;
 while (length < 75) {
