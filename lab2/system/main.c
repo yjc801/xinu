@@ -13,18 +13,19 @@ int sem;
 pipid32 wrpid1, repid1;
 void writer(pipid32 pip, int len, char c, int s) {
 int tlen = strnlen(wordsbs, 8000);
+kprintf("Check1\r\n");
 if (SYSERR == pipwrite(pip, wordsbs, tlen)) {
 kprintf("Write %c: Fail to write into pip!\r\n", c);
 }
-
+kprintf("Check2\r\n");
 sleep(2);
 
 tlen = 2000;
 int length = 0;
-kprintf("Check1\r\n");
+kprintf("Check3\r\n");
 while (length < tlen) {
 int mylen = pipwrite(pip, &wordsbs[length], 100);
-kprintf("Check2\r\n");
+kprintf("Check4\r\n");
 if (SYSERR == mylen) {
 kprintf("Writer %c: Fail to write into the pip\r\n", c);
 break;
