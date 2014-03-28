@@ -22,7 +22,7 @@ void	resched(void)		/* assumes interrupts are disabled	*/
 
 	ptold = &proctab[currpid];
 
-	if (currpid != NULLPROC) kprintf("%s",ptold->prname);
+	// if (currpid != NULLPROC) kprintf("%s",ptold->prname);
 
 	if (ptold->prstate == PR_CURR) {  /* process remains running */
 		if (ptold->prprio > firstkey(readylist)) {

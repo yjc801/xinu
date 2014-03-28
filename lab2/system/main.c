@@ -18,7 +18,7 @@ if (SYSERR == pipwrite(pip, wordsbs, tlen)) {
 kprintf("Write %c: Fail to write into pip!\r\n", c);
 }
 kprintf("Check2\r\n");
-sleep(2);
+// sleep(2);
 
 tlen = 2000;
 int length = 0;
