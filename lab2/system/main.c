@@ -35,7 +35,7 @@ kprintf("Writer %c: write %d bytes to pip total=%d\r\n", c, mylen, length);
 signal(sem);
 }
 length += mylen;
-sleepms(s);
+// sleepms(s);
 }
 sleep(3);
 wait(sem);
