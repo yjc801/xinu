@@ -26,8 +26,7 @@ int	pipdisconnect(pipid32 pipid)
 	// check whether curr is reader or writer
 	
 	if (piptr->pstate != PIPE_CONNECTED
-		|| (piptr->pwriter != currpid 
-		&& piptr->preader != currpid)) {
+		) {
 		restore(mask); 
 		return SYSERR;
 	}

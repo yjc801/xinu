@@ -12,7 +12,7 @@ int32	pipwrite(pipid32 pipid, char *buf, uint32 len)
 	int32 count;
 	int32 temp;
 	struct pipentry *piptr;
-
+	mask = disable();
 	if (isbadpip(pipid)
 		|| len < 0){
 		restore(mask);

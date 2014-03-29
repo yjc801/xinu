@@ -11,6 +11,7 @@ int32	pipread(pipid32 pipid, char *buf, uint32 len)
 	intmask	mask;			/* saved interrupt mask		*/
 	struct pipentry *piptr;
 
+	mask = disable();
 	if (isbadpip(pipid)
 		|| len < 0){
 		restore(mask);

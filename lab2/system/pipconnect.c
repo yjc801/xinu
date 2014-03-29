@@ -28,9 +28,7 @@ int	pipconnect(pipid32 pipid, pid32 writer, pid32 reader)
 
 // check if the pipe has already been connected
 	
-	if (piptr->pstate == PIPE_CONNECTED 
-		|| piptr->pwriter != INIT_PID
-		|| piptr->preader != INIT_PID) {
+	if (piptr->pstate == PIPE_CONNECTED){ 
 		restore(mask);
 		return SYSERR;
 	}
