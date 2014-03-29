@@ -26,6 +26,7 @@ interrupt clkhandler(void)
 	/* key reaches zero, awaken a sleeping process			*/
 
 	if (nonempty(sleepq) && (--firstkey(sleepq) <= 0)) {
+		kprintf("clkhandler: Check\r\n");
 		wakeup();
 	}
 

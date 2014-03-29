@@ -12,6 +12,7 @@ void	wakeup(void)
 
 	while (nonempty(sleepq) && (firstkey(sleepq) <= 0)) {
 		ready(dequeue(sleepq), RESCHED_NO);
+		kprintf("wakeup: Check\r\n");
 	}
 	resched();
 	return;
