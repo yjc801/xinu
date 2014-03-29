@@ -68,7 +68,7 @@ char mybuf[7500];
 int mylen;
 int success = 1;
 int tlen = strnlen(wordsbs, 8000);
-// while (length < tlen) {
+while (length < tlen) {
 kprintf("Reader: Check4\r\n");
 mylen = 100;
 // mylen = pipread(pip, &mybuf[length], tlen-length);
