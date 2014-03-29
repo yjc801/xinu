@@ -80,9 +80,10 @@ break;
 } else {
 kprintf("Reader %c: read %d bytes from pip\r\n", c, mylen);
 }
-kprintf("Reader: Check2,%d,%d,%d,%d\r\n",semtab[sem_full].scount,semtab[sem_empty].scount,firstkey(sleepq),currpid);
 length += mylen;
+kprintf("S:%d\r\n",s);
 sleepms(s);
+kprintf("Reader: Check2,%d,%d,%d,%d\r\n",semtab[sem_full].scount,semtab[sem_empty].scount,firstkey(sleepq),currpid);
 }
 kprintf("Reader: Check3\r\n");
 if( success ) {
