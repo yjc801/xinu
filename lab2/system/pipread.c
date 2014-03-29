@@ -41,7 +41,7 @@ int32	pipread(pipid32 pipid, char *buf, uint32 len)
 	
 	}
 
-	buf[count] = '\0';
+	// buf[count] = '\0';
 	restore(mask);
 	return count;
 }
