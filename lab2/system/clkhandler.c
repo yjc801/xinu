@@ -24,8 +24,9 @@ interrupt clkhandler(void)
 
 	/* If sleep queue is nonempty, decrement first key; when the	*/
 	/* key reaches zero, awaken a sleeping process			*/
-
-	kprintf("clkhandler: %d\r\n",firstkey(sleepq));
+	if (nonempty(sleepq){
+		kprintf("clkhandler: %d\r\n",firstkey(sleepq));
+	}
 	if (nonempty(sleepq) && (--firstkey(sleepq) <= 0)) {
 		wakeup();
 	}
