@@ -29,7 +29,7 @@ int32	pipwrite(pipid32 pipid, char *buf, uint32 len)
 	count = 0;
 	// int32 start;
 	// wait(mutex);
-	// start = piptr->buffcount;
+//	count = piptab[pipid].buffcount;
 	// signal(mutex);
 	while (count < len){	
 		wait(sem_empty);
@@ -40,7 +40,6 @@ int32	pipwrite(pipid32 pipid, char *buf, uint32 len)
 		signal(mutex);
 		signal(sem_full);
 	}
-	// piptr->buffcount = temp + 1;
 
 	restore(mask);
 	return count;

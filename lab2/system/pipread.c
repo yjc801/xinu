@@ -28,7 +28,7 @@ int32	pipread(pipid32 pipid, char *buf, uint32 len)
 
 	// check if buffer is full, if yes, put on the semaphor
 	int32 count, temp;
-	count = 0;
+	count = piptab[pipid].buffcount;
 	
 	while (count < len){
 	
@@ -41,8 +41,8 @@ int32	pipread(pipid32 pipid, char *buf, uint32 len)
 		signal(sem_empty);
 	
 	}
-
-	// buf[count] = '\0';
+	piptab[pipid].buffcount-=count;
+	buf[count] = '\0';
 	restore(mask);
 	return count;
 }
