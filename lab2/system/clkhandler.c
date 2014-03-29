@@ -10,6 +10,7 @@
 interrupt clkhandler(void)
 {
 	clkupdate(CLKCYCS_PER_TICK);
+	kprintf("clkhandler: Check\r\n");
 
 	/* record clock ticks */
 
@@ -26,7 +27,6 @@ interrupt clkhandler(void)
 	/* key reaches zero, awaken a sleeping process			*/
 
 	if (nonempty(sleepq) && (--firstkey(sleepq) <= 0)) {
-		kprintf("clkhandler: Check\r\n");
 		wakeup();
 	}
 
