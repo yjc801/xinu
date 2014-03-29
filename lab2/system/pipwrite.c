@@ -10,7 +10,7 @@ int32	pipwrite(pipid32 pipid, char *buf, uint32 len)
 {
 	intmask	mask;			/* saved interrupt mask		*/
 	int32 count;
-	int32 temp;
+	//int32 temp;
 	struct pipentry *piptr;
 	mask = disable();
 	if (isbadpip(pipid)
@@ -33,11 +33,11 @@ int32	pipwrite(pipid32 pipid, char *buf, uint32 len)
 	// signal(mutex);
 	while (count < len){	
 		wait(sem_empty);
-		wait(mutex);
-		temp = count % PIPE_SIZE;
+//		wait(mutex);
+	//	temp = count % PIPE_SIZE;
 		writebuff(piptr->pipbuffer,buf[count]);
 		count++;
-		signal(mutex);
+//		signal(mutex);
 		signal(sem_full);
 	}
 

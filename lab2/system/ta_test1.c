@@ -13,19 +13,15 @@ int sem;
 pipid32 wrpid1, repid1;
 void writer(pipid32 pip, int len, char c, int s) {
 int tlen = strnlen(wordsbs, 8000);
-kprintf("Check1\r\n");
 if (SYSERR == pipwrite(pip, wordsbs, tlen)) {
 kprintf("Write %c: Fail to write into pip!\r\n", c);
 }
-kprintf("Check2\r\n");
-// sleep(2);
+sleep(2);
 
 tlen = 2000;
 int length = 0;
-kprintf("Check3\r\n");
 while (length < tlen) {
 int mylen = pipwrite(pip, &wordsbs[length], 100);
-kprintf("Check4\r\n");
 if (SYSERR == mylen) {
 kprintf("Writer %c: Fail to write into the pip\r\n", c);
 break;
@@ -35,7 +31,7 @@ kprintf("Writer %c: write %d bytes to pip total=%d\r\n", c, mylen, length);
 signal(sem);
 }
 length += mylen;
-// sleepms(s);
+sleepms(s);
 }
 sleep(3);
 wait(sem);
@@ -69,22 +65,17 @@ int mylen;
 int success = 1;
 int tlen = strnlen(wordsbs, 8000);
 while (length < tlen) {
-kprintf("Reader: Check4\r\n");
 mylen = pipread(pip, &mybuf[length], tlen-length);
-kprintf("Reader: Check5\r\n");
 if (SYSERR == mylen) {
 kprintf("Reader %c: Fail to read from the pip\r\n", c);
 success = 0;
 break;
 } else {
 kprintf("Reader %c: read %d bytes from pip\r\n", c, mylen);
-kprintf("Reader: Check1, %d, %d\r\n",tlen,prcount);
 }
-kprintf("Reader: Check2\r\n");
 length += mylen;
-// sleepms(s);
+sleepms(s);
 }
-kprintf("Reader: Check3\r\n");
 if( success ) {
 kprintf("Reader %c finish characters reading!\r\n");
 int flag = 1;
@@ -191,9 +182,9 @@ repid3 = create(reader, 2048, 20, "reader3", 4, pip[1], 1000, 'c', 100);
 
 resume(wrpid3);
 resume(repid3);
-// sleep(2);
-// resume(wrpid2);
-// resume(repid2);
+sleep(2);
+resume(wrpid2);
+resume(repid2);
 
 while(1) {
 sleep(100);

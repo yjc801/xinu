@@ -63,6 +63,8 @@ int	pipdisconnect(pipid32 pipid)
 
 	// clean up buffer
 	piptr->buffcount = 0;
+	piptr->pipbuffer->start = 0;
+	piptr->pipbuffer->count = 0;
 	// for (i = 0; i < PIPE_SIZE; i++){
 	// 	piptr->buffer[i] = '\0';
 	// }
