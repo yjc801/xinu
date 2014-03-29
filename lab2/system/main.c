@@ -14,9 +14,9 @@ pipid32 wrpid1, repid1;
 void writer(pipid32 pip, int len, char c, int s) {
 int tlen = strnlen(wordsbs, 8000);
 kprintf("Check1\r\n");
-if (SYSERR == pipwrite(pip, wordsbs, tlen)) {
-kprintf("Write %c: Fail to write into pip!\r\n", c);
-}
+// if (SYSERR == pipwrite(pip, wordsbs, tlen)) {
+// kprintf("Write %c: Fail to write into pip!\r\n", c);
+// }
 kprintf("Check2,%d,%d,%d,%d\r\n",semtab[sem_full].scount,semtab[sem_empty].scount,firstkey(sleepq),currpid);
 sleep(2);
 
@@ -68,9 +68,10 @@ char mybuf[7500];
 int mylen;
 int success = 1;
 int tlen = strnlen(wordsbs, 8000);
-while (length < tlen) {
+// while (length < tlen) {
 kprintf("Reader: Check4\r\n");
-mylen = pipread(pip, &mybuf[length], tlen-length);
+mylen = 100;
+// mylen = pipread(pip, &mybuf[length], tlen-length);
 kprintf("Reader: Check5\r\n");
 if (SYSERR == mylen) {
 kprintf("Reader %c: Fail to read from the pip\r\n", c);
