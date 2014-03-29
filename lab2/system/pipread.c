@@ -32,14 +32,17 @@ int32	pipread(pipid32 pipid, char *buf, uint32 len)
 	while (count < len){
 	
 		wait(sem_full);
-		wait(mutex);
+		kprintf("pipread: Check1\r\n");
+		// wait(mutex);
 		temp = count % PIPE_SIZE;
 		buf[count] = piptr->buffer[temp];
 		count++;
-		signal(mutex);
+		// signal(mutex);
 		signal(sem_empty);
+		kprintf("pipread: Check2\r\n");
 	
 	}
+	kprintf("pipread: Check3, %d\r\n",count);
 
 	// buf[count] = '\0';
 	restore(mask);
