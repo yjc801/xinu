@@ -9,7 +9,7 @@
 int	pipdisconnect(pipid32 pipid)
 {
 	intmask	mask;			/* saved interrupt mask		*/
-	int i;
+//	int i;
 	struct pipentry *piptr;
 	struct procent *prptr;
 

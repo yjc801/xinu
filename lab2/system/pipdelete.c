@@ -11,7 +11,7 @@ int	pipdelete(
 	)
 {
 	intmask	mask;			/* saved interrupt mask		*/
-	int i;		
+//	int i;		
 	struct	pipentry *piptr;		/* ptr to semaphore table entry	*/
 	struct procent *prptr;
 	mask = disable();
