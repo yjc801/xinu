@@ -17,7 +17,7 @@ kprintf("Check1\r\n");
 if (SYSERR == pipwrite(pip, wordsbs, tlen)) {
 kprintf("Write %c: Fail to write into pip!\r\n", c);
 }
-kprintf("Check2,%d,%d\r\n",sem_full.scount,sem_empty.scount);
+kprintf("Check2,%d,%d\r\n",semtab[sem_full].scount,semtab[sem_empty].scount);
 sleep(2);
 
 tlen = 2000;
