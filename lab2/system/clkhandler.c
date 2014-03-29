@@ -10,7 +10,7 @@
 interrupt clkhandler(void)
 {
 	clkupdate(CLKCYCS_PER_TICK);
-	kprintf("clkhandler: Check\r\n");
+	// kprintf("clkhandler: Check\r\n");
 
 	/* record clock ticks */
 
