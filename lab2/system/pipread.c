@@ -35,7 +35,7 @@ int32	pipread(pipid32 pipid, char *buf, uint32 len)
 		wait(sem_full);
 		// wait(mutex);
 		temp = count % PIPE_SIZE;
-		buf[count] = piptr->buffer[temp];
+		buf[count] = readbuff(piptr->pipbuffer);
 		count++;
 		// signal(mutex);
 		signal(sem_empty);

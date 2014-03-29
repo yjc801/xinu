@@ -35,7 +35,7 @@ int32	pipwrite(pipid32 pipid, char *buf, uint32 len)
 		wait(sem_empty);
 		wait(mutex);
 		temp = count % PIPE_SIZE;
-		piptr->buffer[temp] = buf[count];
+		writebuff(piptr->pipbuffer,buf[count]);
 		count++;
 		signal(mutex);
 		signal(sem_full);

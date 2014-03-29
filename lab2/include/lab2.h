@@ -21,6 +21,13 @@ typedef	int32	pipid32;		/* pipeline ID				*/
 
 #define	isbadpip(s)	((int32)(s) < 0 || (s) >= NPIPE)
 
+typedef struct buff{
+    int16		size;   /* maximum number of elements           */
+    int16		start;  /* index of oldest element              */
+    int16		count;    /* index at which to write new element  */
+    char		elems[PIPE_SIZE];  /* vector of elements                   */
+}buff;
+
 /* Pipe table entry */
 struct	pipentry	{
 	uint16	pstate;
@@ -28,7 +35,7 @@ struct	pipentry	{
 	pipid32 preader;
 	bool8	piphasmsg;
 	int32	buffcount;
-	char	buffer[PIPE_SIZE];
+	buff	*pipbuffer;
 	// sid32	sem_empty;
 	// sid32	sem_full;
 };
@@ -38,4 +45,5 @@ extern int32 pipcount;   // number of pipes in use
 extern sid32 mutex;
 extern sid32 sem_empty;
 extern sid32 sem_full;
-
+extern char readbuff(buff *);
+extern void writebuff(buff *, char);

@@ -4,7 +4,7 @@
 
 void	writebuff(
 	  buff	*buffer,
-	  umsg32 msg
+	  char msg
 	)
 {
 	intmask	mask;			/* saved interrupt mask		*/

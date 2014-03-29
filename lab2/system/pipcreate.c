@@ -11,9 +11,10 @@ pipid32	pipcreate(void)
 	intmask	mask;			/* saved interrupt mask		*/
 	pipid32	pipid;
 	struct procent *prptr;
+	struct pipentry *piptr;
 	static pipid32 nextpip = 0;
 	int32	i;
-	int32 j;
+	// int32 j;
 
 	mask = disable();
 	// check if this process is a producer or consumer
@@ -39,9 +40,16 @@ pipid32	pipcreate(void)
 			piptab[pipid].buffcount = 0;
 			// piptab[pipid].sem_empty = semcreate(PIPE_SIZE);
 			// piptab[pipid].sem_full = semcreate(0);
-			for (j = 0; j < PIPE_SIZE; j++){
-				piptab[pipid].buffer[j] = '\0';
-			}
+			// for (j = 0; j < PIPE_SIZE; j++){
+				// piptab[pipid].buffer[j] = '\0';
+			// }
+			piptr = &piptab[pipid];
+			piptr->pipbuffer = (buff*)getmem(sizeof(buff));
+			piptr->pipbuffer->size = PIPE_SIZE;
+			piptr->pipbuffer->start = 0;
+			piptr->pipbuffer->count = 0;
+
+
 			prptr->prpipid = pipid;  // owner of the pipe
 			restore(mask);
 			return pipid;

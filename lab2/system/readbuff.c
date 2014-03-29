@@ -2,12 +2,12 @@
 
 #include <xinu.h>
 
-umsg32	readbuff(
+char	readbuff(
 	  buff	*buffer
 	)
 {
 	intmask	mask;			/* saved interrupt mask		*/
-	umsg32 msg;
+	char msg;
 
 	mask = disable();
 	
