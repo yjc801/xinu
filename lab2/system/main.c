@@ -17,7 +17,7 @@ kprintf("Check1\r\n");
 if (SYSERR == pipwrite(pip, wordsbs, tlen)) {
 kprintf("Write %c: Fail to write into pip!\r\n", c);
 }
-kprintf("Check2,%d,%d,%d\r\n",semtab[sem_full].scount,semtab[sem_empty].scount,firstid(sleepq));
+kprintf("Check2,%d,%d,%d,%d\r\n",semtab[sem_full].scount,semtab[sem_empty].scount,firstid(sleepq),currpid);
 sleep(2);
 
 tlen = 2000;
@@ -79,7 +79,7 @@ break;
 } else {
 kprintf("Reader %c: read %d bytes from pip\r\n", c, mylen);
 }
-kprintf("Reader: Check2,%d,%d,%d\r\n",semtab[sem_full].scount,semtab[sem_empty].scount,firstid(sleepq));
+kprintf("Reader: Check2,%d,%d,%d,%d\r\n",semtab[sem_full].scount,semtab[sem_empty].scount,firstid(sleepq),currpid);
 length += mylen;
 sleepms(s);
 }
