@@ -42,9 +42,9 @@ int	pipdelete(
 	// semdelete(piptr->sem_full);
 
 	// clear the buffer
-	for (i = 0; i < PIPE_SIZE; i++){
-		piptr->buffer[i] = '\0';
-	}
+	// for (i = 0; i < PIPE_SIZE; i++){
+	// 	piptr->buffer[i] = '\0';
+	// }
 	
 	restore(mask);
 	return OK;
