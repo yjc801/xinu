@@ -71,7 +71,7 @@ int tlen = strnlen(wordsbs, 8000);
 while (length < tlen) {
 kprintf("Reader: Check4\r\n");
 mylen = 100;
-// mylen = pipread(pip, &mybuf[length], tlen-length);
+mylen = pipread(pip, &mybuf[length], tlen-length);
 kprintf("Reader: Check5\r\n");
 if (SYSERR == mylen) {
 kprintf("Reader %c: Fail to read from the pip\r\n", c);
