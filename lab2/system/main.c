@@ -17,7 +17,7 @@ kprintf("Check1\r\n");
 if (SYSERR == pipwrite(pip, wordsbs, tlen)) {
 kprintf("Write %c: Fail to write into pip!\r\n", c);
 }
-kprintf("Check2\r\n");
+kprintf("Check2,%d,%d\r\n",sem_full.scount,sem_empty.scount);
 sleep(2);
 
 tlen = 2000;
@@ -78,7 +78,6 @@ success = 0;
 break;
 } else {
 kprintf("Reader %c: read %d bytes from pip\r\n", c, mylen);
-kprintf("Reader: Check1, %d, %d\r\n",tlen,prcount);
 }
 kprintf("Reader: Check2\r\n");
 length += mylen;
