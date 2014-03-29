@@ -37,7 +37,7 @@ int	pipdelete(
 	piptr->pwriter = INIT_PID;
 	piptr->preader = INIT_PID;
 	piptr->buffcount = 0;
-	freemem(piptr->pipbuffer,sizeof(buff));
+	freemem((char *)piptr->pipbuffer,sizeof(buff));
 
 	// semdelete(piptr->sem_empty);
 	// semdelete(piptr->sem_full);
