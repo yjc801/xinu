@@ -1,0 +1,184 @@
+#! /bin/sh
+set -e
+
+# Initialize some variables.
+transform="s,x,x,"
+
+prefix=/usr
+exec_prefix=${prefix}
+bindir=${exec_prefix}/bin
+libdir=${exec_prefix}/lib
+PACKAGE_NAME=XINU-ISO
+PACKAGE_TARNAME=xinu-iso
+PACKAGE_VERSION=0.01
+target_cpu=i386
+native_platform=pc
+
+self=`basename $0`
+
+pc_dir=${libdir}/`echo grub | sed ${transform}`/i386-pc
+grub_mkimage=${bindir}/`echo grub2-mkimage | sed ${transform}`
+xinu_image=
+xinu_name=
+
+xorriso=xorriso
+
+# Usage: usage
+# Print the usage.
+usage () {
+    cat <<EOF
+Usage: $self [OPTION] SOURCE...
+Make bootable Xinu kernel ISO image.
+
+  -h, --help              print this message and exit
+  -v, --version           print the version information and exit
+  -d, --directory=DIR     use images and modules under DIR [default=/usr/lib/grub/@platform@]
+  -o, --output=FILE       save output in FILE [default=xinu.iso]
+  -n, --name=NAME         generate image with specified name [default=xinu]
+  --xinu-image=FILE       use FILE as xinu image [required]
+  --grub2-mkimage=FILE     use FILE as grub2-mkimage [optional]
+  --xorriso=FILE          use FILE as xorriso [optional]
+
+$self generates a minimum bootable Xinu kernel ISO image with specified source files,
+source directories
+
+Report bugs to <cheng@cs.purdue.edu>.
+EOF
+}
+
+argument () {
+  opt=$1
+  shift
+
+  if test $# -eq 0; then
+      echo "$0: option requires an argument -- '$opt'" 1>&2
+      exit 1
+  fi
+  echo $1
+}
+
+# Check the arguments.
+while test $# -gt 0
+do
+    option=$1
+    shift
+
+    case "$option" in
+    -h | --help)
+	usage
+	exit 0 ;;
+    -v | --version)
+	echo "$self (${PACKAGE_NAME}) ${PACKAGE_VERSION}"
+	exit 0 ;;
+
+    -d | --directory)
+	pc_dir=`argument $option "$@"`; shift ;;
+    --directory=*)
+	pc_dir=`echo "$option" | sed 's/--directory=//'` ;;
+
+    -o | --output)
+	output_image=`argument $option "$@"`; shift ;;
+    --output=*)
+	output_image=`echo "$option" | sed 's/--output=//'` ;;
+
+    -n | --name)
+	xinu_name=`argument $option "$@"`; shift ;;
+    --name=*)
+	xinu_name=`echo "$option" | sed 's/--name=//'` ;;
+ 
+    --xinu-image)
+	xinu_image=`argument $option "$@"`; shift ;;
+    --xinu-image=*)
+	xinu_image=`echo "$option" | sed 's/--xinu-image=//'` ;;
+
+    --grub2-mkimage)
+	grub_mkimage=`argument $option "$@"`; shift ;;
+    --grub2-mkimage=*)
+	grub_mkimage=`echo "$option" | sed 's/--grub2-mkimage=//'` ;;
+
+    --xorriso)
+	xorriso=`argument $option "$@"`; shift ;;
+    --xorriso=*)
+        xorriso=`echo "${option}/" | sed 's/--xorriso=//'` ;;
+
+    *)
+	source="${source} ${option} $@"; break ;;
+    esac
+done
+
+if ! test -e "${pc_dir}" ; then
+    echo "no directory provides necessary images and modules" >&2
+    usage
+    exit 1
+fi
+
+if [ "x${xinu_image}" = x ] ; then
+    echo "input Xinu image must be given" >&2
+    usage
+    exit 1
+fi
+
+set $grub_mkimage dummy
+if test -f "$1"; then
+    :
+else
+    echo "$1: Not found." 1>&2
+    exit 1
+fi
+
+if [ "x${xinu_name}" = x ] ; then
+    xinu_name=xinu
+fi
+
+if [ "x${output_image}" = x ] ; then
+    output_image=${xinu_name}.iso
+fi
+
+iso9660_dir=`mktemp -d "${TMPDIR:-/tmp}/tmp.XXXXXXXXXX"` || exit 1
+mkdir -p ${iso9660_dir}/boot/grub/i386-pc
+
+# Copy xinu image to iso tree
+if test -f "$xinu_image"; then
+    mkdir -p ${iso9660_dir}/boot/xinu
+    cp -f "$xinu_image" ${iso9660_dir}/boot/xinu/${xinu_name}.boot
+fi
+
+# Build core.img
+echo "Building core.img ..."
+    
+boot_cfg=`mktemp "${TMPDIR:-/tmp}/tmp.XXXXXXXXXX"` || exit 1
+core_img=`mktemp "${TMPDIR:-/tmp}/tmp.XXXXXXXXXX"` || exit 1
+
+# Generate embedded configuration file
+cat << EOF > ${boot_cfg}
+serial --unit=0 --speed=115200
+terminal_output serial
+terminal_input serial
+echo "Booting Xinu on ${target_cpu}-${native_platform} (${xinu_name})..."
+multiboot /boot/xinu/${xinu_name}.boot
+boot
+EOF
+
+$grub_mkimage -O i386-pc -d ${pc_dir}/ -o ${core_img} --prefix=/boot/grub/i386-pc \
+    -c ${boot_cfg} iso9660 biosdisk serial terminal multiboot boot echo
+cat ${pc_dir}/cdboot.img ${core_img} > ${iso9660_dir}/boot/grub/i386-pc/eltorito.img
+
+embed_img=`mktemp "${TMPDIR:-/tmp}/tmp.XXXXXXXXXX"` || exit 1
+cat ${pc_dir}/boot.img ${core_img} > ${embed_img}
+
+rm -f ${boot_cfg}
+rm -f ${core_img}
+
+grub_mkisofs_arguments="${grub_mkisofs_arguments} -b boot/grub/i386-pc/eltorito.img -no-emul-boot -boot-info-table \
+    --embedded-boot ${embed_img}"
+
+# Build iso image
+echo "Building ISO9660 image ..."
+"${xorriso}" -as mkisofs -graft-points ${grub_mkisofs_arguments} --protective-msdos-label -o ${output_image} \
+    -r ${iso9660_dir} -quiet --sort-weight 0 / --sort-weight 1 /boot ${source}
+
+# Clear up
+rm -rf ${iso9660_dir}
+rm -f ${embed_img}
+
+exit 0

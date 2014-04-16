@@ -1,0 +1,10 @@
+../../xinu-device-driver/net/dhcp.c
+../../xinu-device-driver/net/arp.c
+../../xinu-device-driver/net/net.c
+../../xinu-device-driver/net/udp.c
+../../xinu-device-driver/net/netstart.c
+../../xinu-device-driver/net/netiface.c
+../../xinu-device-driver/net/ip.c
+../../xinu-device-driver/net/icmp.c
+../../xinu-device-driver/shell/xsh_ipaddr.c
+../../xinu-device-driver/shell/xsh_arp.c

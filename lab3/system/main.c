@@ -43,17 +43,17 @@ void RequestMem(int base, int round, bool8 sflag, int pflag) {
 	if (pflag)
 		sleep(2);
 	char *prev, *curr;
-	prev = getmemgb(7);
+	prev = getmemb(7);
 	kprintf("new %d, %x, siz %d\r\n", 0, prev, 7);
 	for (i=1; i<round; ++i) {
 		len = 7 + base * i;
-		curr = getmemgb(len);
+		curr = getmemb(len);
 		if (sflag)
 			sleepms(100);
 		
 		prevlen = 7 + base * (i-1);
 		if (0 == i % pflag)
-			freememgb(prev, prevlen);
+			freememb(prev, prevlen);
 		prev = curr;
 	}	
 	if (pflag > 5)
