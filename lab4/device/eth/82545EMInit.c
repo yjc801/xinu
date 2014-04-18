@@ -1,6 +1,7 @@
 /* 82545EMInit.c - _82545EMInit */
 
 #include <xinu.h>
+#define DEBUG
 
 local 	status 	_82545EM_init_hw(struct ether *);
 local 	void 	_82545EM_reset_hw(struct ether *);
