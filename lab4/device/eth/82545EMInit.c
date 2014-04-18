@@ -18,23 +18,54 @@ status 	_82545EMInit(
 	struct 	ether *ethptr
 	)
 {
-
-
+	int32	i;
+	uint16	pci_commd;
 	/* Read PCI configuration information */
 	/* Read I/O base address */
-
+	pci_bios_read_config_dword(ethptr->pcidev,E1000_PCI_MEMBASE,&ethptr->membase);
+	pci_bios_read_config_dword(ethptr->pcidev,E1000_PCI_FLASHBASE,&ethptr->flashbase);
+	pci_bios_read_config_dword(ethptr->pcidev,E1000_PCI_IOBASE,&ethptr->iobase);
+	ethptr->iobase &= ~1;	
 
 	/* Read interrupt line number */
-
+	pci_bios_read_config_byte(ethptr->pcidev,E1000_PCI_IRQ,&ethptr->dev->dvirq);
 
 	/* Enable PCI bus master, I/O port access */
+    pci_bios_read_config_word(ethptr->pcidev,E1000E_PCI_COMMAND,&pci_commd);
+    pci_bios_write_config_word(ethptr->pcidev,E1000E_PCI_COMMAND,pci_commd|0x07);
 
+#ifdef DEBUG
+    kprintf("Command reg: 0x%x\n",pci_commd);
+#endif
 
 	/* Read the MAC address */
-	
+	uint32 rar_low = e1000_io_readl(ethptr->iobase, E1000_RAL(0));
+	uint32 rar_high = e1000_io_readl(ethptr->iobase, E1000_RAH(0));
+
+	for (i = 0; i < ETH_ADDR_LEN; i++) 
+		ethptr->devAddress[i] = (byte)(rar_low >> (i*8));
+	for (i = 0; i < ETH_ADDR_LEN; i++)
+		ethptr->devAddress[i + 4] = (byte)(rar_high >> (i*8));
+
+#ifdef DEBUG
+		kprintf("MAC address is %02x:%02x:%02x:%02x:%02x:%02x\n",
+			0xff&ethptr->devAddress[0],
+			0xff&ethptr->devAddress[1],
+			0xff&ethptr->devAddress[2],
+			0xff&ethptr->devAddress[3],
+			0xff&ethptr->devAddress[4],
+			0xff&ethptr->devAddress[5]);
+#endif
 
 	/* Initialize structure pointers */
-
+    ethptr->mtu = ETH_MTU;
+    ethptr->errors = 0;
+    ethptr->istart = 0;
+    ethptr->addrLen = ETH_ADDR_LEN;
+    ethptr->rxRingSize = E1000E_RX_RING_SIZE;
+    ethptr->txRingSize = E1000E_TX_RING_SIZE;
+    ethptr->isem = semcreate(0);
+    ethptr->osem = semcreate(ethptr->txRingSize);
 
 	/* Rings must be aligned on a 16-byte boundary */
 	
