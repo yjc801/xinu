@@ -62,8 +62,8 @@ status 	_82545EMInit(
     ethptr->errors = 0;
     ethptr->istart = 0;
     ethptr->addrLen = ETH_ADDR_LEN;
-    ethptr->rxRingSize = E1000E_RX_RING_SIZE;
-    ethptr->txRingSize = E1000E_TX_RING_SIZE;
+    ethptr->rxRingSize = E1000_RX_RING_SIZE;
+    ethptr->txRingSize = E1000_TX_RING_SIZE;
     ethptr->isem = semcreate(0);
     ethptr->osem = semcreate(ethptr->txRingSize);
 
