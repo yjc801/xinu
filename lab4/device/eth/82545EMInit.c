@@ -31,8 +31,8 @@ status 	_82545EMInit(
 	pci_bios_read_config_byte(ethptr->pcidev,E1000_PCI_IRQ,&ethptr->dev->dvirq);
 
 	/* Enable PCI bus master, I/O port access */
-    pci_bios_read_config_word(ethptr->pcidev,E1000E_PCI_COMMAND,&pci_commd);
-    pci_bios_write_config_word(ethptr->pcidev,E1000E_PCI_COMMAND,pci_commd|0x07);
+    pci_bios_read_config_word(ethptr->pcidev,E1000_PCI_COMMAND,&pci_commd);
+    pci_bios_write_config_word(ethptr->pcidev,E1000_PCI_COMMAND,pci_commd|0x07);
 
 #ifdef DEBUG
     kprintf("Command reg: 0x%x\n",pci_commd);
