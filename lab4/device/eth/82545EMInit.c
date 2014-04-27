@@ -246,9 +246,9 @@ local status _82545EM_init_hw(
 	/* Restart auto-negotiation. */
 
 	// manual p.247
-	e1000_read_phy_reg(ethptr, E1000_PHY_CONTROL, &phy_ctrl)
+	e1000_read_phy_reg(ethptr, E1000_PHY_CONTROL, &phy_ctrl);
 	phy_ctrl |= E1000_MII_CR_AUTO_NEG_EN|E1000_MII_CR_RESTART_AUTO_NEG;
-	e1000_write_phy_reg(ethptr, E1000_PHY_CONTROL, phy_ctrl)
+	e1000_write_phy_reg(ethptr, E1000_PHY_CONTROL, phy_ctrl);
 
 	/* Wait for auto-negotiation to complete 
        Implement a loop here to check the E1000_MII_SR_LINK_STATUS and E1000_MII_SR_AUTONEG_COMPLETE, break if they are both ture
