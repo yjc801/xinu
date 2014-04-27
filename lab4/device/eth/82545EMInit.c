@@ -115,6 +115,10 @@ status 	_82545EMInit(
 	// manual p. 292 PBA
 	e1000_io_writel(E1000_PBA, E1000_PBA_10K << 16 | E1000_PBA_48K);
 
+#ifdef DEBUG
+    kprintf("PBA reset: 0x%x\n",E1000_PBA_10K << 16 | E1000_PBA_48K);
+#endif
+
 	/* Reset the NIC to bring it into a known state and initialize it */
 
 	_82545EM_reset_hw(ethptr);
@@ -152,22 +156,31 @@ local void _82545EM_reset_hw(
 	struct 	ether *ethptr
 	)
 {
+	uint32 ctrl;
 
 	/* Masking off all interrupts */
 
+	/* manual p. 297  if software desires to disable a particular 
+	interrupt condition that had been previously enabled, it must
+	write to the Interrupt Mask Clear Register */
 
+	e1000_io_writel(E1000_IMC, ~0);
 
 	/* Disable the Transmit and Receive units. */
 
-
+	// manual p.300
+	e1000_io_writel(E1000_RCTL, 0);
+	e1000_io_writel(E1000_TCTL, 0);
 
 	/* Issuing a global reset by setting CTRL register with E1000_CTRL_RST*/
+	ctrl = e1000_io_readl(E1000_CTRL);
+	e1000_io_writel(E1000_CTRL, ctrl|E1000_CTRL_RST);
 
-	
     /* Delay slightly to let hardware process */
+	MDELAY(50);
 
     /* Masking off all interrupts again*/
-
+	e1000_io_writel(E1000_IMC, ~0);
 }
 
 /*------------------------------------------------------------------------
@@ -178,44 +191,83 @@ local status _82545EM_init_hw(
 	struct 	ether *ethptr
 	)
 {
+	uint32 i;
+	uint32 ctrl, phy_ctrl, phy_1000t_ctrl;
+	uint16 phy_status;
 
 	/* Setup the receive address */
 	/* Zero out the other receive addresses */
-
+	for(i = 1; i < E1000_82567LM_RAR_ENTRIES; i++){
+		e1000_io_writel(E1000_RAL(i), 0);
+		e1000_io_writel(E1000_RAH(i), 0);
+	}
 
 
 	/* Zero out the Multicast HASH table */
-
+	for (i = 0; i < E1000_82567LM_MTA_ENTRIES; i++){
+		e1000_io_writel(E1000_MTA + i*4, 0);
+	}
 
 
 	/* Configure copper link settings */
-
+	ctrl = e1000_io_readl(E1000_CTRL);
+	ctrl |= E1000_CTRL_SLU;
+	// ctrl &= ~(E1000_CTRL_FRCSPD | E1000_CTRL_FRCDPX);
 
 
 	/* Commit the changes.*/
-
+	e1000_io_writel(E1000_CTRL, ctrl);
 
 
     /* Do a slightly delay for the hardware to proceed the commit */
-	
+	MDELAY(50);
 
 	/* Setup autoneg and flow control advertisement and perform 	*/
 	/* 	autonegotiation. 					*/
 
+	// manual p.165; PHY registers p.245
+	e1000_read_phy_reg(ethptr, E1000_PHY_AUTONEG_ADV, &autoneg_adv);
+	e1000_read_phy_reg(ethptr, E1000_PHY_1000T_CTRL, &phy_1000t_ctrl);
 
+	autoneg_adv |= (E1000_NWAY_AR_10T_HD_CAPS  |
+					E1000_NWAY_AR_10T_FD_CAPS  |
+					E1000_NWAY_AR_100TX_HD_CAPS|
+					E1000_NWAY_AR_100TX_FD_CAPS);
+	
+	autoneg_adv &= ~(E1000_NWAY_AR_PAUSE | E1000_NWAY_AR_ASM_DIR);
 
+	phy_1000t_ctrl &= ~E1000_CR_1000T_HD_CAPS;
+	phy_1000t_ctrl |= E1000_CR_1000T_FD_CAPS;
+
+	e1000_read_phy_reg(ethptr, E1000_PHY_AUTONEG_ADV, autoneg_adv);
+	e1000_read_phy_reg(ethptr, E1000_PHY_1000T_CTRL, phy_1000t_ctrl);
 
 	/* Restart auto-negotiation. */
 
-
+	// manual p.247
+	e1000e_read_phy_reg(ethptr, E1000_PHY_CONTROL, &phy_ctrl)
+	phy_ctrl |= E1000_MII_CR_AUTO_NEG_EN|E1000_MII_CR_RESTART_AUTO_NEG;
+	e1000_write_phy_reg(ethptr, E1000_PHY_CONTROL, phy_ctrl)
 
 	/* Wait for auto-negotiation to complete 
        Implement a loop here to check the E1000_MII_SR_LINK_STATUS and E1000_MII_SR_AUTONEG_COMPLETE, break if they are both ture
        You should also delay for a while in each loop so it won't take too much CPU time */
+    
+    while (1){
+    	e1000_read_phy_reg(ethptr, E1000_PHY_STATUS, &phy_status);
+    	
+    	if ((phy_status & E1000_MII_SR_LINK_STATUS) && 
+			(phy_status & E1000_MII_SR_AUTONEG_COMPLETE))
+			break;
 
+		MDELAY(200);
+    }
 
 
     /* Update device control according receive flow control and transmit flow control*/
+	ctrl = e1000_io_readl(E1000_CTRL);
+	ctrl &= (~(E1000_CTRL_TFCE | E1000_CTRL_RFCE));
+	e1000_io_writel(E1000_CTRL, ctrl);
 
 	return OK;
 }
