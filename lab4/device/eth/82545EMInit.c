@@ -113,7 +113,7 @@ status 	_82545EMInit(
 	/* Reset packet buffer allocation to default */
 
 	// manual p. 292 PBA
-	e1000_io_writel(E1000_PBA, E1000_PBA_10K << 16 | E1000_PBA_48K);
+	e1000_io_writel(ethptr->iobase, E1000_PBA, E1000_PBA_10K << 16 | E1000_PBA_48K);
 
 #ifdef DEBUG
     kprintf("PBA reset: 0x%x\n",E1000_PBA_10K << 16 | E1000_PBA_48K);
@@ -164,23 +164,23 @@ local void _82545EM_reset_hw(
 	interrupt condition that had been previously enabled, it must
 	write to the Interrupt Mask Clear Register */
 
-	e1000_io_writel(E1000_IMC, ~0);
+	e1000_io_writel(ethptr->iobase, E1000_IMC, ~0);
 
 	/* Disable the Transmit and Receive units. */
 
 	// manual p.300
-	e1000_io_writel(E1000_RCTL, 0);
-	e1000_io_writel(E1000_TCTL, 0);
+	e1000_io_writel(ethptr->iobase, E1000_RCTL, 0);
+	e1000_io_writel(ethptr->iobase, E1000_TCTL, 0);
 
 	/* Issuing a global reset by setting CTRL register with E1000_CTRL_RST*/
-	ctrl = e1000_io_readl(E1000_CTRL);
-	e1000_io_writel(E1000_CTRL, ctrl|E1000_CTRL_RST);
+	ctrl = e1000_io_readl(ethptr->iobase, E1000_CTRL);
+	e1000_io_writel(ethptr->iobase, E1000_CTRL, ctrl|E1000_CTRL_RST);
 
     /* Delay slightly to let hardware process */
 	MDELAY(50);
 
     /* Masking off all interrupts again*/
-	e1000_io_writel(E1000_IMC, ~0);
+	e1000_io_writel(ethptr->iobase, E1000_IMC, ~0);
 }
 
 /*------------------------------------------------------------------------
@@ -198,25 +198,25 @@ local status _82545EM_init_hw(
 	/* Setup the receive address */
 	/* Zero out the other receive addresses */
 	for(i = 1; i < E1000_82567LM_RAR_ENTRIES; i++){
-		e1000_io_writel(E1000_RAL(i), 0);
-		e1000_io_writel(E1000_RAH(i), 0);
+		e1000_io_writel(ethptr->iobase, E1000_RAL(i), 0);
+		e1000_io_writel(ethptr->iobase, E1000_RAH(i), 0);
 	}
 
 
 	/* Zero out the Multicast HASH table */
 	for (i = 0; i < E1000_82567LM_MTA_ENTRIES; i++){
-		e1000_io_writel(E1000_MTA + i*4, 0);
+		e1000_io_writel(ethptr->iobase, E1000_MTA + i*4, 0);
 	}
 
 
 	/* Configure copper link settings */
-	ctrl = e1000_io_readl(E1000_CTRL);
+	ctrl = e1000_io_readl(ethptr->iobase, E1000_CTRL);
 	ctrl |= E1000_CTRL_SLU;
 	// ctrl &= ~(E1000_CTRL_FRCSPD | E1000_CTRL_FRCDPX);
 
 
 	/* Commit the changes.*/
-	e1000_io_writel(E1000_CTRL, ctrl);
+	e1000_io_writel(ethptr->iobase, E1000_CTRL, ctrl);
 
 
     /* Do a slightly delay for the hardware to proceed the commit */
@@ -265,9 +265,9 @@ local status _82545EM_init_hw(
 
 
     /* Update device control according receive flow control and transmit flow control*/
-	ctrl = e1000_io_readl(E1000_CTRL);
+	ctrl = e1000_io_readl(ethptr->iobase, E1000_CTRL);
 	ctrl &= (~(E1000_CTRL_TFCE | E1000_CTRL_RFCE));
-	e1000_io_writel(E1000_CTRL, ctrl);
+	e1000_io_writel(ethptr->iobase, E1000_CTRL, ctrl);
 
 	return OK;
 }
