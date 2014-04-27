@@ -69,22 +69,51 @@ status 	_82545EMInit(
     ethptr->osem = semcreate(ethptr->txRingSize);
 
 	/* Rings must be aligned on a 16-byte boundary */
-	
-	
+	ethptr->rxRing = (struct e1000_rx_desc *) getmem(E1000_RDSIZE*(E1000_RX_RING_SIZE+1));
+	ethptr->rxRing = (ethptr->rxRing + 0xf) & ~0xf;
+	ethptr->txRing = (struct e1000_tx_desc *) getmem(E1000_TDSIZE*(E1000_TX_RING_SIZE+1)); 
+	ethptr->txRing = (ethptr->txRing + 0xf) & ~0xf;
+
 	/* Buffers are highly recommended to be allocated on cache-line */
 	/* 	size (64-byte for E8400) 				*/
+	ethptr->rxBufs = (struct etherPkt *) getmem(ETH_BUF_SIZE*E1000_RX_RING_SIZE);
+	ethptr->rxBufs = ethptr->rxBufs + 0x3f) & ~0x3f;
+	ethptr->txBufs = (struct etherPkt *) getmem(ETH_BUF_SIZE*E1000_TX_RING_SIZE);
+	ethptr->txBufs = ethptr->txBufs + 0x3f) & ~0x3f;
 	
-
+	if ( (SYSERR == (uint32)ethptr->rxBufs)
+		|| (SYSERR == (uint32)ethptr->txBufs)){
+		return SYSERR;
+	}
+	
 	/* Set buffer pointers and rings to zero */
-	
-
+	memset(ethptr->rxRing, '\0', E1000_RDSIZE * E1000_RX_RING_SIZE);
+	memset(ethptr->txRing, '\0', E1000_TDSIZE * E1000_TX_RING_SIZE);	
+	memset(ethptr->rxBufs, '\0', E1000_RX_RING_SIZE * ETH_BUF_SIZE);
+	memset(ethptr->txBufs, '\0', E1000_TX_RING_SIZE * ETH_BUF_SIZE);
 
 	/* Insert the buffer into descriptor ring */
-	
+	int i; // counter
+	ringptr = ethptr->rxRing;
+	bufptr = ethptr->rxBufs;
+	for (i = 0; i < E1000_RX_RING_SIZE; i++) {
+		ringptr->buffer_addr = (uint64)bufptr;
+		ringptr++;
+		bufptr += ETH_BUF_SIZE;
+	}	
+
+	ringptr = ethptr->txRing;
+	bufptr = ethptr->txBufs;
+	for (i = 0; i < E1000_TX_RING_SIZE; i++) {
+		ringptr->buffer_addr = (uint64)bufptr;
+		ringptr++;
+		bufptr += ETH_BUF_SIZE;
+	}
 
 	/* Reset packet buffer allocation to default */
 
-
+	// manual p. 292 PBA
+	e1000_io_writel(E1000_PBA, E1000_PBA_10K << 16 | E1000_PBA_48K);
 
 	/* Reset the NIC to bring it into a known state and initialize it */
 
