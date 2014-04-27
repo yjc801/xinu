@@ -22,7 +22,7 @@ status 	_82545EMInit(
 	int32  i;
 	struct e1000_rx_desc *rx_ringptr;
 	struct e1000_tx_desc *tx_ringptr;
-	struct etherPkt *bufptr;
+	uint32 bufptr;
 	uint16 pci_commd;
 
 	/* Read PCI configuration information */
@@ -74,16 +74,16 @@ status 	_82545EMInit(
 
 	/* Rings must be aligned on a 16-byte boundary */
 	ethptr->rxRing = (struct e1000_rx_desc *) getmem(E1000_RDSIZE*(E1000_RX_RING_SIZE+1));
-	ethptr->rxRing = (ethptr->rxRing + 0xf) & ~0xf;
+	ethptr->rxRing = ((uint32)ethptr->rxRing + 0xf) & ~0xf;
 	ethptr->txRing = (struct e1000_tx_desc *) getmem(E1000_TDSIZE*(E1000_TX_RING_SIZE+1)); 
-	ethptr->txRing = (ethptr->txRing + 0xf) & ~0xf;
+	ethptr->txRing = ((uint32)ethptr->txRing + 0xf) & ~0xf;
 
 	/* Buffers are highly recommended to be allocated on cache-line */
 	/* 	size (64-byte for E8400) 				*/
 	ethptr->rxBufs = (struct etherPkt *) getmem(ETH_BUF_SIZE*E1000_RX_RING_SIZE);
-	ethptr->rxBufs = (ethptr->rxBufs + 0x3f) & ~0x3f;
+	ethptr->rxBufs = ((uint32)ethptr->rxBufs + 0x3f) & ~0x3f;
 	ethptr->txBufs = (struct etherPkt *) getmem(ETH_BUF_SIZE*E1000_TX_RING_SIZE);
-	ethptr->txBufs = (ethptr->txBufs + 0x3f) & ~0x3f;
+	ethptr->txBufs = ((uint32)ethptr->txBufs + 0x3f) & ~0x3f;
 	
 	if ( (SYSERR == (uint32)ethptr->rxBufs)
 		|| (SYSERR == (uint32)ethptr->txBufs)){
@@ -98,19 +98,19 @@ status 	_82545EMInit(
 
 	/* Insert the buffer into descriptor ring */
 
-	rx_ringptr = ethptr->rxRing;
-	bufptr = ethptr->rxBufs;
+	rx_ringptr = (struct e1000_rx_desc*)ethptr->rxRing;
+	bufptr = (uint32)ethptr->rxBufs;
 	for (i = 0; i < E1000_RX_RING_SIZE; i++) {
-		ringptr->buffer_addr = (uint64)bufptr;
-		ringptr++;
+		rx_ringptr->buffer_addr = (uint64)bufptr;
+		rx_ringptr++;
 		bufptr += ETH_BUF_SIZE;
 	}	
 
-	tx_ringptr = ethptr->txRing;
-	bufptr = ethptr->txBufs;
+	tx_ringptr = (struct e1000_tx_desc*)ethptr->txRing;
+	bufptr = (uint32)ethptr->txBufs;
 	for (i = 0; i < E1000_TX_RING_SIZE; i++) {
-		ringptr->buffer_addr = (uint64)bufptr;
-		ringptr++;
+		tx_ringptr->buffer_addr = (uint64)bufptr;
+		tx_ringptr++;
 		bufptr += ETH_BUF_SIZE;
 	}
 
