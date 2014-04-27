@@ -19,8 +19,12 @@ status 	_82545EMInit(
 	struct 	ether *ethptr
 	)
 {
-	int32	i;
-	uint16	pci_commd;
+	int32  i;
+	struct e1000_rx_desc *rx_ringptr;
+	struct e1000_tx_desc *tx_ringptr;
+	struct etherPkt *bufptr;
+	uint16 pci_commd;
+
 	/* Read PCI configuration information */
 	/* Read I/O base address */
 	pci_bios_read_config_dword(ethptr->pcidev,E1000_PCI_MEMBASE,&ethptr->membase);
@@ -77,9 +81,9 @@ status 	_82545EMInit(
 	/* Buffers are highly recommended to be allocated on cache-line */
 	/* 	size (64-byte for E8400) 				*/
 	ethptr->rxBufs = (struct etherPkt *) getmem(ETH_BUF_SIZE*E1000_RX_RING_SIZE);
-	ethptr->rxBufs = ethptr->rxBufs + 0x3f) & ~0x3f;
+	ethptr->rxBufs = (ethptr->rxBufs + 0x3f) & ~0x3f;
 	ethptr->txBufs = (struct etherPkt *) getmem(ETH_BUF_SIZE*E1000_TX_RING_SIZE);
-	ethptr->txBufs = ethptr->txBufs + 0x3f) & ~0x3f;
+	ethptr->txBufs = (ethptr->txBufs + 0x3f) & ~0x3f;
 	
 	if ( (SYSERR == (uint32)ethptr->rxBufs)
 		|| (SYSERR == (uint32)ethptr->txBufs)){
@@ -93,8 +97,8 @@ status 	_82545EMInit(
 	memset(ethptr->txBufs, '\0', E1000_TX_RING_SIZE * ETH_BUF_SIZE);
 
 	/* Insert the buffer into descriptor ring */
-	int i; // counter
-	ringptr = ethptr->rxRing;
+
+	rx_ringptr = ethptr->rxRing;
 	bufptr = ethptr->rxBufs;
 	for (i = 0; i < E1000_RX_RING_SIZE; i++) {
 		ringptr->buffer_addr = (uint64)bufptr;
@@ -102,7 +106,7 @@ status 	_82545EMInit(
 		bufptr += ETH_BUF_SIZE;
 	}	
 
-	ringptr = ethptr->txRing;
+	tx_ringptr = ethptr->txRing;
 	bufptr = ethptr->txBufs;
 	for (i = 0; i < E1000_TX_RING_SIZE; i++) {
 		ringptr->buffer_addr = (uint64)bufptr;
@@ -226,8 +230,8 @@ local status _82545EM_init_hw(
 	/* 	autonegotiation. 					*/
 
 	// manual p.165; PHY registers p.245
-	e1000_read_phy_reg(ethptr, E1000_PHY_AUTONEG_ADV, &autoneg_adv);
-	e1000_read_phy_reg(ethptr, E1000_PHY_1000T_CTRL, &phy_1000t_ctrl);
+	_82545EM_read_phy_reg(ethptr, E1000_PHY_AUTONEG_ADV, &autoneg_adv);
+	_82545EM_read_phy_reg(ethptr, E1000_PHY_1000T_CTRL, &phy_1000t_ctrl);
 
 	autoneg_adv |= (E1000_NWAY_AR_10T_HD_CAPS  |
 					E1000_NWAY_AR_10T_FD_CAPS  |
@@ -239,22 +243,22 @@ local status _82545EM_init_hw(
 	phy_1000t_ctrl &= ~E1000_CR_1000T_HD_CAPS;
 	phy_1000t_ctrl |= E1000_CR_1000T_FD_CAPS;
 
-	e1000_read_phy_reg(ethptr, E1000_PHY_AUTONEG_ADV, autoneg_adv);
-	e1000_read_phy_reg(ethptr, E1000_PHY_1000T_CTRL, phy_1000t_ctrl);
+	_82545EM_write_phy_reg(ethptr, E1000_PHY_AUTONEG_ADV, autoneg_adv);
+	_82545EM_write_phy_reg(ethptr, E1000_PHY_1000T_CTRL, phy_1000t_ctrl);
 
 	/* Restart auto-negotiation. */
 
 	// manual p.247
-	e1000_read_phy_reg(ethptr, E1000_PHY_CONTROL, &phy_ctrl);
+	_82545EM_read_phy_reg(ethptr, E1000_PHY_CONTROL, &phy_ctrl);
 	phy_ctrl |= E1000_MII_CR_AUTO_NEG_EN|E1000_MII_CR_RESTART_AUTO_NEG;
-	e1000_write_phy_reg(ethptr, E1000_PHY_CONTROL, phy_ctrl);
+	_82545EM_write_phy_reg(ethptr, E1000_PHY_CONTROL, phy_ctrl);
 
 	/* Wait for auto-negotiation to complete 
        Implement a loop here to check the E1000_MII_SR_LINK_STATUS and E1000_MII_SR_AUTONEG_COMPLETE, break if they are both ture
        You should also delay for a while in each loop so it won't take too much CPU time */
     
     while (1){
-    	e1000_read_phy_reg(ethptr, E1000_PHY_STATUS, &phy_status);
+    	_82545EM_read_phy_reg(ethptr, E1000_PHY_STATUS, &phy_status);
     	
     	if ((phy_status & E1000_MII_SR_LINK_STATUS) && 
 			(phy_status & E1000_MII_SR_AUTONEG_COMPLETE))
