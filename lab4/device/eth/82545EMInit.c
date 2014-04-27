@@ -192,7 +192,8 @@ local status _82545EM_init_hw(
 	)
 {
 	uint32 i;
-	uint32 ctrl, phy_ctrl, phy_1000t_ctrl;
+	uint32 ctrl;
+	uint16 phy_ctrl, phy_1000t_ctrl;
 	uint16 phy_status;
 
 	/* Setup the receive address */
@@ -245,7 +246,7 @@ local status _82545EM_init_hw(
 	/* Restart auto-negotiation. */
 
 	// manual p.247
-	e1000e_read_phy_reg(ethptr, E1000_PHY_CONTROL, &phy_ctrl)
+	e1000_read_phy_reg(ethptr, E1000_PHY_CONTROL, &phy_ctrl)
 	phy_ctrl |= E1000_MII_CR_AUTO_NEG_EN|E1000_MII_CR_RESTART_AUTO_NEG;
 	e1000_write_phy_reg(ethptr, E1000_PHY_CONTROL, phy_ctrl)
 
