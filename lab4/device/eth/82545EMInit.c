@@ -193,8 +193,7 @@ local status _82545EM_init_hw(
 {
 	uint32 i;
 	uint32 ctrl;
-	uint16 phy_ctrl, phy_1000t_ctrl;
-	uint16 phy_status;
+	uint16 phy_ctrl, phy_1000t_ctrl, autoneg_adv, phy_status;
 
 	/* Setup the receive address */
 	/* Zero out the other receive addresses */
