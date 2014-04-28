@@ -126,8 +126,8 @@ uint32	getlocalip(void)
 		/* 	arrives.					*/
 
 		for (j=0; j<3; j++) {
-            read(ETHER0, (char *)currpkt, PACKLEN);
-            udp_in();
+            // read(ETHER0, (char *)currpkt, PACKLEN);
+            // udp_in();
             len = udp_recv(0, UDP_DHCP_SPORT, UDP_DHCP_CPORT,
                            (char *)&dmsg2, sizeof(struct dhcpmsg),2000);
 			if (len == TIMEOUT) {
