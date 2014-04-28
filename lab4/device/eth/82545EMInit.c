@@ -328,9 +328,11 @@ local void _82545EM_configure_rx(
 
 	/* Setup the HW Rx Head and Tail Descriptor Pointers, the Base 	*/
 	/* 	and Length of the Rx Descriptor Ring 			*/
+	
+	// manual p.306
 	e1000_io_writel(ethptr->iobase, E1000_RDBAL(0), (uint32)ethptr->rxRing);
 	e1000_io_writel(ethptr->iobase, E1000_RDBAH(0), 0);
-	e1000_io_writel(ethptr->iobase, E1000_RDLEN(0), E1000_RDSIZE*ethptr->rxRingSize);
+	e1000_io_writel(ethptr->iobase, E1000_RDLEN(0), E1000_RDSIZE*E1000_RX_RING_SIZE);
 	e1000_io_writel(ethptr->iobase, E1000_RDH(0), 0);
 	e1000_io_writel(ethptr->iobase, E1000_RDT(0), ethptr->rxRingSize-E1000_RING_BOUNDARY);
 
@@ -353,13 +355,15 @@ local void _82545EM_configure_tx(
 	)
 {
 	uint32 	tctl, tipg, txdctl;
-	uint32 	ipgr1, ipgr2;
 
 	/* Set the transmit descriptor write-back policy for both queues */
+
+	// manual p.320
 	txdctl = e1000_io_readl(ethptr->iobase, E1000_TXDCTL(0));
 	txdctl &= ~E1000_TXDCTL_WTHRESH;
 	txdctl |= E1000_TXDCTL_GRAN;
 	e1000_io_writel(ethptr->iobase, E1000_TXDCTL(0), txdctl);
+
 	txdctl = e1000_io_readl(ethptr->iobase, E1000_TXDCTL(1));
 	txdctl &= ~E1000_TXDCTL_WTHRESH;
 	txdctl |= E1000_TXDCTL_GRAN;
@@ -367,6 +371,8 @@ local void _82545EM_configure_tx(
 
 
 	/* Program the Transmit Control Register */
+
+	// manual p.311
 	tctl = e1000_io_readl(ethptr->iobase, E1000_TCTL);
 	tctl &= ~E1000_TCTL_CT;
 	tctl |= E1000_TCTL_RTLC |
@@ -378,24 +384,27 @@ local void _82545EM_configure_tx(
 
 
 	/* Set the default values for the Tx Inter Packet Gap timer */
-	tipg = E1000_TIPG_IPGT_COPPER_DEFAULT; 	/*  8  */
-	ipgr1 = E1000_TIPG_IPGR1_DEFAULT;	/*  8  */
-	ipgr2 = E1000_TIPG_IPGR2_DEFAULT;	/*  6  */
-
-	tipg |= ipgr1 << E1000_TIPG_IPGR1_SHIFT;
-	tipg |= ipgr2 << E1000_TIPG_IPGR2_SHIFT;
+	
+	// manual p. 312
+	tipg = E1000_TIPG_IPGT_COPPER_DEFAULT; 
+	tipg |= E1000_TIPG_IPGR1_DEFAULT << E1000_TIPG_IPGR1_SHIFT;
+	tipg |= E1000_TIPG_IPGR2_DEFAULT << E1000_TIPG_IPGR2_SHIFT;
 	e1000_io_writel(ethptr->iobase, E1000_TIPG, tipg);	
 
 
 	/* Set the Tx Interrupt Delay register */
+
+	// manual p.321
 	e1000_io_writel(ethptr->iobase, E1000_TIDV, E1000_TIDV_DEFAULT);
 	e1000_io_writel(ethptr->iobase, E1000_TADV, E1000_TADV_DEFAULT);	
 
 
 	/* Setup the HW Tx Head and Tail descriptor pointers */
+	
+	// manual p.315
 	e1000_io_writel(ethptr->iobase, E1000_TDBAL(0), (uint32)ethptr->txRing);
 	e1000_io_writel(ethptr->iobase, E1000_TDBAH(0), 0);
-	e1000_io_writel(ethptr->iobase, E1000_TDLEN(0), E1000_TDSIZE * ethptr->txRingSize);
+	e1000_io_writel(ethptr->iobase, E1000_TDLEN(0), E1000_TDSIZE*E1000_TX_RING_SIZE);
 	e1000_io_writel(ethptr->iobase, E1000_TDH(0), 0);
 	e1000_io_writel(ethptr->iobase, E1000_TDT(0), 0);	
 
