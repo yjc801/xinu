@@ -396,7 +396,7 @@ local void _82545EM_configure_tx(
 	/* Setup the HW Tx Head and Tail descriptor pointers */
 	e1000_io_writel(ethptr->iobase, E1000_TDBAL(0), (uint32)ethptr->txRing);
 	e1000_io_writel(ethptr->iobase, E1000_TDBAH(0), 0);
-	e1000_io_writel(ethptr->iobase, E1000_TDLEN(0), e1000_TDSIZE * ethptr->txRingSize);
+	e1000_io_writel(ethptr->iobase, E1000_TDLEN(0), E1000_TDSIZE * ethptr->txRingSize);
 	e1000_io_writel(ethptr->iobase, E1000_TDH(0), 0);
 	e1000_io_writel(ethptr->iobase, E1000_TDT(0), 0);	
 
