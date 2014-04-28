@@ -292,9 +292,9 @@ local void _82545EM_configure_rx(
 	/* Disable receiver while configuring. */
 
 	//manual p.300
-	rctl = e1000_io_readl(ether->iobase, E1000_RCTL);
+	rctl = e1000_io_readl(ethptr->iobase, E1000_RCTL);
 	rctl &= ~E1000_RCTL_EN;
-	e1000_io_writel(ether->iobase, E1000_RCTL, rctl);
+	e1000_io_writel(ethptr->iobase, E1000_RCTL, rctl);
 
 #ifdef DEBUG
 	kprintf("Receive Control: 0x%x", rctl);
@@ -318,8 +318,8 @@ local void _82545EM_configure_rx(
 	/* 	immediately each time a new packet has been stored in 	*/
 	/* 	memory 							*/
 	
-	e1000_io_writel(ether->iobase, E1000_RDTR, E1000_RDTR_DEFAULT);
-	e1000_io_writel(ether->iobase, E1000_RADV, E1000_RADV_DEFAULT);
+	e1000_io_writel(ethptr->iobase, E1000_RDTR, E1000_RDTR_DEFAULT);
+	e1000_io_writel(ethptr->iobase, E1000_RADV, E1000_RADV_DEFAULT);
 
 	/* Set up interrupt rate to be default. Notice that it is a the rate is not just E1000_ITR_DEFAULT which is the frequency, 
        it is 1000000000 / (E1000_ITR_DEFAULT * 256) */
@@ -329,20 +329,20 @@ local void _82545EM_configure_rx(
 
 	/* Setup the HW Rx Head and Tail Descriptor Pointers, the Base 	*/
 	/* 	and Length of the Rx Descriptor Ring 			*/
-	e1000_io_writel(ether->iobase, E1000_RDBAL(0), (uint32)ethptr->rxRing);
-	e1000_io_writel(ether->iobase, E1000_RDBAH(0), 0);
-	e1000_io_writel(ether->iobase, E1000_RDLEN(0), E1000_RDSIZE*ethptr->rxRingSize);
-	e1000_io_writel(ether->iobase, E1000_RDH(0), 0);
-	e1000_io_writel(ether->iobase, E1000_RDT(0), ethptr->rxRingSize-E1000_RING_BOUNDARY);
+	e1000_io_writel(ethptr->iobase, E1000_RDBAL(0), (uint32)ethptr->rxRing);
+	e1000_io_writel(ethptr->iobase, E1000_RDBAH(0), 0);
+	e1000_io_writel(ethptr->iobase, E1000_RDLEN(0), E1000_RDSIZE*ethptr->rxRingSize);
+	e1000_io_writel(ethptr->iobase, E1000_RDH(0), 0);
+	e1000_io_writel(ethptr->iobase, E1000_RDT(0), ethptr->rxRingSize-E1000_RING_BOUNDARY);
 
 
 	/* Disable Receive Checksum Offload for IPv4, TCP and UDP. */
-	recv_sum = e1000_io_readl(ether->iobase, E1000_RXCSUM);
+	recv_sum = e1000_io_readl(ethptr->iobase, E1000_RXCSUM);
 	recv_sum &= ~E1000_RXCSUM_TUOFL;
-	e1000_io_writel(ether->iobase, E1000_RXCSUM, recv_sum);
+	e1000_io_writel(ethptr->iobase, E1000_RXCSUM, recv_sum);
 
 	/* Enable receiver. */
-	e1000_io_writel(ether->iobase, E1000_RCTL, rctl);
+	e1000_io_writel(ethptr->iobase, E1000_RCTL, rctl);
 }
 
 /*------------------------------------------------------------------------
