@@ -337,7 +337,7 @@ local void _82545EM_configure_rx(
 
 
 	/* Disable Receive Checksum Offload for IPv4, TCP and UDP. */
-	recv_sum = e1000e_io_readl(ether->iobase, E1000_RXCSUM);
+	recv_sum = e1000_io_readl(ether->iobase, E1000_RXCSUM);
 	recv_sum &= ~E1000_RXCSUM_TUOFL;
 	e1000_io_writel(ether->iobase, E1000_RXCSUM, recv_sum);
 
