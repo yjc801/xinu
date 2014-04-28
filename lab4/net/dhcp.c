@@ -119,6 +119,11 @@ uint32	getlocalip(void)
     kprintf("Requesting IP address...\n");
 
 	for (i = 0; i < DHCP_RETRY; i++) {
+
+#ifdef DEBUG
+			kprintf("Try %d\n",i);
+#endif
+
         udp_send(IP_BCAST, UDP_DHCP_SPORT, IP_THIS, UDP_DHCP_CPORT,
                  (char *)&dmsg, len);
 
