@@ -268,7 +268,7 @@ local status _82545EM_init_hw(
     }
 
 #ifdef DEBUG
-    kprintf("PHY status: 0x%x", phy_status);
+    kprintf("PHY status: 0x%x\n", phy_status);
 #endif
 
     /* Update device control according receive flow control and transmit flow control*/
@@ -297,7 +297,7 @@ local void _82545EM_configure_rx(
 	e1000_io_writel(ethptr->iobase, E1000_RCTL, rctl);
 
 #ifdef DEBUG
-	kprintf("Receive Control: 0x%x", rctl);
+	kprintf("Receive Control: 0x%x\n", rctl);
 #endif
 
 	/* Enable receiver, accept broadcast packets, no loopback, and 	*/
