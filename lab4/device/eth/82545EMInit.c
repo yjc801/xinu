@@ -331,7 +331,7 @@ local void _82545EM_configure_rx(
 	/* 	and Length of the Rx Descriptor Ring 			*/
 	e1000_io_writel(ether->iobase, E1000_RDBAL(0), (uint32)ethptr->rxRing);
 	e1000_io_writel(ether->iobase, E1000_RDBAH(0), 0);
-	e1000_io_writel(ether->iobase, E1000_RDLEN(0), E1000E_RDSIZE*ethptr->rxRingSize);
+	e1000_io_writel(ether->iobase, E1000_RDLEN(0), E1000_RDSIZE*ethptr->rxRingSize);
 	e1000_io_writel(ether->iobase, E1000_RDH(0), 0);
 	e1000_io_writel(ether->iobase, E1000_RDT(0), ethptr->rxRingSize-E1000_RING_BOUNDARY);
 
