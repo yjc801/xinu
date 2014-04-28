@@ -1,7 +1,6 @@
 /* pci.c - pci_init */
 
 #include <xinu.h>
-#define DEBUG
 
 static	int	pcibios_init(void);
 static	int	check_pcibios(void);

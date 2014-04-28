@@ -1,7 +1,6 @@
 /* dhcp.c - getlocalip */
 
 #include <xinu.h>
-#define DEBUG
 
 bpid32	netbufpool;			/* ID of network buffer pool	*/
 /*------------------------------------------------------------------------

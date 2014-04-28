@@ -13,31 +13,57 @@ devcall	e1000Read(
 	)
 {
 	struct	ether 	*ethptr;
-	struct 	e1000_tx_desc *descptr;
-	char 	*pktptr; 		
-	uint32	tail;
-	uint32 	tdt;
+	struct	e1000_rx_desc *descptr;
+	char	*pktptr;
+	uint32	head;			
+	uint32	status;			
+	uint32	length;		
+	int32 	retval;
+	uint32 	rdt;
 
-	if (len < 17){
-		return SYSERR;
-	}
-	
 	ethptr = &ethertab[devptr->dvminor];
-	
-	wait(ethptr->osem);
 
-	tail = ethptr->txTail;
-	descptr = (struct e1000_tx_desc *)ethptr->txRing + tail;
-	pktptr = (char *)((uint32)descptr->buffer_addr & ADDR_BIT_MASK);
-	memcpy(pktptr, buf, len);
-	descptr->lower.data &= E1000_TXD_CMD_DEXT; 
-	descptr->lower.data = E1000_TXD_CMD_IDE|E1000_TXD_CMD_RS|E1000_TXD_CMD_IFCS|E1000_TXD_CMD_EOP|len;
-	descptr->upper.data = 0;
-	tdt = e1000_io_readl(ethptr->iobase, E1000_TDT(0));
-	tdt = (tdt + 1) % ethptr->txRingSize;
-	e1000_io_writel(ethptr->iobase, E1000_TDT(0), tdt);
+	/* Wait for a packet to arrive */
 
-	ethptr->txTail = (ethptr->txTail + 1) % ethptr->txRingSize;
+	wait(ethptr->isem);
 
-	return len;
+	/* Find out where to pick up the packet */
+
+	head = ethptr->rxHead;
+	descptr = (struct e1000_rx_desc *)ethptr->rxRing + head;
+	status = descptr->status;
+
+	if (!(status & E1000_RXD_STAT_DD)) { 	/* check for error */
+		kprintf("e1000_read: packet error!\n");
+		retval = SYSERR;
+	} else { 	/* pick up the packet */			
+		pktptr = (char *)((uint32)(descptr->buffer_addr &
+					   ADDR_BIT_MASK));
+		length = descptr->length;
+		memcpy(buf, pktptr, length);
+		retval = length;
+	}
+	/* Clear up the descriptor and the buffer */
+
+	descptr->length = 0;
+	descptr->csum = 0;
+	descptr->status = 0;
+	descptr->errors = 0;
+	descptr->special = 0;
+	memset((char *)((uint32)(descptr->buffer_addr & ADDR_BIT_MASK)), 
+			'\0', ETH_BUF_SIZE); 
+
+	/* Add newly reclaimed descriptor to the ring */
+
+	if (ethptr->rxHead % E1000_RING_BOUNDARY == 0) {
+		rdt = e1000_io_readl(ethptr->iobase, E1000_RDT(0));
+		rdt = (rdt + E1000_RING_BOUNDARY) % ethptr->rxRingSize;
+		e1000_io_writel(ethptr->iobase, E1000_RDT(0), rdt);
+	}
+
+	/* Advance the head pointing to the next ring descriptor which 	*/
+	/*  	will be ready to be picked up 				*/
+	ethptr->rxHead = (ethptr->rxHead + 1) % ethptr->rxRingSize;
+
+	return retval;
 }

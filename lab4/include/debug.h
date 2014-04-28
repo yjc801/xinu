@@ -1,5 +1,5 @@
 /* debug.h */
-
+#define DEBUG
 #define DEBUG_ASCII 0x01
 #define DEBUG_HEX   0x02
 
