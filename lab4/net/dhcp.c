@@ -1,6 +1,7 @@
 /* dhcp.c - getlocalip */
 
 #include <xinu.h>
+#define DEBUG
 
 bpid32	netbufpool;			/* ID of network buffer pool	*/
 /*------------------------------------------------------------------------
@@ -126,8 +127,12 @@ uint32	getlocalip(void)
 		/* 	arrives.					*/
 
 		for (j=0; j<3; j++) {
-            // read(ETHER0, (char *)currpkt, PACKLEN);
-            // udp_in();
+
+#ifdef DEBUG
+			kprintf("UDPC msg len: \n",len);
+#endif
+            read(ETHER0, (char *)currpkt, PACKLEN);
+            udp_in();
             len = udp_recv(0, UDP_DHCP_SPORT, UDP_DHCP_CPORT,
                            (char *)&dmsg2, sizeof(struct dhcpmsg),2000);
 			if (len == TIMEOUT) {
