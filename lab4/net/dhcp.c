@@ -121,7 +121,7 @@ uint32	getlocalip(void)
 	for (i = 0; i < DHCP_RETRY; i++) {
 
 #ifdef DEBUG
-			kprintf("Try %d\n",i);
+			kprintf("Try %d: len = %d\n",i, len);
 #endif
 
         udp_send(IP_BCAST, UDP_DHCP_SPORT, IP_THIS, UDP_DHCP_CPORT,
