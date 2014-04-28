@@ -324,7 +324,7 @@ local void _82545EM_configure_rx(
 	/* Set up interrupt rate to be default. Notice that it is a the rate is not just E1000_ITR_DEFAULT which is the frequency, 
        it is 1000000000 / (E1000_ITR_DEFAULT * 256) */
 
-	e1000_io_writel(ether->iobase, E1000_ITR, 1000000000/(E1000_ITR_DEFAULT*256));
+	e1000_io_writel(ethptr->iobase, E1000_ITR, 1000000000/(E1000_ITR_DEFAULT*256));
 
 
 	/* Setup the HW Rx Head and Tail Descriptor Pointers, the Base 	*/
