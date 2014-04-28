@@ -302,7 +302,7 @@ local void _82545EM_configure_rx(
 
 	/* Enable receiver, accept broadcast packets, no loopback, and 	*/
 	/* 	free buffer threshold is set to 1/2 RDLEN. 		*/
-	
+	rctl &= ~(3 << E1000_RCTL_MO_SHIFT);
 	rctl |= E1000_RCTL_EN|E1000_RCTL_BAM|E1000_RCTL_LBM_NO|E1000_RCTL_RDMTS_HALF;
 
 	/* Do not store bad packets, do not pass MAC control frame, 	*/
@@ -353,28 +353,56 @@ local void _82545EM_configure_tx(
 	struct 	ether *ethptr
 	)
 {
+	uint32 	tctl, tipg, txdctl;
+	uint32 	ipgr1, ipgr2;
 
 	/* Set the transmit descriptor write-back policy for both queues */
-
+	txdctl = e1000_io_readl(ethptr->iobase, E1000_TXDCTL(0));
+	txdctl &= ~E1000_TXDCTL_WTHRESH;
+	txdctl |= E1000_TXDCTL_GRAN;
+	e1000_io_writel(ethptr->iobase, E1000_TXDCTL(0), txdctl);
+	txdctl = e1000_io_readl(ethptr->iobase, E1000_TXDCTL(1));
+	txdctl &= ~E1000_TXDCTL_WTHRESH;
+	txdctl |= E1000_TXDCTL_GRAN;
+	e1000_io_writel(ethptr->iobase, E1000_TXDCTL(1), txdctl);
 
 
 	/* Program the Transmit Control Register */
-	
+	tctl = e1000_io_readl(ethptr->iobase, E1000_TCTL);
+	tctl &= ~E1000_TCTL_CT;
+	tctl |= E1000_TCTL_RTLC |
+		E1000_TCTL_EN |
+		E1000_TCTL_PSP |
+		(E1000_COLLISION_THRESHOLD << E1000_CT_SHIFT);
+	tctl &= ~E1000_TCTL_COLD;
+	tctl |= E1000_COLLISION_DISTANCE << E1000_COLD_SHIFT;	
 
 
 	/* Set the default values for the Tx Inter Packet Gap timer */
-	
+	tipg = E1000_TIPG_IPGT_COPPER_DEFAULT; 	/*  8  */
+	ipgr1 = E1000_TIPG_IPGR1_DEFAULT;	/*  8  */
+	ipgr2 = E1000_TIPG_IPGR2_DEFAULT;	/*  6  */
+
+	tipg |= ipgr1 << E1000_TIPG_IPGR1_SHIFT;
+	tipg |= ipgr2 << E1000_TIPG_IPGR2_SHIFT;
+	e1000_io_writel(ethptr->iobase, E1000_TIPG, tipg);	
 
 
 	/* Set the Tx Interrupt Delay register */
-	
+	e1000_io_writel(ethptr->iobase, E1000_TIDV, E1000_TIDV_DEFAULT);
+	e1000_io_writel(ethptr->iobase, E1000_TADV, E1000_TADV_DEFAULT);	
 
 
 	/* Setup the HW Tx Head and Tail descriptor pointers */
-	
+	e1000_io_writel(ethptr->iobase, E1000_TDBAL(0), (uint32)ethptr->txRing);
+	e1000_io_writel(ethptr->iobase, E1000_TDBAH(0), 0);
+	e1000_io_writel(ethptr->iobase, E1000_TDLEN(0), e1000_TDSIZE * ethptr->txRingSize);
+	e1000_io_writel(ethptr->iobase, E1000_TDH(0), 0);
+	e1000_io_writel(ethptr->iobase, E1000_TDT(0), 0);	
 
 
     /* Enable transmit but setting TCTL*/
+    e1000_io_writel(ethptr->iobase, E1000_TCTL, tctl);
 }
 
 /*------------------------------------------------------------------------
