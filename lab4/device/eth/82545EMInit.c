@@ -267,6 +267,9 @@ local status _82545EM_init_hw(
 		MDELAY(200);
     }
 
+#ifdef DEBUG
+    kprintf("PHY status: 0x%x", phy_status);
+#endif
 
     /* Update device control according receive flow control and transmit flow control*/
 	ctrl = e1000_io_readl(ethptr->iobase, E1000_CTRL);
@@ -284,42 +287,62 @@ local void _82545EM_configure_rx(
 	struct 	ether *ethptr
 	)
 {
-
+	uint32 rctl, recv_sum;
 
 	/* Disable receiver while configuring. */
 
+	//manual p.300
+	rctl = e1000_io_readl(ether->iobase, E1000_RCTL);
+	rctl &= ~E1000_RCTL_EN;
+	e1000_io_writel(ether->iobase, E1000_RCTL, rctl);
+
+#ifdef DEBUG
+	kprintf("Receive Control: 0x%x", rctl);
+#endif
 
 	/* Enable receiver, accept broadcast packets, no loopback, and 	*/
 	/* 	free buffer threshold is set to 1/2 RDLEN. 		*/
-
+	
+	rctl |= E1000_RCTL_EN|E1000_RCTL_BAM|E1000_RCTL_LBM_NO|E1000_RCTL_RDMTS_HALF;
 
 	/* Do not store bad packets, do not pass MAC control frame, 	*/
 	/* 	disable long packet receive and CRC strip 		*/
 	
+	rctl &= ~(E1000_RCTL_SBP|E1000_RCTL_LPE|E1000_RCTL_SECRC|E1000_RCTL_PMCF);
 	
 	/* Setup buffer sizes */
-
+	rctl &= ~(E1000_RCTL_BSEX|E1000_RCTL_SZ_4096|E1000_RCTL_FLXBUF_MASK);
+	rctl |= E1000_RCTL_SZ_2048;
 
 	/* Set the Receive Delay Timer Register, let driver be notified */
 	/* 	immediately each time a new packet has been stored in 	*/
 	/* 	memory 							*/
-
+	
+	e1000_io_writel(ether->iobase, E1000_RDTR, E1000_RDTR_DEFAULT);
+	e1000_io_writel(ether->iobase, E1000_RADV, E1000_RADV_DEFAULT);
 
 	/* Set up interrupt rate to be default. Notice that it is a the rate is not just E1000_ITR_DEFAULT which is the frequency, 
        it is 1000000000 / (E1000_ITR_DEFAULT * 256) */
 
+	e1000_io_writel(ether->iobase, E1000_ITR, 1000000000/(E1000_ITR_DEFAULT*256));
 
 
 	/* Setup the HW Rx Head and Tail Descriptor Pointers, the Base 	*/
 	/* 	and Length of the Rx Descriptor Ring 			*/
-
+	e1000_io_writel(ether->iobase, E1000_RDBAL(0), (uint32)ethptr->rxRing);
+	e1000_io_writel(ether->iobase, E1000_RDBAH(0), 0);
+	e1000_io_writel(ether->iobase, E1000_RDLEN(0), E1000E_RDSIZE*ethptr->rxRingSize);
+	e1000_io_writel(ether->iobase, E1000_RDH(0), 0);
+	e1000_io_writel(ether->iobase, E1000_RDT(0), ethptr->rxRingSize-E1000_RING_BOUNDARY);
 
 
 	/* Disable Receive Checksum Offload for IPv4, TCP and UDP. */
-
+	recv_sum = e1000e_io_readl(ether->iobase, E1000_RXCSUM);
+	recv_sum &= ~E1000_RXCSUM_TUOFL;
+	e1000_io_writel(ether->iobase, E1000_RXCSUM, recv_sum);
 
 	/* Enable receiver. */
-
+	e1000_io_writel(ether->iobase, E1000_RCTL, rctl);
 }
 
 /*------------------------------------------------------------------------
