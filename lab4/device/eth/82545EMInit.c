@@ -98,7 +98,7 @@ status 	_82545EMInit(
 	/* Insert the buffer into descriptor ring */
 
 	rx_ringptr = (struct e1000_rx_desc*)ethptr->rxRing;
-	bufptr = (uint32)ethptr->rxBufs;
+	bufptr = ethptr->rxBufs;
 	for (i = 0; i < E1000_RX_RING_SIZE; i++) {
 		rx_ringptr->buffer_addr = bufptr;
 		rx_ringptr++;
@@ -106,7 +106,7 @@ status 	_82545EMInit(
 	}	
 
 	tx_ringptr = (struct e1000_tx_desc*)ethptr->txRing;
-	bufptr = (uint32)ethptr->txBufs;
+	bufptr = ethptr->txBufs;
 	for (i = 0; i < E1000_TX_RING_SIZE; i++) {
 		tx_ringptr->buffer_addr = bufptr;
 		tx_ringptr++;
