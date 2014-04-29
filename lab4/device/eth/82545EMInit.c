@@ -72,16 +72,16 @@ status 	_82545EMInit(
     ethptr->osem = semcreate(ethptr->txRingSize);
 
 	/* Rings must be aligned on a 16-byte boundary */
-	ethptr->rxRing = (struct e1000_rx_desc *) getmem(E1000_RDSIZE*(E1000_RX_RING_SIZE+1));
+	ethptr->rxRing = (void *) getmem(E1000_RDSIZE*(E1000_RX_RING_SIZE+1));
 	ethptr->rxRing = ((uint32)ethptr->rxRing + 0xf) & ~0xf;
-	ethptr->txRing = (struct e1000_tx_desc *) getmem(E1000_TDSIZE*(E1000_TX_RING_SIZE+1)); 
+	ethptr->txRing = (void *) getmem(E1000_TDSIZE*(E1000_TX_RING_SIZE+1)); 
 	ethptr->txRing = ((uint32)ethptr->txRing + 0xf) & ~0xf;
 
 	/* Buffers are highly recommended to be allocated on cache-line */
 	/* 	size (64-byte for E8400) 				*/
-	ethptr->rxBufs = (struct etherPkt *) getmem(ETH_BUF_SIZE*E1000_RX_RING_SIZE);
+	ethptr->rxBufs = (void *) getmem(ETH_BUF_SIZE*E1000_RX_RING_SIZE);
 	ethptr->rxBufs = ((uint32)ethptr->rxBufs + 0x3f) & ~0x3f;
-	ethptr->txBufs = (struct etherPkt *) getmem(ETH_BUF_SIZE*E1000_TX_RING_SIZE);
+	ethptr->txBufs = (void *) getmem(ETH_BUF_SIZE*E1000_TX_RING_SIZE);
 	ethptr->txBufs = ((uint32)ethptr->txBufs + 0x3f) & ~0x3f;
 	
 	if ( (SYSERR == (uint32)ethptr->rxBufs)
@@ -100,7 +100,7 @@ status 	_82545EMInit(
 	rx_ringptr = (struct e1000_rx_desc*)ethptr->rxRing;
 	bufptr = ethptr->rxBufs;
 	for (i = 0; i < E1000_RX_RING_SIZE; i++) {
-		rx_ringptr->buffer_addr = bufptr;
+		rx_ringptr->buffer_addr = (uint64)bufptr;
 		rx_ringptr++;
 		bufptr += ETH_BUF_SIZE;
 	}	
@@ -108,7 +108,7 @@ status 	_82545EMInit(
 	tx_ringptr = (struct e1000_tx_desc*)ethptr->txRing;
 	bufptr = ethptr->txBufs;
 	for (i = 0; i < E1000_TX_RING_SIZE; i++) {
-		tx_ringptr->buffer_addr = bufptr;
+		tx_ringptr->buffer_addr = (uint64)bufptr;
 		tx_ringptr++;
 		bufptr += ETH_BUF_SIZE;
 	}
