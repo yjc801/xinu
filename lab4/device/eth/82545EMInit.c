@@ -100,7 +100,7 @@ status 	_82545EMInit(
 	rx_ringptr = (struct e1000_rx_desc*)ethptr->rxRing;
 	bufptr = (uint32)ethptr->rxBufs;
 	for (i = 0; i < E1000_RX_RING_SIZE; i++) {
-		rx_ringptr->buffer_addr = (uint64)bufptr;
+		rx_ringptr->buffer_addr = bufptr;
 		rx_ringptr++;
 		bufptr += ETH_BUF_SIZE;
 	}	
@@ -108,7 +108,7 @@ status 	_82545EMInit(
 	tx_ringptr = (struct e1000_tx_desc*)ethptr->txRing;
 	bufptr = (uint32)ethptr->txBufs;
 	for (i = 0; i < E1000_TX_RING_SIZE; i++) {
-		tx_ringptr->buffer_addr = (uint64)bufptr;
+		tx_ringptr->buffer_addr = bufptr;
 		tx_ringptr++;
 		bufptr += ETH_BUF_SIZE;
 	}
