@@ -200,14 +200,14 @@ local status _82545EM_init_hw(
 
 	/* Setup the receive address */
 	/* Zero out the other receive addresses */
-	for(i = 1; i < E1000_82567LM_RAR_ENTRIES; i++){
+	for(i = 1; i < E1000_82545EM_RAR_ENTRIES; i++){
 		e1000_io_writel(ethptr->iobase, E1000_RAL(i), 0);
 		e1000_io_writel(ethptr->iobase, E1000_RAH(i), 0);
 	}
 
 
 	/* Zero out the Multicast HASH table */
-	for (i = 0; i < E1000_82567LM_MTA_ENTRIES; i++){
+	for (i = 0; i < E1000_82545EM_MTA_ENTRIES; i++){
 		e1000_io_writel(ethptr->iobase, E1000_MTA + i*4, 0);
 	}
 
@@ -215,7 +215,7 @@ local status _82545EM_init_hw(
 	/* Configure copper link settings */
 	ctrl = e1000_io_readl(ethptr->iobase, E1000_CTRL);
 	ctrl |= E1000_CTRL_SLU;
-	// ctrl &= ~(E1000_CTRL_FRCSPD | E1000_CTRL_FRCDPX);
+	ctrl &= ~(E1000_CTRL_FRCSPD | E1000_CTRL_FRCDPX);
 
 
 	/* Commit the changes.*/
@@ -300,7 +300,7 @@ local void _82545EM_configure_rx(
 #endif
 
 	/* Enable receiver, accept broadcast packets, no loopback, and 	*/
-	/* 	free buffer threshold is set to 1/2 RDLEN. 		*/
+	/* 	free buffer threshold is set to 1/2 RDLEN. 		h*/
 	rctl &= ~(3 << E1000_RCTL_MO_SHIFT);
 	rctl |= E1000_RCTL_EN|E1000_RCTL_BAM|E1000_RCTL_LBM_NO|E1000_RCTL_RDMTS_HALF;
 
