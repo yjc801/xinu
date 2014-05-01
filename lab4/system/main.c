@@ -27,7 +27,7 @@ int main(int argc, char **argv)
 			(NetData.routeraddr>> 8)&0xff, NetData.routeraddr&0xff);
 	}
 	
-
+	netin();
 
 	//while (1);
 	resume(create(shell, 8192, 50, "shell", 1, CONSOLE));
