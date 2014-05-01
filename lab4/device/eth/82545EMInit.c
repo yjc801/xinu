@@ -272,7 +272,7 @@ local status _82545EM_init_hw(
 
     /* Update device control according receive flow control and transmit flow control*/
 	ctrl = e1000_io_readl(ethptr->iobase, E1000_CTRL);
-	ctrl &= (~(E1000_CTRL_TFCE | E1000_CTRL_RFCE));
+	ctrl &= ~(E1000_CTRL_TFCE | E1000_CTRL_RFCE);
 	e1000_io_writel(ethptr->iobase, E1000_CTRL, ctrl);
 
 	return OK;

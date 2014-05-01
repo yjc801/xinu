@@ -49,6 +49,7 @@ process	netin(void) {
 
 	while(1) {
 	    	retval = read(ETHER0, (char *)currpkt, PACKLEN);
+	    	kprintf("%d\n",retval);
 	    	if (retval == SYSERR) {
 			panic("Ethernet read error");
 	    	}
