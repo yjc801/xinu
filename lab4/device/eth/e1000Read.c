@@ -3,7 +3,7 @@
 #include <xinu.h>
 
 /*------------------------------------------------------------------------
- * e1000Read - read a packet from an E1000E device
+ * e1000Read - read a packet from an E1000 device
  *------------------------------------------------------------------------
  */
 devcall	e1000Read(
@@ -15,11 +15,8 @@ devcall	e1000Read(
 	struct	ether 	*ethptr;
 	struct	e1000_rx_desc *descptr;
 	char	*pktptr;
-	uint32	head;			
-	uint32	status;			
-	uint32	length;		
+	uint32	head,status,length,rdt;		
 	int32 	retval;
-	uint32 	rdt;
 
 	ethptr = &ethertab[devptr->dvminor];
 
@@ -29,7 +26,7 @@ devcall	e1000Read(
 	descptr = (struct e1000_rx_desc *)ethptr->rxRing + head;
 	status = descptr->status;
 
-	if (!(status & E1000_RXD_STAT_DD)) { 	/* check for error */
+	if (!(status & E1000_RXD_STAT_DD)) { 
 		retval = SYSERR;
 	}else{
 		pktptr = (char *)((uint32)(descptr->buffer_addr & ADDR_BIT_MASK));

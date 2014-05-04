@@ -3,7 +3,7 @@
 #include <xinu.h>
 
 /*------------------------------------------------------------------------
- * e1000Write - write a packet to an E1000E device
+ * e1000Write - write a packet to an E1000 device
  *------------------------------------------------------------------------
  */
 devcall	e1000Write(
@@ -15,8 +15,7 @@ devcall	e1000Write(
 	struct	ether 	*ethptr;
 	struct 	e1000_tx_desc *descptr;
 	char 	*pktptr; 		
-	uint32	tail;
-	uint32 	tdt;
+	uint32	tail,tdt;
 
 	if (len < 17){
 		return SYSERR;
