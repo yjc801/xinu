@@ -17,11 +17,16 @@ devcall	e1000Write(
 	void 	*pktptr; 		
 	uint32	tdt;
 
+	ethptr = &ethertab[devptr->dvminor];
+	
+	if (ethptr->state != ETH_STATE_UP){
+		return SYSERR;
+	}
+
 	if (len < 17){
 		return SYSERR;
 	}
 	
-	ethptr = &ethertab[devptr->dvminor];
 	
 	wait(ethptr->osem);
 
