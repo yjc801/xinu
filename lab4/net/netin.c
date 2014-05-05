@@ -49,11 +49,9 @@ process	netin(void) {
 
 	while(1) {
 	    	retval = read(ETHER0, (char *)currpkt, PACKLEN);
-	    	kprintf("%d\n",retval);
 	    	if (retval == SYSERR) {
 			panic("Ethernet read error");
 	    	}
-
 		/* Convert Ethernet Type to host order */
 
 		eth_ntoh(currpkt);
