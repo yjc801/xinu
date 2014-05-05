@@ -14,8 +14,8 @@ devcall	e1000Write(
 {
 	struct	ether 	*ethptr;
 	struct 	e1000_tx_desc *descptr;
-	char 	*pktptr; 		
-	uint32	tail,tdt;
+	void 	*pktptr; 		
+	uint32	tdt;
 
 	if (len < 17){
 		return SYSERR;
@@ -25,9 +25,8 @@ devcall	e1000Write(
 	
 	wait(ethptr->osem);
 
-	tail = ethptr->txTail;
-	descptr = (struct e1000_tx_desc *)ethptr->txRing + tail;
-	pktptr = (char *)((uint32)descptr->buffer_addr & ADDR_BIT_MASK);
+	descptr = (struct e1000_tx_desc *)ethptr->txRing + ethptr->txTail;
+	pktptr = (void *)((uint64)descptr->buffer_addr & ADDR_BIT_MASK);
 	memcpy(pktptr, buf, len);
 	descptr->lower.data &= E1000_TXD_CMD_DEXT; 
 	descptr->lower.data = E1000_TXD_CMD_IDE|E1000_TXD_CMD_RS|E1000_TXD_CMD_IFCS|E1000_TXD_CMD_EOP|len;

@@ -14,34 +14,33 @@ devcall	e1000Read(
 {
 	struct	ether 	*ethptr;
 	struct	e1000_rx_desc *descptr;
-	char	*pktptr;
-	uint32	head,status,length,rdt;		
+	void	*pktptr;
+	uint32	status,length,rdt;		
 	int32 	retval;
 
 	ethptr = &ethertab[devptr->dvminor];
 
 	wait(ethptr->isem);
 
-	head = ethptr->rxHead;
-	descptr = (struct e1000_rx_desc *)ethptr->rxRing + head;
+	descptr = (struct e1000_rx_desc *)ethptr->rxRing + ethptr->rxHead;
 	status = descptr->status;
 
-	if (!(status & E1000_RXD_STAT_DD)) { 
+	if (!(status & E1000_RXD_STAT_DD)){ 
 		retval = SYSERR;
 	}else{
-		pktptr = (char *)((uint32)(descptr->buffer_addr & ADDR_BIT_MASK));
+		pktptr = (void *)((uint64)(descptr->buffer_addr & ADDR_BIT_MASK));
 		length = descptr->length;
 		memcpy(buf, pktptr, length);
 		retval = length;
 	}
 
-	descptr->length = 0;
-	descptr->csum = 0;
 	descptr->status = 0;
 	descptr->errors = 0;
+	descptr->length = 0;
 	descptr->special = 0;
+	descptr->csum = 0;
 	
-	memset((char *)((uint32)(descptr->buffer_addr & ADDR_BIT_MASK)), '\0', ETH_BUF_SIZE); 
+	memset((void *)((uint64)(descptr->buffer_addr & ADDR_BIT_MASK)),'\0',ETH_BUF_SIZE); 
 
 	if (ethptr->rxHead % E1000_RING_BOUNDARY == 0) {
 		rdt = e1000_io_readl(ethptr->iobase, E1000_RDT(0));
@@ -49,7 +48,7 @@ devcall	e1000Read(
 		e1000_io_writel(ethptr->iobase, E1000_RDT(0), rdt);
 	}
 
-	ethptr->rxHead = (ethptr->rxHead + 1) % ethptr->rxRingSize;
+	ethptr->rxHead = (ethptr->rxHead + 1)%ethptr->rxRingSize;
 
 	return retval;
 }
